@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { type } from 'os';
+import Greetings from './components/main';
+
 
 function App() {
+
+  //const a = useState
   return (
     <div className="App">
       <header className="App-header">
@@ -11,14 +16,7 @@ function App() {
           let's get it
          
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Greetings name="hello world" mark="!!!!!"></Greetings>
       </header>
     </div>
   );
