@@ -1,48 +1,53 @@
-import React from "react";
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-
-
+import * as React from "react"
+import { useState, useRef, useCallback } from "react"
+import { Button, AppBar, IconButton, Typography, Toolbar } from "@material-ui/core/"
+import { prependOnceListener } from "cluster"
 type GreetingsProps = {
-  name: string;
-  mark: string;
-};
+  name: string
+  mark: string
+  count: number
+}
+interface IGreertingProps {}
 
+function Greetings({ name, mark, count }: GreetingsProps) {
+  const [first, setFirst] = useState<number>(Math.random() * 9)
+  const [second, setsecond] = useState(Math.random() * 9)
+  const [value, setValue] = useState(Math.random() * 9)
+  const inputEl = useRef(null)
+  // const [value, setValue] = useState(Math.random() * 9)
+  // const [value, setValue] = useState(Math.random() * 9)
 
-
-
-function Greetings({ name, mark }: GreetingsProps) {
+  const onSubmitForm = (e: React.FormEvent) => {
+    // e,preventDefault()
+    // const input = inputEl.current
+  }
   return (
-
-
     <div>
       <AppBar position="static">
-        {/* <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
-    </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar> */}
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu"></IconButton>
+          <Typography variant="h6">News</Typography>
+          <Button color="inherit" onClick={(e) => {}}>
+            <input ref={inputEl} type="number" value={value} onChange={(e) => setValue(Number(e.target.value))}></input>
+            Login
+          </Button>
+        </Toolbar>
       </AppBar>
       <div>
-
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={(e) => {}}>
           click me
-      </Button>
+        </Button>
 
         <div>
           {name} {mark}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 Greetings.defaultProps = {
-  mark: "!"
-};
+  mark: "!",
+}
 
-export default Greetings;
+export default Greetings
