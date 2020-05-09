@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-import {
-  Button,
-  AppBar,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@material-ui/core/";
+import React, { useState } from "react"
+import { Button, AppBar, IconButton, Toolbar, Typography } from "@material-ui/core/"
+import { Route, Link } from "react-router-dom"
 // import MenuIcon from '@material-ui/icons/Menu';
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme, fade } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1,
+      flexGrow: 2,
+      color: "blue",
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -21,27 +17,26 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
   })
-);
+)
 function Header() {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="inherit">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          ></IconButton>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"></IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            Main
           </Typography>
-          <Button color="inherit">Login</Button>
+          {/* <Link to="/login"> */}
+          <Button color="inherit" onClick={() => console.log("11")}>
+            Login
+          </Button>
+          {/* </Link> */}
         </Toolbar>
       </AppBar>
     </div>
-  );
+  )
 }
-export default Header;
+export default Header
