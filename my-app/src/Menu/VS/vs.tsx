@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import VsModalComponent from "../../components/vsModalComponent";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import { fromJS, List, Map } from "immutable";
+import React, { useEffect } from "react"
+import VsModalComponent from "../../components/vsModalComponent"
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles"
+import GridList from "@material-ui/core/GridList"
+import GridListTile from "@material-ui/core/GridListTile"
+import GridListTileBar from "@material-ui/core/GridListTileBar"
+import IconButton from "@material-ui/core/IconButton"
+import StarBorderIcon from "@material-ui/icons/StarBorder"
+import { fromJS, List, Map } from "immutable"
 
 const imageArr = [
   "https://t1.daumcdn.net/cfile/tistory/9906EE4E5C2B0FBE28",
@@ -17,21 +17,21 @@ const imageArr = [
   "https://mblogthumb-phinf.pstatic.net/MjAxNjEyMTJfMjM3/MDAxNDgxNDcwMzQ5NDI5.QgdWHIAnzGugtVMzEfHergSV2t7YD2Jcy1HXwibXkakg.6fogJMXt3aAnE0vWdKLpRm5a3P4U3hZVlpJfNE_ufeQg.JPEG.cielseeker/movie_image-301.jpg?type=w2",
   "https://mblogthumb-phinf.pstatic.net/MjAxNjEyMTJfOTYg/MDAxNDgxNDcwNDY2MzEx.5BLG6NPIP8GtAsnCYPo5Qmq2q2dzIG7nuyG8mDmHjKUg.H0EbqxaTjHgeeizBp_jSU6vbt4DiI91_kG6_hlO10gIg.JPEG.cielseeker/movie_image-6.jpg?type=w2",
   "https://upload.wikimedia.org/wikipedia/ko/thumb/5/5d/%EB%82%98%EB%A5%BC_%EC%B0%BE%EC%95%84%EC%A4%98.jpg/220px-%EB%82%98%EB%A5%BC_%EC%B0%BE%EC%95%84%EC%A4%98.jpg",
-];
+]
 
 export default function TransitionsModal() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
-  const [vsStart, setVsStart] = React.useState(false);
+  const [vsStart, setVsStart] = React.useState(false)
   useEffect(() => {
     // setOpen(true);
-  }, []);
+  }, [])
 
   const callbackFunction = {
     vsStart: (type) => {
-      setVsStart(true);
+      setVsStart(true)
     },
-  };
+  }
 
   return (
     <div>
@@ -44,7 +44,7 @@ export default function TransitionsModal() {
       )}
       <VsModalComponent {...callbackFunction}></VsModalComponent>
     </div>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -70,15 +70,13 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {},
     },
     titleBar: {
-      background:
-        "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-        "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+      background: "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " + "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
     },
     icon: {
       color: "white",
     },
   })
-);
+)
 
 let tileData = [
   {
@@ -93,30 +91,29 @@ let tileData = [
     author: "author",
     featured: false,
   },
-];
+]
 
 function AdvancedGridList() {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  let items = React.useRef<HTMLLIElement | null[]>([]);
+  let items = React.useRef<HTMLLIElement | null[]>([])
 
-  let [tileState, setTileState] = React.useState(fromJS([]));
-  // let [tileState, setTileState] = React.useState(fromJS(tileData));
-  let [a, setA] = React.useState("");
+  let [tileState, setTileState] = React.useState(fromJS([]))
   useEffect(() => {
-    // for (let i = 0; i < 2; i++) {
-    // let randomInt = Math.floor(Math.random() * (imageArr.length - 0 + 1)) + 0;
-    // let spliceData = imageArr.splice(randomInt, 1)[0];
-    // tileState = tileState.setIn([0, "img"], spliceData);
-    // // }
-    tileData[0].img = imageArr[0];
-    tileData[1].img = imageArr[1];
-    tileState = tileState.set(0, tileData[0]);
-    tileState = tileState.set(1, tileData[1]);
-    // tileState = tileState.setIn([0, "img"], imageArr[0]);
-    // tileState = tileState.setIn([1, "img"], imageArr[1]);
-    setTileState(tileState);
-  }, []);
+    tileState = spliceImage()
+
+    setTileState(tileState)
+  }, [])
+
+  const spliceImage = () => {
+    for (let i = 0; i < 2; i++) {
+      let randomInt = Math.floor(Math.random() * (imageArr.length - 0 + 1)) + 0
+      let spliceData = imageArr.splice(randomInt - 1, 1)[0]
+      tileState = tileState.set(i, tileData[i])
+      tileState = tileState.setIn([i, "img"], spliceData)
+    }
+    return tileState
+  }
 
   return (
     <div className={classes.root}>
@@ -128,7 +125,7 @@ function AdvancedGridList() {
             rows={tile.featured ? 2 : 1}
             id={"gridList" + i}
             ref={(el) => {
-              items.current[i] = el;
+              items.current[i] = el
             }}
           >
             {i}
@@ -137,36 +134,39 @@ function AdvancedGridList() {
               style={{ height: "100%", width: "100%" }}
               alt={tile.title}
               onClick={(e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-                console.log(items);
-
-                const alt = (e.target as HTMLImageElement).alt;
-                let pos = 0;
+                const alt = (e.target as HTMLImageElement).alt
+                let pos = 0
 
                 if (alt === "Image1") {
-                  items.current[1].style.visibility = "hidden";
-                  items.current[0].style.position = "relative";
+                  items.current[1].style.visibility = "hidden"
+                  items.current[0].style.position = "relative"
                   const frame = () => {
                     if (pos === 150) {
-                      clearInterval(id);
+                      clearInterval(id)
+                      setTimeout(() => {
+                        setTileState(spliceImage())
+                      }, 2000)
                     } else {
-                      pos++;
-                      items.current[0].style.left = pos + "px";
+                      pos++
+                      items.current[0].style.left = pos + "px"
                     }
-                  };
-                  const id = setInterval(frame, 5);
+                  }
+                  const id = setInterval(frame, 5)
                 } else {
-                  items.current[0].style.visibility = "hidden";
-                  items.current[1].style.position = "relative";
+                  items.current[0].style.visibility = "hidden"
+                  items.current[1].style.position = "relative"
                   const frame = () => {
-                    console.log(pos);
                     if (pos === 150) {
-                      clearInterval(id);
+                      clearInterval(id)
+                      setTimeout(() => {
+                        setTileState(spliceImage())
+                      }, 2000)
                     } else {
-                      pos++;
-                      items.current[1].style.left = -pos + "px";
+                      pos++
+                      items.current[1].style.left = -pos + "px"
                     }
-                  };
-                  const id = setInterval(frame, 5);
+                  }
+                  const id = setInterval(frame, 5)
                 }
               }}
               className={classes.image}
@@ -175,10 +175,7 @@ function AdvancedGridList() {
               title={tile.title}
               titlePosition="top"
               actionIcon={
-                <IconButton
-                  aria-label={`star ${tile.title}`}
-                  className={classes.icon}
-                >
+                <IconButton aria-label={`star ${tile.title}`} className={classes.icon}>
                   <StarBorderIcon />
                 </IconButton>
               }
@@ -189,5 +186,5 @@ function AdvancedGridList() {
         ))}
       </GridList>
     </div>
-  );
+  )
 }
