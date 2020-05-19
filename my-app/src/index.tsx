@@ -4,8 +4,19 @@ import "./index.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { ApolloProvider } from "@apollo/react-hooks"
-
+import context from "./graphql/context"
 import client from "./graphql/apollo"
+// import ApolloServer from "apollo-server"
+// import dbTypes from "./database/dbTypes"
+import resolver from "./graphql/resolver"
+import { ApolloServer } from "apollo-server"
+const yourQuery = require("./database/dbTypes")
+
+// const server = new ApolloServer({
+//   // yourQuery,
+//   resolver,
+//   context,
+// })
 ReactDOM.render(
   <ApolloProvider client={client}>
     <React.StrictMode>

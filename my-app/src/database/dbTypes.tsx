@@ -1,22 +1,25 @@
 import { gql } from "apollo-server"
 
-const typeDefs = gql`
-  type User {
-    id: Int!
-    ID: String!
-    password: String!
-  }
+const typeDefs = () => {}
+// gql`
+//   type User {
+//     id: Int!
+//     name: String
+//     ID: String!
+//     passwordHash: String
+//     role: [String!]!
+//     token: String
+//   }
 
-  type Query {
-    ...
-    users: [User]!
-  }
-  
-  type Mutation {
-    ...
-    addUser(ID: String!, password: String!): User
-  }
-  ...
-`
+//   type Query {
+//     me: User!
+//   }
+
+//   type Mutation {
+//     signup(name: String!, ID: String!, password: String!): Boolean!
+//     login(ID: String!, password: String!): User
+//     logout: Boolean!
+//   }
+// `
 
 export default typeDefs

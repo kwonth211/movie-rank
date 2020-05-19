@@ -1,4 +1,10 @@
 // DB연동..
-const users = []
+const users = [
+  {
+    ID: "",
+    passwordHash: "",
+    token: "",
+  },
+]
 
 export default users
