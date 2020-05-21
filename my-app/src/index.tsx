@@ -10,13 +10,23 @@ import client from "./graphql/apollo"
 // import dbTypes from "./database/dbTypes"
 import resolver from "./graphql/resolver"
 import { ApolloServer } from "apollo-server"
-const yourQuery = require("./database/dbTypes")
+import { gql } from "apollo-server"
 
-// const server = new ApolloServer({
-//   // yourQuery,
-//   resolver,
-//   context,
-// })
+const resolvers = {
+  Query: {
+    ping: () => "pong",
+  },
+}
+const typeDefs = gql`
+  type Query {
+    ping: String
+  }
+`
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context,
+})
 ReactDOM.render(
   <ApolloProvider client={client}>
     <React.StrictMode>

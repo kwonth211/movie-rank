@@ -13,6 +13,9 @@ export interface ILoginArguments {
   password: string
 }
 const resolvers = {
+  Query: {
+    ping: () => "pong",
+  },
   // Query: {
   //   // ...
   //   users: (_: any, __: any, { user }: ILoginArguments) => {
