@@ -81,8 +81,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      color: "#660000",
-      border: "2px solid #660000",
+      color: "white",
+      border: "2px solid white",
       borderRadius: "30px",
     },
     imageSrc: {
@@ -104,8 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
       right: 0,
       top: 0,
       bottom: 0,
-
-      backgroundColor: "#FFBEBE",
+      backgroundColor: "#00006c",
       opacity: 0.4,
       transition: theme.transitions.create("opacity"),
       borderRadius: "30px",
