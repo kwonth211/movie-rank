@@ -1,40 +1,54 @@
-import React from "react";
-import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Typography from "@material-ui/core/Typography";
-import EditIcon from "@material-ui/icons/Edit";
-import { Route, Link } from "react-router-dom";
+import React from "react"
+import { Theme, makeStyles, createStyles } from "@material-ui/core/styles"
+import ButtonBase from "@material-ui/core/ButtonBase"
+import Typography from "@material-ui/core/Typography"
+import EditIcon from "@material-ui/icons/Edit"
+import { Route, Link } from "react-router-dom"
 
 const images = [
+  // {
+  //   url: "http://www.newsinside.kr/news/photo/201906/839207_533297_015.jpg",
+  //   title: "VS",
+  //   width: "23%",
+  //   route: "/vs",
+  // },
   {
-    url: "http://www.newsinside.kr/news/photo/201906/839207_533297_015.jpg",
+    // url: "  backgroundImage: `url(${image.url})`,",
     title: "VS",
-    width: "35%",
+    width: "23%",
     route: "/vs",
   },
   {
-    url:
-      "https://post-phinf.pstatic.net/MjAyMDAzMjdfMjQ5/MDAxNTg1MjkzNzk0OTk1.pGAH-7FbZGmChQVptj3KUwy4slvcpSnIpTLzYXqSMb4g.spSBToQADvQDeWGszVQCeoJmRbXno9AdWpY4GW7qqT8g.JPEG/1.jpg?type=w1200",
+    url: "https://post-phinf.pstatic.net/MjAyMDAzMjdfMjQ5/MDAxNTg1MjkzNzk0OTk1.pGAH-7FbZGmChQVptj3KUwy4slvcpSnIpTLzYXqSMb4g.spSBToQADvQDeWGszVQCeoJmRbXno9AdWpY4GW7qqT8g.JPEG/1.jpg?type=w1200",
     title: "취향 분석",
-    width: "30%",
+    width: "23%",
   },
   //   <EditIcon></EditIcon>,
   {
-    url:
-      "https://lh3.googleusercontent.com/proxy/hJ4DPYa5Jp8aUBtmpM440FJr2mq1B704Rn6cElbrapNUTQsxeY_NQJW3ecW9t7XKQ-TCImt3zvPrRHJL8a4DkR5tPNvibyim7qdiviSvcmCIZ_NDYzN8",
+    url: "https://lh3.googleusercontent.com/proxy/hJ4DPYa5Jp8aUBtmpM440FJr2mq1B704Rn6cElbrapNUTQsxeY_NQJW3ecW9t7XKQ-TCImt3zvPrRHJL8a4DkR5tPNvibyim7qdiviSvcmCIZ_NDYzN8",
     title: "자유 게시판",
-    width: "30%",
+    width: "23%",
     route: "/borad",
   },
-];
+  {
+    url: "https://lh3.googleusercontent.com/proxy/hJ4DPYa5Jp8aUBtmpM440FJr2mq1B704Rn6cElbrapNUTQsxeY_NQJW3ecW9t7XKQ-TCImt3zvPrRHJL8a4DkR5tPNvibyim7qdiviSvcmCIZ_NDYzN8",
+    title: "자유 게시판",
+    width: "23%",
+    route: "/borad",
+  },
+]
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
       flexWrap: "wrap",
-      minWidth: 300,
+      minWidth: 400,
       width: "100%",
+      paddingTop: "10px",
+      paddingBottom: "10px",
+      // paddingLeft: "20px",
+      // marginLeft: "px",
     },
     image: {
       position: "relative",
@@ -90,9 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     imageTitle: {
       position: "relative",
-      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
-        theme.spacing(1) + 6
-      }px`,
+      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) + 6}px`,
     },
     imageMarked: {
       height: 3,
@@ -104,14 +116,15 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create("opacity"),
     },
   })
-);
+)
 
 export default function ButtonBases() {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
       {images.map((image, i) => {
+        console.log(`url(${image.url})`)
         return (
           <ButtonBase
             focusRipple
@@ -120,6 +133,7 @@ export default function ButtonBases() {
             focusVisibleClassName={classes.focusVisible}
             style={{
               width: image.width,
+              marginRight: "11px",
             }}
           >
             <Link to={image.route}>
@@ -129,22 +143,18 @@ export default function ButtonBases() {
                   backgroundImage: `url(${image.url})`,
                 }}
               />
+              {/* <img src={`../../../../public/i}`} /> */}
               <span className={classes.imageBackdrop} />
               <span className={classes.imageButton}>
-                <Typography
-                  component="span"
-                  variant="subtitle1"
-                  color="inherit"
-                  className={classes.imageTitle}
-                >
+                <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
                   {image.title}
                   <span className={classes.imageMarked} />
                 </Typography>
               </span>
             </Link>
           </ButtonBase>
-        );
+        )
       })}
     </div>
-  );
+  )
 }

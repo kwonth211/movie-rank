@@ -1,4 +1,4 @@
-import users from "./../database/user"
+import users from "../database/user"
 import { AuthenticationError, ForbiddenError } from "apollo-server"
 import bcrypt from "bcrypt"
 import sha256 from "crypto-js/sha256"

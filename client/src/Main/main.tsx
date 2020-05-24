@@ -1,29 +1,20 @@
-import * as React from "react";
-import { useState, useRef, useCallback } from "react";
-import {
-  Button,
-  AppBar,
-  IconButton,
-  Typography,
-  Toolbar,
-} from "@material-ui/core/";
-import { prependOnceListener } from "cluster";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  fade,
-} from "@material-ui/core/styles";
+import * as React from "react"
+import { useState, useRef, useCallback } from "react"
+import { Button, AppBar, IconButton, Typography, Toolbar } from "@material-ui/core"
+import { prependOnceListener } from "cluster"
+import { createStyles, makeStyles, Theme, fade } from "@material-ui/core/styles"
 
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import MainCard from "./mainCard";
-import MainMenus from "./mainMenus";
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Grid from "@material-ui/core/Grid"
+import Link from "@material-ui/core/Link"
+import Container from "@material-ui/core/Container"
+import Box from "@material-ui/core/Box"
+import MainCard from "./mainCard"
+import MainMenus from "./mainMenus"
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
+
 // import * as Pagination from "./mainPagination";
-import CustomPaginationActionsTable from "./mainPagination";
+import CustomPaginationActionsTable from "./mainPagination"
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -34,7 +25,7 @@ function Copyright() {
       {new Date().getFullYear()}
       {"."}
     </Typography>
-  );
+  )
 }
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -46,13 +37,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   heroContent: {
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(4, 0, 6),
+    fontFamily: "Fredoka One",
+    // cursive,
+    // <font-family></font-family>
   },
   cardHeader: {
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[200]
-        : theme.palette.grey[700],
+    backgroundColor: theme.palette.type === "light" ? theme.palette.grey[200] : theme.palette.grey[700],
   },
   cardPricing: {
     display: "flex",
@@ -70,7 +61,10 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(6),
     },
   },
-}));
+  typography: {
+    fontFamily: "Raleway, Arial",
+  },
+}))
 
 const footers = [
   {
@@ -79,81 +73,69 @@ const footers = [
   },
   {
     title: "Features",
-    description: [
-      "Cool stuff",
-      "Random feature",
-      "Team feature",
-      "Developer stuff",
-      "Another one",
-    ],
+    description: ["Cool stuff", "Random feature", "Team feature", "Developer stuff", "Another one"],
   },
   {
     title: "Resources",
-    description: [
-      "Resource",
-      "Resource name",
-      "Another resource",
-      "Final resource",
-    ],
+    description: ["Resource", "Resource name", "Another resource", "Final resource"],
   },
   {
     title: "Legal",
     description: ["Privacy policy", "Terms of use"],
   },
-];
+]
 
 type GreetingsProps = {
-  name: string;
-  mark: string;
-  count: number;
-};
+  name: string
+  mark: string
+  count: number
+}
 interface IGreertingProps {}
 
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: '"Noto Sans KR", serif',
+  },
+})
+
 export default function Greetings({ name, mark, count }: GreetingsProps) {
-  const [first, setFirst] = useState<number>(Math.random() * 9);
-  const [second, setsecond] = useState(Math.random() * 9);
-  const [value, setValue] = useState(Math.random() * 9);
-  const inputEl = useRef(null);
+  const [first, setFirst] = useState<number>(Math.random() * 9)
+  const [second, setsecond] = useState(Math.random() * 9)
+  const [value, setValue] = useState(Math.random() * 9)
+  const inputEl = useRef(null)
   // const [value, setValue] = useState(Math.random() * 9)
   // const [value, setValue] = useState(Math.random() * 9)
 
-  const classes = useStyles();
+  const classes = useStyles()
   return (
     <React.Fragment>
       <CssBaseline />
 
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
-        <Typography
-          component="h1"
-          variant="h2"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
+        <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
           Movie Ranking
         </Typography>
-        <Typography
-          variant="h5"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
+        <Typography variant="h5" align="center" color="textSecondary" component="p">
           본인만의 인생 영화를 투표하고 공유하세요!
         </Typography>
       </Container>
       {/* End hero unit */}
-      <Container maxWidth="md" component="main">
-        <MainCard />
-      </Container>
-      {/* End card unit */}
-      <Container style={{ marginTop: "20px" }} maxWidth="md" component="main">
-        <CustomPaginationActionsTable />
-      </Container>
+      <div style={{ backgroundColor: "" }}>
+        <Container style={{}} maxWidth="md" component="main">
+          <MainCard />
+        </Container>
+        {/* End card unit */}
+        <Container style={{ marginTop: "15px", paddingBottom: "15px" }} maxWidth="md" component="main">
+          <CustomPaginationActionsTable />
+        </Container>
+      </div>
       {/* End ranking unit */}
-      <Container style={{ marginTop: "20px" }} maxWidth="md" component="main">
-        <MainMenus />
-      </Container>
+      <div style={{ backgroundColor: "#d9d9d9" }}>
+        <Container style={{}} maxWidth="md" component="main">
+          <MainMenus />
+        </Container>
+      </div>
 
       {/* Footer */}
       <Container maxWidth="md" component="footer" className={classes.footer}>
@@ -181,11 +163,11 @@ export default function Greetings({ name, mark, count }: GreetingsProps) {
       </Container>
       {/* End footer */}
     </React.Fragment>
-  );
+  )
 }
 
 Greetings.defaultProps = {
   mark: "!",
-};
+}
 
 // Greetings;

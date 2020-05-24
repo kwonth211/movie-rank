@@ -1,0 +1,7 @@
+type Member {
+  name: String
+  email: String
+}
+type Query {
+  members: [Member]
+}

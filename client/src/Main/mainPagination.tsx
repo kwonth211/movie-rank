@@ -134,7 +134,7 @@ export default function CustomPaginationActionsTable() {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
+        {/* <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
@@ -151,7 +151,7 @@ export default function CustomPaginationActionsTable() {
               ActionsComponent={TablePaginationActions}
             />
           </TableRow>
-        </TableFooter>
+        </TableFooter> */}
       </Table>
     </TableContainer>
   )

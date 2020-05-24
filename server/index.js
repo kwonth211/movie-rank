@@ -1,15 +1,6 @@
 import { GraphQLServer } from "graphql-yoga"
 import { ApolloServer, gql } from "apollo-server-express"
 import teamData from "./mockup/teamData.json"
-const typeDefs = gql`
-  type Member {
-    name: String
-    email: String
-  }
-  type Query {
-    members: [Member]
-  }
-`
 
 const resolver = {
   Query: {
@@ -18,7 +9,7 @@ const resolver = {
 }
 
 const server = new GraphQLServer({
-  typeDefs,
+  typeDefs: "graphql/schema.graphql", // add this code
   resolvers: resolver,
 })
 

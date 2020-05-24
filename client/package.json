@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,7 +29,14 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2",
-    "use-react-router": "^1.0.7"
+    "use-react-router": "^1.0.7",
+    "apollo-server-express": "^2.13.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "express": "^4.17.1",
+    "graphql-yoga": "^1.18.3",
+    "nodemon": "^2.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
