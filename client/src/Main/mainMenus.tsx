@@ -1,13 +1,13 @@
-import React from "react";
-import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Typography from "@material-ui/core/Typography";
-import EditIcon from "@material-ui/icons/Edit";
-import { Route, Link } from "react-router-dom";
+import React from "react"
+import { Theme, makeStyles, createStyles } from "@material-ui/core/styles"
+import ButtonBase from "@material-ui/core/ButtonBase"
+import Typography from "@material-ui/core/Typography"
+import EditIcon from "@material-ui/icons/Edit"
+import { Route, Link } from "react-router-dom"
 // import icon from "../media/icons1.png";
-let vsIcon = require("../media/icon1.png");
-let analysis = require("../media/analysis.png");
-let review = require("../media/review.png");
+let vsIcon = require("../media/icon1.png")
+let analysis = require("../media/analysis.png")
+let review = require("../media/review.png")
 const images = [
   {
     url: vsIcon,
@@ -34,7 +34,7 @@ const images = [
     width: "23%",
     route: "/borad",
   },
-];
+]
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -113,9 +113,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
       fontWeight: "bold",
 
-      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
-        theme.spacing(1) + 6
-      }px`,
+      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) + 6}px`,
     },
     imageMarked: {
       height: 3,
@@ -127,49 +125,46 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create("opacity"),
     },
   })
-);
+)
 
 export default function ButtonBases() {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
-      {images.map((image, i) => {
-        console.log(`url(${image.url})`);
-        return (
-          <ButtonBase
-            focusRipple
-            key={image.title}
-            className={classes.image}
-            focusVisibleClassName={classes.focusVisible}
-            style={{
-              width: image.width,
-              marginRight: "11px",
-            }}
-          >
-            <Link to={image.route}>
-              <span
-                className={classes.imageSrc}
-                style={{
-                  backgroundImage: `url(${image.url})`,
-                }}
-              />
-              <span className={classes.imageBackdrop} />
-              <span className={classes.imageButton}>
-                <Typography
-                  component="span"
-                  variant="subtitle1"
-                  color="inherit"
-                  className={classes.imageTitle}
-                >
-                  {image.title}
-                  <span className={classes.imageMarked} />
-                </Typography>
-              </span>
-            </Link>
-          </ButtonBase>
-        );
-      })}
+      <Carousel>
+        {images.map((image, i) => {
+          console.log(`url(${image.url})`)
+          return (
+            <ButtonBase
+              focusRipple
+              key={image.title}
+              className={classes.image}
+              focusVisibleClassName={classes.focusVisible}
+              style={{
+                width: image.width,
+                marginRight: "11px",
+              }}
+            >
+              <Link to={image.route}>
+                <span
+                  className={classes.imageSrc}
+                  style={{
+                    backgroundImage: `url(${image.url})`,
+                  }}
+                />
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
+                  <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
+                    {image.title}
+                    <span className={classes.imageMarked} />
+                  </Typography>
+                </span>
+              </Link>
+            </ButtonBase>
+          )
+        })}
+      </Carousel>
     </div>
-  );
+  )
 }
