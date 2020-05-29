@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: "100%",
     //  maxHeight: "100%",
-    height: "350px",
+    height: "450px",
     width: "250px",
   },
   media: {
@@ -95,7 +95,8 @@ export default function MainCard() {
 
   return (
     <React.Fragment>
-      <Grid container spacing={5} alignItems="flex-end">
+      <h2 style={{ textAlign: "center" }}>종합 순위</h2>
+      <Grid container spacing={7} alignItems="flex-end">
         {tiers.map((tier) => (
           // Enterprise card is full width at sm breakpoint
           <Grid item key={tier.title} xs={12} sm={tier.title === "Enterprise" ? 12 : 6} md={4}>
@@ -103,12 +104,6 @@ export default function MainCard() {
               <CardHeader title={tier.title} subheader={tier.subheader} titleTypographyProps={{ align: "center" }} subheaderTypographyProps={{ align: "center" }} action={tier.title === "1등" ? <StarIcon /> : null} className={classes.cardHeader} />
               <CardContent>
                 <div className={classes.cardPricing}>
-                  {/* <Typography component="h2" variant="h3" color="textPrimary">
-                    dd
-                  </Typography>
-                  <Typography variant="h6" color="textSecondary">
-                    /mo
-                  </Typography> */}
                   <img src={tier.image} width={"200px"} height={"250px"} />
                 </div>
                 <ul>

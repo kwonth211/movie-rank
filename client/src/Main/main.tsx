@@ -52,14 +52,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   footer: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    [theme.breakpoints.up("sm")]: {
-      paddingTop: theme.spacing(6),
-      paddingBottom: theme.spacing(6),
-    },
+    // borderTop: `1px solid ${theme.palette.divider}`,
+    // marginTop: theme.spacing(20),
+    // paddingTop: theme.spacing(20),
+    // paddingBottom: theme.spacing(3),
+    // [theme.breakpoints.up("sm")]: {
+    //   paddingTop: theme.spacing(20),
+    //   paddingBottom: theme.spacing(1),
+    // },
   },
   typography: {
     fontFamily: "Raleway, Arial",
@@ -90,6 +90,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9),
     },
+  },
+  warpCard: {
+    paddingLeft: "120px",
+    paddingRight: "120px",
   },
 }))
 
@@ -133,28 +137,18 @@ export default function Main({ name, mark, count }: GreetingsProps) {
         <CssBaseline />
 
         {/* Hero unit */}
-        <Container style={{}} maxWidth="md" component="main">
-          <MainMenus />
-        </Container>
+        {/* <Container style={{}} maxWidth="md" component="main"> */}
+        <MainMenus />
+        {/* </Container> */}
 
-        <Container maxWidth="sm" component="main" className={classes.heroContent}>
-          <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
-            Movie Ranking
-          </Typography>
-          <Typography variant="h5" align="center" color="textSecondary" component="p">
-            본인만의 인생 영화를 투표하고 공유하세요!
-          </Typography>
-        </Container>
-        {/* End hero unit */}
-        <div style={{ backgroundColor: "" }}>
-          <Container style={{}} maxWidth="md" component="main">
+        <div className={classes.warpCard}>
+          <div style={{ float: "left" }}>
             <MainCard />
+          </div>
+          <div style={{ float: "right" }}>
             <CustomPaginationActionsTable />
-          </Container>
-          {/* End card unit */}
-          {/* <Container style={{ marginTop: "15px", paddingBottom: "15px" }} maxWidth="md" component="main"></Container> */}
+          </div>
         </div>
-        {/* baner Content */}
 
         {/* Footer */}
         <Container maxWidth="md" component="footer" className={classes.footer}>

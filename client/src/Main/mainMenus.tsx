@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useRef } from "react"
 import { Theme, makeStyles, createStyles } from "@material-ui/core/styles"
 import ButtonBase from "@material-ui/core/ButtonBase"
 import Typography from "@material-ui/core/Typography"
@@ -18,11 +18,17 @@ const images = [
     title: "VS",
     width: "23%",
     route: "/vs",
+    text: <h4>본인만의 인생 영화를 투표하고 공유하세요!</h4>,
   },
   {
     url: analysis,
     title: "취향 분석",
     width: "23%",
+    text: (
+      <h4>
+        본인에 맞는 취향을 <br /> 그래프를 통해 확인하세요!
+      </h4>
+    ),
   },
   //   <EditIcon></EditIcon>,
   {
@@ -30,6 +36,11 @@ const images = [
     title: "자유 게시판",
     width: "23%",
     route: "/borad",
+    text: (
+      <h4>
+        인생영화 후기를 <br /> 작성하고 공유하세요!
+      </h4>
+    ),
   },
   // {
   //   url: "",
@@ -49,8 +60,9 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "white",
       // background "white",
       width: "100%",
-      paddingTop: "10px",
-      paddingBottom: "10px",
+      // paddingLeft: "0px",
+      // height: "500px",
+      // paddingBottom: "10px",
       // paddingLeft: "20px",
       // marginLeft: "px",
     },
@@ -130,111 +142,41 @@ const useStyles = makeStyles((theme: Theme) =>
       left: "calc(50% - 9px)",
       transition: theme.transitions.create("opacity"),
     },
+    slide: {
+      height: "500px",
+    },
   })
 )
 
 export default function ButtonBases() {
   const classes = useStyles()
+  let carRef = useRef(undefined)
 
-  // return (
-  //   // <div className={classes.root}>
-  //   <Carousel showArrows={true}>
-  //     {images.map((image, i) => {
-  //       console.log(`url(${image.url})`)
-  //       return (
-  //         // <div className={classes.root}>
-  //         <div>
-  //           <ButtonBase
-  //             focusRipple
-  //             key={image.title}
-  //             className={classes.image}
-  //             focusVisibleClassName={classes.focusVisible}
-  //             style={{
-  //               width: image.width,
-  //               marginRight: "11px",
-  //             }}
-  //           >
-  //             <Link to={image.route}>
-  //               <span
-  //                 className={classes.imageSrc}
-  //                 style={{
-  //                   backgroundImage: `url(${image.url})`,
-  //                 }}
-  //               />
-  //               <span className={classes.imageBackdrop} />
-  //               <span className={classes.imageButton}>
-  //                 <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
-  //                   {image.title}
-  //                   <span className={classes.imageMarked} />
-  //                 </Typography>
-  //               </span>
-  //             </Link>
-  //           </ButtonBase>
-  //           {/* </div> */}
-  //         </div>
-  //       )
-  //     })}
-  //   </Carousel>
-  //   // </div>
-  // )
   return (
     <div className={classes.root} style={{ backgroundColor: "white" }}>
-      <Carousel className={classes.root} showArrows={true} infiniteLoop={true} autoPlay={true}>
+      <Carousel
+        ref={(ref) => {
+          // carRef = ref
+        }}
+        // key={"key1"}
+        className={"slide"}
+        showArrows={true}
+        infiniteLoop={true}
+        transitionTime={500}
+        interval={4000}
+        autoPlay={true}
+      >
         {images.map((image, i) => {
           return (
             <div>
-              <ButtonBase
-                focusRipple
-                key={image.title}
-                className={classes.image}
-                focusVisibleClassName={classes.focusVisible}
-                style={{
-                  width: image.width,
-                  marginRight: "11px",
-                }}
-              >
-                <Link to={image.route}>
-                  <span
-                    className={classes.imageSrc}
-                    style={{
-                      backgroundImage: `url(${image.url})`,
-                    }}
-                  />
-                  <span className={classes.imageBackdrop} />
-                  <span className={classes.imageButton}>
-                    <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
-                      {image.title}
-                      <span className={classes.imageMarked} />
-                    </Typography>
-                  </span>
-                </Link>
-              </ButtonBase>
-              <ButtonBase
-                focusRipple
-                key={image.title}
-                className={classes.image}
-                focusVisibleClassName={classes.focusVisible}
-                style={{
-                  width: image.width,
-                  marginRight: "11px",
-                }}
-              >
-                <Link to={image.route}>
-                  <span
-                    className={classes.imageSrc}
-                    style={{
-                      backgroundImage: `url(${image.url})`,
-                    }}
-                  />
-                  <span className={classes.imageBackdrop} />
-                  <span className={classes.imageButton}>
-                    <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
-                      {image.title}
-                      <span className={classes.imageMarked} />
-                    </Typography>
-                  </span>
-                </Link>
-              </ButtonBase>
+              <div style={{ float: "left", display: "inlineFlex", verticalAlign: "middle" }}>
+                <Typography component="h4" variant="h6" align="center" color="primary" gutterBottom>
+                  {/* Movie Ranking 본인만의 인생 영화를 <br />
+                  투표하고 공유하세요! */}
+                  {image.text}
+                </Typography>
+              </div>
+
               <ButtonBase
                 focusRipple
                 key={image.title}

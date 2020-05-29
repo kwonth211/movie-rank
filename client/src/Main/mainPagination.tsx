@@ -91,14 +91,15 @@ const rows = [
 
 const useStyles2 = makeStyles({
   table: {
-    minWidth: 500,
+    minWidth: 100,
+    width: "300px",
   },
 })
 
 export default function CustomPaginationActionsTable() {
   const classes = useStyles2()
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
@@ -134,7 +135,7 @@ export default function CustomPaginationActionsTable() {
             </TableRow>
           )}
         </TableBody>
-        {/* <TableFooter>
+        <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
@@ -151,7 +152,7 @@ export default function CustomPaginationActionsTable() {
               ActionsComponent={TablePaginationActions}
             />
           </TableRow>
-        </TableFooter> */}
+        </TableFooter>
       </Table>
     </TableContainer>
   )

@@ -70,7 +70,7 @@ export default function RouterComponent() {
 
   return (
     <Router>
-      {/* <Header /> */}
+      <Header />
       <Switch>
         <Route exact path="/" component={Greetings} name="hello world" mark="!!!!!" />
         <Route path="/login" component={LoginForm} />

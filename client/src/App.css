@@ -36,6 +36,10 @@
     transform: rotate(360deg);
   }
 }
-.carousel.slide {
-  background-color: none;
+.carousel .slide {
+  background-color: rgb(240, 240, 240) !important;
+  /* background: red !important; */
+  height: 300px !important;
+  padding-top: 50px !important;
+  padding-left: 200px !important;
 }
