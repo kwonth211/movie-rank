@@ -129,60 +129,60 @@ export default function Main({ name, mark, count }: GreetingsProps) {
   const classes = useStyles()
   return (
     <React.Fragment>
-      <CssBaseline />
-
-      {/* Hero unit */}
-      <Container maxWidth="sm" component="main" className={classes.heroContent}>
-        <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Movie Ranking
-        </Typography>
-        <Typography variant="h5" align="center" color="textSecondary" component="p">
-          본인만의 인생 영화를 투표하고 공유하세요!
-        </Typography>
-      </Container>
-      {/* End hero unit */}
-      <div style={{ backgroundColor: "" }}>
-        <Container style={{}} maxWidth="md" component="main">
-          <MainCard />
-        </Container>
-        {/* End card unit */}
-        <Container style={{ marginTop: "15px", paddingBottom: "15px" }} maxWidth="md" component="main">
-          <CustomPaginationActionsTable />
-        </Container>
-      </div>
-      {/* End ranking unit */}
       <div style={{ backgroundColor: "white" }}>
+        <CssBaseline />
+
+        {/* Hero unit */}
         <Container style={{}} maxWidth="md" component="main">
           <MainMenus />
         </Container>
+
+        <Container maxWidth="sm" component="main" className={classes.heroContent}>
+          <Typography component="h2" variant="h2" align="center" color="textPrimary" gutterBottom>
+            Movie Ranking
+          </Typography>
+          <Typography variant="h5" align="center" color="textSecondary" component="p">
+            본인만의 인생 영화를 투표하고 공유하세요!
+          </Typography>
+        </Container>
+        {/* End hero unit */}
+        <div style={{ backgroundColor: "" }}>
+          <Container style={{}} maxWidth="md" component="main">
+            <MainCard />
+            <CustomPaginationActionsTable />
+          </Container>
+          {/* End card unit */}
+          {/* <Container style={{ marginTop: "15px", paddingBottom: "15px" }} maxWidth="md" component="main"></Container> */}
+        </div>
+        {/* baner Content */}
+
+        {/* Footer */}
+        <Container maxWidth="md" component="footer" className={classes.footer}>
+          <Grid container spacing={4} justify="space-evenly">
+            {footers.map((footer) => (
+              <Grid item xs={6} sm={3} key={footer.title}>
+                <Typography variant="h6" color="textPrimary" gutterBottom>
+                  {footer.title}
+                </Typography>
+                <ul>
+                  {footer.description.map((item) => (
+                    <li key={item}>
+                      <Link href="#" variant="subtitle1" color="textSecondary">
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Grid>
+            ))}
+          </Grid>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+
+        {/* End footer */}
       </div>
-
-      {/* Footer */}
-      <Container maxWidth="md" component="footer" className={classes.footer}>
-        <Grid container spacing={4} justify="space-evenly">
-          {footers.map((footer) => (
-            <Grid item xs={6} sm={3} key={footer.title}>
-              <Typography variant="h6" color="textPrimary" gutterBottom>
-                {footer.title}
-              </Typography>
-              <ul>
-                {footer.description.map((item) => (
-                  <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Grid>
-          ))}
-        </Grid>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-
-      {/* End footer */}
     </React.Fragment>
   )
 }
