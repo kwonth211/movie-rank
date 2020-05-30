@@ -1,23 +1,21 @@
-import { GraphQLServer } from "graphql-yoga"
-import { ApolloServer, gql } from "apollo-server-express"
-import teamData from "./mockup/teamData.json"
+const { ApolloServer, gql } = require("apollo-server");
 
-const resolver = {
-  Query: {
-    members: () => teamData,
-  },
-}
+// import { ApolloServer, gql } from "apollo-server-express";
+import teamData from "./mockup/teamData.json";
+import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/typeDefs";
+import context from "./graphql/context";
 
-const server = new GraphQLServer({
-  typeDefs: "graphql/schema.graphql", // add this code
-  resolvers: resolver,
-})
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context,
+});
 
-// const server = new GraphQLServer({
-//     typeDefs: "graphql/schema.graphql", // add this code
-//     resolvers // add this code
-// })
-server.start(() => console.log("GraphQL Server Running"))
+// server.start(() => console.log("GraphQL Server Running"));
+server.listen(4000).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
 
 // server.applyMiddleware({
 //   app,
@@ -27,3 +25,31 @@ server.start(() => console.log("GraphQL Server Running"))
 // app.listen({ port: 7077 }, () => {
 //   console.log("server 7077 port start")
 // })
+
+// const typeDefs = gql`
+//   type Query {
+//     me: User
+//   }
+
+//   type User {
+//     id: ID!
+//     username: String
+//   }
+// `;
+
+// const resolvers = {
+//   Query: {
+//     me() {
+//       return { id: "1", username: "@ava" }
+//     }
+//   }
+// };
+
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+// });
+
+// server.listen(4001).then(({ url }) => {
+//     console.log(`🚀 Server ready at ${url}`);
+// });
