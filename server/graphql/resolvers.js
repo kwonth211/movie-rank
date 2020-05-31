@@ -20,13 +20,13 @@ const resolvers = {
     },
   },
   Mutation: {
-    signup: (_, { name, ID, password }) => {
+    signup: (_, { mail, ID, password }) => {
       if (users.find((user) => user.ID === ID)) return false;
 
       bcrypt.hash(password, 10, function (err, passwordHash) {
         const newUser = {
           id: users.length + 1,
-          name,
+          mail,
           ID,
           passwordHash,
           role: ["user"],
@@ -38,9 +38,14 @@ const resolvers = {
       return true;
     },
     login: (_, { ID, password }) => {
+      console.log(ID);
+      console.log(password);
+      console.log(users);
+
       let user = users.find((users) => users.ID === ID);
       if (!user) return null; // 해당 ID가 없을 때
       if (user.token) return user.token; // 해당 ID로 이미 로그인되어 있을 때
+
       if (!bcrypt.compareSync(password, user.passwordHash)) return null; // 비밀번호가 일치하지 않을 때
 
       user.token = sha256(rand(160, 36) + ID + password).toString();

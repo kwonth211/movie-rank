@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,7 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -25,6 +26,12 @@ function Copyright() {
     </Typography>
   );
 }
+
+const SIGNUP = gql`
+  mutation signup($ID: String!, $password: String!, $mail: String!) {
+    signup(ID: $ID, password: $password, mail: $mail)
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,6 +55,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [ID, setID] = useState("");
+  const [password, setPassword] = useState("");
+  const [mail, setMail] = useState("");
+  const [signup, { data }] = useMutation(SIGNUP);
+
+  useEffect(() => {
+    if (data?.signup === true) alert("회원가입에 성공했습니다");
+    else if (data?.signup === false) {
+      debugger;
+      alert("회원가입에 실패했습니다");
+    }
+  }, [data]); //DEBUG
 
   return (
     <Container component="main" maxWidth="xs">
@@ -61,19 +80,20 @@ export default function SignUp() {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="id"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="id"
+                label="id"
                 autoFocus
+                onChange={(e) => setID(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -83,7 +103,7 @@ export default function SignUp() {
                 name="lastName"
                 autoComplete="lname"
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -93,6 +113,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={(e) => setMail(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -104,6 +125,7 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
             </Grid>
@@ -119,7 +141,16 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            // className={classes.submit}
+            onClick={(e) => {
+              e.preventDefault();
+              if (!(ID && password && mail)) {
+                alert("항목을 모두 입력해주세요");
+                return;
+              }
+
+              signup({ variables: { ID, password, mail } });
+            }}
           >
             Sign Up
           </Button>
