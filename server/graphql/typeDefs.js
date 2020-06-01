@@ -1,4 +1,4 @@
-import { gql } from "apollo-server"
+import { gql } from "apollo-server";
 
 const typeDefs = gql`
   type User {
@@ -21,6 +21,6 @@ const typeDefs = gql`
     login(ID: String!, password: String!): User
     logout: Boolean!
   }
-`
+`;
 
-export default typeDefs
+export default typeDefs;
