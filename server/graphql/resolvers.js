@@ -18,34 +18,40 @@ const resolvers = {
     // me: (_, __, { user }) => {
     //   return users
     // },
-    me: (_, __, user) => {
-      console.log(user)
-      if (!user) throw new AuthenticationError("Not Authenticated")
+    // me: (_, __, user) => {
+    //   console.log(user)
+    //   console.log(users)
+    //   // if (!user) throw new AuthenticationError("Not Authenticated")
 
-      return user
+    //   return users
+    // },
+    me: async (a, arg, ctx) => {
+      console.log(await ctx.users.find())
+      return await ctx.users.find()
     },
   },
   Mutation: {
-    signup: (_, { mail, ID, password }) => {
-      if (users.find((user) => user.ID === ID)) return false
+    signup: async (_, { mail, ID, password }, context) => {
+      const user = await context.users.find()
+      if (user.find((iter) => iter.ID === ID)) return false
 
       bcrypt.hash(password, 10, function (err, passwordHash) {
         const newUser = {
-          id: users.length + 1,
+          no: user.length + 1,
           mail,
           ID,
-          passwordHash,
-          role: ["user"],
+          password: passwordHash,
+          role: "user",
           token: "",
         }
-        users.push(newUser)
+        context.users(newUser).save()
+        // user.push(newUser)
       })
-      console.log(users)
 
       return true
     },
-    login: (_, { ID, password }) => {
-      let user = users.find((users) => users.ID === ID)
+    login: (_, { ID, password }, context) => {
+      let user = context.find((iter) => iter.ID === ID)
       if (!user) return null // 해당 ID가 없을 때
       if (user.token) return user // 해당 ID로 이미 로그인되어 있을 때
 
