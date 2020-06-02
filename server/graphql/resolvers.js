@@ -25,9 +25,12 @@ const resolvers = {
 
     //   return users
     // },
-    me: async (a, arg, ctx) => {
-      console.log(await ctx.users.find())
-      return await ctx.users.find()
+    me: async (a, arg, { users }) => {
+      // console.log(await ctx.users.find())
+      console.log(await users)
+      console.log(arg)
+      console.log(await users.find())
+      return await users
     },
   },
   Mutation: {
