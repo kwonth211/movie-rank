@@ -7,37 +7,20 @@ import users from "./users"
 const resolvers = {
   Query: {
     // users: (_, __, { user }) => {
-    //   console.log(users)
-    //   console.log(user)
-
     //   if (!users) throw new AuthenticationError("Not Authenticated")
     //   if (!users.roles.includes("admin")) throw new ForbiddenError("Not Authorized")
 
     //   return users
     // },
-    // me: (_, __, { user }) => {
-    //   return users
-    // },
-    // me: (_, __, user) => {
-    //   console.log(user)
-    //   console.log(users)
-    //   // if (!user) throw new AuthenticationError("Not Authenticated")
+    me: (_, __, { user }) => {
+      if (!user) throw new AuthenticationError("Not Authenticated")
 
-    //   return users
-    // },
-    me: async (a, arg, { users }) => {
-      // console.log(await ctx.users.find())
-      console.log(await users)
-      console.log(arg)
-      console.log(await users.find())
-      return await users
+      return user
     },
   },
   Mutation: {
-    signup: async (_, { mail, ID, password }, context) => {
-      const user = await context.users.find()
-      if (user.find((iter) => iter.ID === ID)) return false
-
+    signup: async (_, { mail, ID, password }) => {
+      if (users.find((iter) => iter.ID === ID)) return false
       bcrypt.hash(password, 10, function (err, passwordHash) {
         const newUser = {
           no: user.length + 1,
@@ -47,18 +30,18 @@ const resolvers = {
           role: "user",
           token: "",
         }
-        context.users(newUser).save()
+        users(newUser).save()
         // user.push(newUser)
       })
 
       return true
     },
-    login: (_, { ID, password }, context) => {
-      let user = context.find((iter) => iter.ID === ID)
+    login: async (_, { ID, password }) => {
+      let user = users[0].find((iter) => iter.ID === ID)
       if (!user) return null // 해당 ID가 없을 때
       if (user.token) return user // 해당 ID로 이미 로그인되어 있을 때
 
-      if (!bcrypt.compareSync(password, user.passwordHash)) return null // 비밀번호가 일치하지 않을 때
+      if (!bcrypt.compareSync(password, user.password)) return null // 비밀번호가 일치하지 않을 때
 
       user.token = sha256(rand(160, 36) + ID + password).toString()
 

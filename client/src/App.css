@@ -36,10 +36,25 @@
     transform: rotate(360deg);
   }
 }
+/* 캐서렐 css */
 .carousel .slide {
   background-color: rgb(240, 240, 240) !important;
   /* background: red !important; */
   height: 300px !important;
   padding-top: 50px !important;
   padding-left: 200px !important;
+}
+.control-prev:before {
+  content: url("./media/prev.png") !important;
+  /* background-color: rgb(240, 240, 240) !important; */
+}
+[dir="rtl"] .control-prev:before {
+  content: url("./media/prev.png") !important;
+}
+
+.control-next:before {
+  content: url("./media/next.png") !important;
+}
+[dir="rtl"] .control-next:before {
+  content: url("./media/next.png") !important;
 }

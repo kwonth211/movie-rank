@@ -160,7 +160,7 @@ export default function ButtonBases() {
         }}
         // key={"key1"}
         className={"slide"}
-        showArrows={true}
+        // showArrows={true}
         infiniteLoop={true}
         transitionTime={500}
         interval={4000}

@@ -6,7 +6,7 @@ const typeDefs = gql`
     mail: String
     ID: String!
     passwordHash: String
-    role: [String!]!
+    role: String!
     token: String
   }
 

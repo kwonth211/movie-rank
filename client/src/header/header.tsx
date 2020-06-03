@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useEffect, useContext } from "react"
 import clsx from "clsx"
 import { makeStyles, useTheme, Theme, createStyles, createMuiTheme, MuiThemeProvider, fade } from "@material-ui/core/styles"
 import Drawer from "@material-ui/core/Drawer"
@@ -27,6 +27,8 @@ import SearchIcon from "@material-ui/icons/Search"
 import InputBase from "@material-ui/core/InputBase"
 import UserContext from "./../context/userContext"
 import useReactRouter from "use-react-router"
+import { useMutation } from "@apollo/react-hooks"
+import { gql } from "apollo-boost"
 
 const drawerWidth = 240
 const mobileMenuId = "primary-search-account-menu-mobile"
@@ -149,16 +151,29 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 const menuId = "primary-search-account-menu"
-
-export default function PersistentDrawerLeft() {
+const LOGOUT = gql`
+  mutation {
+    logout
+  }
+`
+export default function Header() {
   const classes = useStyles()
   // const theme = useTheme();
   const [open, setOpen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
   const { history, location, match } = useReactRouter()
+  const [logout, { data }] = useMutation(LOGOUT)
 
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
+
+  useEffect(() => {
+    if (data?.logout) {
+      localStorage.removeItem("token")
+      setUser(null)
+      alert("로그아웃에 성공했습니다")
+    } else if (data?.logout === null) alert("로그아웃에 실패했습니다")
+  }, [data, setUser])
 
   console.log("sdadas>>>", user)
   const theme = createMuiTheme({
@@ -175,9 +190,6 @@ export default function PersistentDrawerLeft() {
         dark: "#1f1311",
         contrastText: "#eecf8f",
       },
-      // appBar: {
-      //   color: "primary",
-      // },
     },
   })
   const handleDrawerOpen = () => {
@@ -255,7 +267,15 @@ export default function PersistentDrawerLeft() {
                   <IconButton edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
                     <AccountCircle />
                   </IconButton>
-                  <Button href="/login" variant="outlined" color="inherit" className={classes.link}>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    className={classes.link}
+                    onClick={() => {
+                      logout()
+                      // history.push("/logout")
+                    }}
+                  >
                     logout
                   </Button>
                 </>

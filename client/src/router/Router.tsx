@@ -1,35 +1,12 @@
-import React, { useState } from "react";
-// import React from "react"
-import logo from "./logo.svg";
-import { type } from "os";
-import Greetings from "../Main/main";
-import {
-  Button,
-  AppBar,
-  IconButton,
-  Typography,
-  Toolbar,
-} from "@material-ui/core";
-import Header from "../header/header";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import LoginForm from "./router/login"
-import LoginForm from "../components/Login";
-import SignUp from "../components/SignUp";
-import Vs from "../Menu/VS/vs";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import Drawer from "@material-ui/core/Drawer";
-import clsx from "clsx";
-import {
-  fade,
-  makeStyles,
-  Theme,
-  createStyles,
-  MuiThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
-import navigation from "../navigation";
-import { mainListItems, secondaryListItems } from "../header/listItmes";
+import React, { useState } from "react"
+import Greetings from "../Main/main"
+import Header from "../header/header"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import LoginForm from "../components/Login"
+import SignUp from "../components/SignUp"
+import Vs from "../Menu/VS/vs"
+import { fade, makeStyles, Theme, createStyles, MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
+// import Logout from "../components/Logout"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grow: {
@@ -74,28 +51,23 @@ const useStyles = makeStyles((theme: Theme) =>
       ...theme.mixins.toolbar,
     },
   })
-);
-const drawerWidth = 240;
+)
+const drawerWidth = 240
 
 export default function RouterComponent() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const classes = useStyles()
+  const [open, setOpen] = React.useState(true)
 
   return (
     <Router>
       <Header />
       <Switch>
-        <Route
-          exact
-          path="/"
-          component={Greetings}
-          name="hello world"
-          mark="!!!!!"
-        />
+        <Route exact path="/" component={Greetings} name="hello world" mark="!!!!!" />
         <Route path="/login" component={LoginForm} />
+        {/* <Route path="/logout" component={Logout} /> */}
         <Route path="/signup" component={SignUp} />
         <Route path="/vs" component={Vs} />
       </Switch>
     </Router>
-  );
+  )
 }
