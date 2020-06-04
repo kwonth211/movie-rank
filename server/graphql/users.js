@@ -28,11 +28,3 @@ mongoose
 let users = []
 
 export default users
-// export default users = mongoose.model("user", {
-//   no: Number,
-//   mail: String,
-//   ID: String,
-//   password: String,
-//   role: String,
-//   token: String,
-// })

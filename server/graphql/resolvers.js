@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import sha256 from "crypto-js/sha256"
 import rand from "csprng"
 import users from "./users"
-
+import getHtml from "./movies"
 const resolvers = {
   Query: {
     // users: (_, __, { user }) => {

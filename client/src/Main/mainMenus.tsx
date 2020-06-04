@@ -11,14 +11,22 @@ import "../App.css"
 let vsIcon = require("../media/icon1.png")
 let analysis = require("../media/analysis.png")
 let review = require("../media/review.png")
+let vote = require("../media/vote.png")
 
 const images = [
+  {
+    url: vote,
+    title: "투표하러 가기",
+    width: "23%",
+    route: "/vote",
+    text: <h4>본인만의 인생 영화를 투표하고 공유하세요!</h4>,
+  },
   {
     url: vsIcon,
     title: "VS",
     width: "23%",
     route: "/vs",
-    text: <h4>본인만의 인생 영화를 투표하고 공유하세요!</h4>,
+    text: <h4>선택이 어렵다면 토너먼트로 !</h4>,
   },
   {
     url: analysis,
@@ -59,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // minWidth: 400,
       backgroundColor: "white",
       // background "white",
-      width: "100%",
+      // width: "200px",
       // paddingLeft: "0px",
       // height: "500px",
       // paddingBottom: "10px",
@@ -68,9 +76,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     image: {
       position: "relative",
-      height: 200,
-      width: 100,
-      margin: "5px",
+      height: "200px",
+      width: "200px",
+      // margin: "5px",
 
       [theme.breakpoints.down("xs")]: {
         width: "80% !important", // Overrides inline-style
@@ -99,8 +107,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      color: "white",
-      border: "2px solid white",
+      color: "black",
+      border: "2px solid black",
       borderRadius: "30px",
     },
     imageSrc: {
@@ -122,7 +130,7 @@ const useStyles = makeStyles((theme: Theme) =>
       right: 0,
       top: 0,
       bottom: 0,
-      backgroundColor: "#00006c",
+      // backgroundColor: "#00006c",
       opacity: 0.4,
       transition: theme.transitions.create("opacity"),
       borderRadius: "30px",
@@ -182,10 +190,10 @@ export default function ButtonBases() {
                 key={image.title}
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
-                style={{
-                  width: image.width,
-                  marginRight: "11px",
-                }}
+                // style={{
+                //   width: image.width,
+                //   marginRight: "11px",
+                // }}
               >
                 <Link to={image.route}>
                   <span

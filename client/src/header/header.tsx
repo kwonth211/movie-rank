@@ -1,25 +1,13 @@
 import React, { useEffect, useContext } from "react"
 import clsx from "clsx"
 import { makeStyles, useTheme, Theme, createStyles, createMuiTheme, MuiThemeProvider, fade } from "@material-ui/core/styles"
-import Drawer from "@material-ui/core/Drawer"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import List from "@material-ui/core/List"
-import Typography from "@material-ui/core/Typography"
-import Divider from "@material-ui/core/Divider"
-import IconButton from "@material-ui/core/IconButton"
+import { Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText, Badge, Button, IconButton } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import ListItemText from "@material-ui/core/ListItemText"
 import InboxIcon from "@material-ui/icons/MoveToInbox"
 import MailIcon from "@material-ui/icons/Mail"
-import Badge from "@material-ui/core/Badge"
 import NotificationsIcon from "@material-ui/icons/Notifications"
-import Button from "@material-ui/core/Button"
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import MoreIcon from "@material-ui/icons/MoreVert"
 import { Route, Link } from "react-router-dom"
@@ -29,6 +17,9 @@ import UserContext from "./../context/userContext"
 import useReactRouter from "use-react-router"
 import { useMutation } from "@apollo/react-hooks"
 import { gql } from "apollo-boost"
+import Box from "@material-ui/core/Box"
+import Popover from "@material-ui/core/Popover"
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
 
 const drawerWidth = 240
 const mobileMenuId = "primary-search-account-menu-mobile"
@@ -264,20 +255,40 @@ export default function Header() {
               </IconButton>
               {user?.token ? (
                 <>
-                  <IconButton edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
-                    <AccountCircle />
-                  </IconButton>
-                  <Button
-                    variant="outlined"
-                    color="inherit"
-                    className={classes.link}
-                    onClick={() => {
-                      logout()
-                      // history.push("/logout")
-                    }}
-                  >
-                    logout
-                  </Button>
+                  <PopupState variant="popover" popupId="demo-popup-popover">
+                    {(popupState) => (
+                      <div>
+                        <IconButton edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit" {...bindTrigger(popupState)}>
+                          <AccountCircle />
+                        </IconButton>
+                        <Popover
+                          {...bindPopover(popupState)}
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "center",
+                          }}
+                          transformOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
+                          }}
+                        >
+                          <Box p={1}>
+                            <Button>마이페이지</Button>
+                          </Box>
+                          <Box p={1}>
+                            <Button
+                              onClick={() => {
+                                logout()
+                              }}
+                              color="primary"
+                            >
+                              로그아웃{" "}
+                            </Button>
+                          </Box>
+                        </Popover>
+                      </div>
+                    )}
+                  </PopupState>
                 </>
               ) : (
                 <Button
@@ -288,7 +299,7 @@ export default function Header() {
                     history.push("/login")
                   }}
                 >
-                  Login
+                  로그인하기
                 </Button>
               )}
             </div>

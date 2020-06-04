@@ -2,7 +2,9 @@
   "dependencies": {
     "apollo-server": "^2.14.1",
     "apollo-server-express": "^2.13.1",
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
+    "cheerio": "^1.0.0-rc.3",
     "crypto-js": "^4.0.0",
     "csprng": "^0.1.2",
     "express": "^4.17.1",
