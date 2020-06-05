@@ -3,7 +3,9 @@ import bcrypt from "bcrypt"
 import sha256 from "crypto-js/sha256"
 import rand from "csprng"
 import users from "./users"
-import getHtml from "./movies"
+import movies from "./movies"
+import mongoose from "mongoose"
+
 const resolvers = {
   Query: {
     // users: (_, __, { user }) => {
@@ -23,15 +25,15 @@ const resolvers = {
       if (users.find((iter) => iter.ID === ID)) return false
       bcrypt.hash(password, 10, function (err, passwordHash) {
         const newUser = {
-          no: user.length + 1,
+          no: users.length + 1,
           mail,
           ID,
           password: passwordHash,
           role: "user",
           token: "",
         }
-        users(newUser).save()
-        // user.push(newUser)
+        let model = mongoose.model("user")
+        model(newUser).save()
       })
 
       return true
