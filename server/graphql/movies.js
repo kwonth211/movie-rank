@@ -67,6 +67,7 @@ export const getHtml = (async () => {
 
   console.log(">>>>>>>>>>>끝", data);
   console.log(data.length);
+  await MovieModel.insertMany(data, () => {});
   // data.forEach(async (iter) => {
   //   new MovieModel(iter).save();
   // });
@@ -228,6 +229,12 @@ async function getOne(page, tempObj) {
       return data.map((anchor) => anchor.innerText);
     });
 
+    let findIndex = temp.findIndex((iter) => iter.indexOf("년 영화") !== -1);
+    temp.splice(findIndex, 1);
+    findIndex = temp.findIndex((iter) => iter.indexOf("어 영화 작품") !== -1); //두개 이상일때 처리
+    temp.splice(findIndex, 1);
+    findIndex = temp.findIndex((iter) => iter.indexOf("의 영화 작품") !== -1);
+    temp.splice(findIndex, 1);
     console.log(temp);
   }
 
