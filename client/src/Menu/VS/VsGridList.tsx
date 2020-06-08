@@ -11,7 +11,7 @@ import Link from "@material-ui/core/Link"
 import { imageArr } from "./imageArr"
 import "./../../App.css"
 import { gql } from "apollo-boost"
-import { useQuery } from "@apollo/react-hooks"
+import { useQuery, useLazyQuery } from "@apollo/react-hooks"
 
 function Copyright() {
   return (
@@ -80,24 +80,41 @@ interface Movies {
 interface getMovieGenre {
   genreMoves: Movies[]
 }
+
 const GETMOVIEGENRE = gql`
-  {
-    getMovieGenre($genre:String!) {
-      # Movies
-      
+  query getMovieGenre($genre: String!) {
+    getMovieGenre(genre: $genre) {
+      imgUrl
+      name
+      runtime
+      released
+      directors
+      writers
+      # // awards :   ??
+      year
+      countries
+      languages
+      # // ProductionCost: String
+      profit
+      votes
+      hashTag
+      genre
     }
   }
 `
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const classes = useStyles()
-  const [getMovieGenre] = useQuery<[getMovieGenre, { genre: String }]>(GETMOVIEGENRE, {
-    variables: { genre: String },
-  })
+  // const [getMovieGenre] = useLazyQuery<[getMovieGenre, { genre: String }]>(GETMOVIEGENRE, {
+  //   variables: { genre: String },
+  // })
+  const [getMovieGenre, { called, loading, data }] = useLazyQuery(GETMOVIEGENRE)
+  // const [getMovieGenre, []] = useQuery(GETMOVIEGENRE)
 
   useEffect(() => {
-    getMovieGenre({ genre })
-
-    // let genreArr = getMovieGenre({ genre })
+    // getMovieGenre(genre)
+    // let a = getMovieGenre()
+    // console.log(a)
+    let genreArr = getMovieGenre({ genre })
     // console.log(genreArr)
   }, [genre])
   return (
