@@ -1,22 +1,17 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import CameraIcon from "@material-ui/icons/PhotoCamera";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
-import { imageArr } from "./imageArr";
-import "./../../App.css";
-
-import { Carousel } from "react-responsive-carousel";
+import React, { useEffect } from "react"
+import Button from "@material-ui/core/Button"
+import Card from "@material-ui/core/Card"
+import CardMedia from "@material-ui/core/CardMedia"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core/styles"
+import Container from "@material-ui/core/Container"
+import Link from "@material-ui/core/Link"
+import { imageArr } from "./imageArr"
+import "./../../App.css"
+import { gql } from "apollo-boost"
+import { useQuery } from "@apollo/react-hooks"
 
 function Copyright() {
   return (
@@ -28,7 +23,7 @@ function Copyright() {
       {new Date().getFullYear()}
       {"."}
     </Typography>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -61,14 +56,50 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
-}));
+}))
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const cards = imageArr;
+const cards = imageArr
 
-export default function VsGridList() {
-  const classes = useStyles();
+interface Movies {
+  imgUrl: String
+  cast: [String]
+  runtime: String
+  released: [String]
+  directors: [String]
+  writers: [String]
+  year: String
+  countries: [String]
+  languages: [String]
+  profit: String
+  name: String
+  votes: Number
+  hashTag: [String]
+  genre: [String]
+}
+interface getMovieGenre {
+  genreMoves: Movies[]
+}
+const GETMOVIEGENRE = gql`
+  {
+    getMovieGenre($genre:String!) {
+      # Movies
+      
+    }
+  }
+`
+const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
+  const classes = useStyles()
+  const [getMovieGenre] = useQuery<[getMovieGenre, { genre: String }]>(GETMOVIEGENRE, {
+    variables: { genre: String },
+  })
 
+  useEffect(() => {
+    getMovieGenre({ genre })
+
+    // let genreArr = getMovieGenre({ genre })
+    // console.log(genreArr)
+  }, [genre])
   return (
     <React.Fragment>
       <CssBaseline />
@@ -78,21 +109,10 @@ export default function VsGridList() {
 
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography
-              component="h5"
-              variant="h5"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
+            <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
               kwonth211 님 , 좋아하는 영화 총 16개를 PICK 해주세요
             </Typography>
-            <Typography
-              variant="h6"
-              align="center"
-              color="textSecondary"
-              paragraph
-            >
+            <Typography variant="h6" align="center" color="textSecondary" paragraph>
               총 1개의 영화가 투표권수 1개 입니다.
             </Typography>
             <div className={classes.heroButtons}>
@@ -150,5 +170,7 @@ export default function VsGridList() {
       </footer>
       {/* End footer */}
     </React.Fragment>
-  );
+  )
 }
+
+export default VsGridList

@@ -19,6 +19,13 @@ const resolvers = {
 
       return user
     },
+    getMovieGenre: async (_, { genre }) => {
+      let model = mongoose.model("movies")
+
+      const movies = await model.find({ genre })
+
+      return movies
+    },
   },
   Mutation: {
     signup: async (_, { mail, ID, password }) => {
@@ -34,6 +41,7 @@ const resolvers = {
         }
         let model = mongoose.model("user")
         model(newUser).save()
+        users[0] = users[0].concat(newUser)
       })
 
       return true
