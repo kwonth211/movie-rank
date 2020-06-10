@@ -35,10 +35,19 @@ const SIGNUP = gql`
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    // marginTop: theme.spacing(8),
+    // display: "flex",
+    // flexDirection: "column",
+    // alignItems: "center",
+
+    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    border: "1px solid rgb(192,192,192)",
+    padding: "35px",
+    width: "450px",
+    height: "520px",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -51,14 +60,26 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  link: {
+    textDecoration: "none !important",
+    color: "black",
+    cursor: "pointer",
+  },
 }))
+
+let count = 240
+
+let timer
 
 export default function SignUp({ history }) {
   const classes = useStyles()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
   const [mail, setMail] = useState("")
+  const [emailComponent, setEmailComponent] = useState(false)
+  const [validationEmail, setValidationEmail] = useState(false)
   const [signup, { data }] = useMutation(SIGNUP)
+  let [countState, setCountState] = useState("")
 
   useEffect(() => {
     if (data?.signup === true) {
@@ -69,47 +90,92 @@ export default function SignUp({ history }) {
     }
   }, [data]) //DEBUG
 
+  const timerFunction = () => {
+    let m = "0" + Math.floor(count / 60) + ":" + ((count % 60).toString().length === 1 ? "0" + (count % 60) : count % 60) // 남은 시간 계산
+    count--
+    if (count < 0) {
+      clearInterval(timer)
+      window.alert("유효시간이 초과되었습니다.")
+    }
+    setCountState(m)
+    // setEmailComponent(getEmailComponent())
+  }
+
+  const getEmailComponent = () => {
+    return (
+      <Grid item xs={12}>
+        <TextField style={{ width: "60%", marginRight: "10px" }} variant="outlined" fullWidth name="text" label={countState} type="text" id="text" onChange={(e) => e} />
+        <Button type="button" variant="contained" style={{ height: "56px", backgroundColor: "blue", color: "white" }} onClick={() => {}}>
+          인증번호 확인
+        </Button>
+      </Grid>
+    )
+  }
+
+  const getValidationEmail = () => <div style={{ marginLeft: "8px" }}>올바른 이메일 형식이 아닙니다</div>
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Avatar className={classes.avatar}>{/* <LockOutlinedIcon /> */}</Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          회원가입
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <TextField autoComplete="fname" name="id" variant="outlined" required fullWidth id="id" label="id" autoFocus onChange={(e) => setID(e.target.value)} />
-            </Grid>
-            {/* <Grid item xs={12} sm={6}>
               <TextField
+                autoComplete="fname"
+                name="id"
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                id="id"
+                label="이름"
+                autoFocus
+                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                  setID(e.target.value)
+                }}
               />
-            </Grid> */}
-            <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" onChange={(e) => setMail(e.target.value)} />
             </Grid>
+
             <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth name="password" label="Password" type="password" id="password" onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
+              <TextField style={{ width: "70%", marginRight: "10px" }} variant="outlined" required id="email" label="이메일" name="email" autoComplete="email" onChange={(e) => setMail(e.target.value)} />
+              <Button
+                type="button"
+                variant="contained"
+                style={{ height: "56px" }}
+                onClick={() => {
+                  let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+
+                  if (regExp.test(mail)) {
+                    alert("이메일이 발송되었습니다.")
+                    timer = setInterval(timerFunction, 1000)
+                    setEmailComponent(true)
+                    setValidationEmail(false)
+                  } else {
+                    setEmailComponent(false)
+                    setValidationEmail(true)
+                  }
+                }}
+              >
+                이메일 인증
+              </Button>
             </Grid>
+            {emailComponent ? getEmailComponent() : <></>}
+            {validationEmail ? getValidationEmail() : <></>}
             <Grid item xs={12}>
-              <FormControlLabel control={<Checkbox value="allowExtraEmails" color="primary" />} label="I want to receive inspiration, marketing promotions and updates via email." />
+              <TextField variant="outlined" required fullWidth name="password" label="비밀번호" type="password" id="password" onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
             </Grid>
+            <Grid item xs={12}></Grid>
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            // color="primary"
+            style={{ backgroundColor: "#413e3e", color: "white" }}
             // className={classes.submit}
             onClick={(e) => {
               e.preventDefault()
@@ -117,16 +183,15 @@ export default function SignUp({ history }) {
                 alert("항목을 모두 입력해주세요")
                 return
               }
-
               signup({ variables: { ID, password, mail } })
             }}
           >
-            Sign Up
+            회원 가입
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justify="flex-end" style={{ marginTop: "20px" }}>
             <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
+              <Link className={classes.link} variant="body2">
+                이미 가입되어 있다면 로그인
               </Link>
             </Grid>
           </Grid>

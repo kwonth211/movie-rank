@@ -170,9 +170,13 @@ export default function Header() {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        light: "#660000",
-        main: "#660000",
-        dark: "#660000",
+        // light: "#660000",
+        // main: "#660000",
+        // dark: "#660000",
+        // contrastText: "#ffffff",
+        light: "#ffffff",
+        main: "#000000",
+        dark: "#ffffff",
         contrastText: "#ffffff",
       },
       secondary: {
@@ -181,6 +185,12 @@ export default function Header() {
         dark: "#1f1311",
         contrastText: "#eecf8f",
       },
+      // thrid: {
+      //   light: "#ffffff",
+      //   main: "#10234f",
+      //   dark: "#1f1311",
+      //   contrastText: "#eecf8f",
+      // },
     },
   })
   const handleDrawerOpen = () => {
@@ -224,7 +234,7 @@ export default function Header() {
             </IconButton>
             <Typography variant="h6" noWrap>
               <Link className={classes.link} to="/">
-                MainPage
+                Movie Ranking
               </Link>
             </Typography>
             <div className={classes.search}>

@@ -29,10 +29,14 @@ const LOGIN = gql`
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    border: "1px solid rgb(192,192,192)",
+    padding: "35px",
+    width: "450px",
+    height: "450px",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -43,7 +47,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    // margin: theme.spacing(3, 0, 3),
+    marginBottom: "30px",
+    paddingBottom: "30px",
+  },
+
+  link: {
+    textDecoration: "none !important",
+    color: "black",
+    cursor: "pointer",
   },
 }))
 
@@ -70,21 +82,25 @@ export default function LoginComponent({ history }) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
         <Typography component="h1" variant="h5">
-          Sign in
+          {/* Movie Ranking <br /> */}
+        </Typography>
+        <Typography component="h1" variant="h5">
+          로그인
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus onChange={(e) => setID(e.target.value)} />
-          <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
-          <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+          <TextField variant="outlined" margin="normal" fullWidth id="email" label="이메일 (abc@movierank.com)" name="email" autoComplete="email" autoFocus onChange={(e) => setID(e.target.value)} />
+          <TextField variant="outlined" margin="normal" fullWidth name="password" label="비밀번호" type="password" id="password" onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
+          <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="로그인 상태 유지" />
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            style={{ backgroundColor: "#413e3e", color: "white" }}
+            // color="inherit"
             // className={classes.submit}
             onClick={(e) => {
               e.preventDefault()
@@ -93,16 +109,17 @@ export default function LoginComponent({ history }) {
               setPassword("")
             }}
           >
-            Sign In
+            로그인
           </Button>
-          <Grid container>
+          <Grid container style={{ marginTop: "20px" }}>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
+              <Link className={classes.link} variant="body2">
+                비밀번호를 잃어버리셨나요?
               </Link>
             </Grid>
             <Grid item>
               <Link
+                className={classes.link}
                 onClick={() => {
                   history.push("/signup")
                 }}

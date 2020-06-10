@@ -149,10 +149,12 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
       const findIndex = totalPickCount[pageCount].findIndex((index) => i)
       totalPickCount[pageCount].splice(findIndex, 1)
     } else {
-      darkness.current[i].style.opacity = 0.6
-      btn.current[i].style.opacity = 1
-      btn.current[i].style.transform = "scale(1)"
-      totalPickCount[pageCount].push(i)
+      if (pickCount !== 16) {
+        darkness.current[i].style.opacity = 0.6
+        btn.current[i].style.opacity = 1
+        btn.current[i].style.transform = "scale(1)"
+        totalPickCount[pageCount].push(i)
+      }
     }
 
     let tempCount = 0
@@ -267,7 +269,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
                     image={"https://" + iterImage.imgUrl}
                     title={iterImage.name}
                     onClick={() => {
-                      if (pickCount <= 15) imageClickEvent(i)
+                      if (pickCount <= 16) imageClickEvent(i)
 
                       // console.log(totalPickCount)
                       // debugger
