@@ -27,19 +27,8 @@ function Copyright() {
   )
 }
 
-const SIGNUP = gql`
-  mutation signup($ID: String!, $password: String!, $mail: String!) {
-    signup(ID: $ID, password: $password, mail: $mail)
-  }
-`
-
 const useStyles = makeStyles((theme) => ({
   paper: {
-    // marginTop: theme.spacing(8),
-    // display: "flex",
-    // flexDirection: "column",
-    // alignItems: "center",
-
     marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
@@ -71,6 +60,19 @@ let count = 240
 
 let timer
 
+const SIGNUP = gql`
+  mutation signup($ID: String!, $password: String!, $mail: String!) {
+    signup(ID: $ID, password: $password, mail: $mail)
+  }
+`
+const EMAILAUTH = gql`
+  mutation emailAuth($mail: String!) {
+    emailAuth(mail: $mail)
+  }
+`
+
+let authKey = ""
+
 export default function SignUp({ history }) {
   const classes = useStyles()
   const [ID, setID] = useState("")
@@ -79,6 +81,7 @@ export default function SignUp({ history }) {
   const [emailComponent, setEmailComponent] = useState(false)
   const [validationEmail, setValidationEmail] = useState(false)
   const [signup, { data }] = useMutation(SIGNUP)
+  const [emailAuth] = useMutation(EMAILAUTH)
   let [countState, setCountState] = useState("")
 
   useEffect(() => {
@@ -146,11 +149,15 @@ export default function SignUp({ history }) {
                 type="button"
                 variant="contained"
                 style={{ height: "56px" }}
-                onClick={() => {
+                onClick={async () => {
                   let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
 
                   if (regExp.test(mail)) {
+                    let { data } = await emailAuth({ variables: { mail } })
+
+                    authKey = data?.emailAuth
                     alert("이메일이 발송되었습니다.")
+
                     timer = setInterval(timerFunction, 1000)
                     setEmailComponent(true)
                     setValidationEmail(false)
@@ -183,7 +190,11 @@ export default function SignUp({ history }) {
                 alert("항목을 모두 입력해주세요")
                 return
               }
-              signup({ variables: { ID, password, mail } })
+
+              console.log(countState)
+              console.log(authKey)
+
+              // signup({ variables: { ID, password, mail } })
             }}
           >
             회원 가입

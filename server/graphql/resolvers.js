@@ -5,8 +5,10 @@ import rand from "csprng"
 import users from "./users"
 import movies from "./movies"
 import mongoose from "mongoose"
-import emailAuth from "./emailAuth"
-
+import { transporter } from "./emailAuth"
+import config from "./../config"
+import nodemailer from "nodemailer"
+import smtpPool from "nodemailer-smtp-pool"
 const resolvers = {
   Query: {
     // users: (_, __, { user }) => {
@@ -29,7 +31,54 @@ const resolvers = {
     },
   },
   Mutation: {
-    // emailTest: () => {},
+    emailAuth: async (_, { mail }) => {
+      const transporter = nodemailer.createTransport(
+        smtpPool({
+          service: config.EMAIL.service,
+          host: config.HOST,
+          port: config.PORT,
+          auth: {
+            user: config.EMAIL.emailId,
+            pass: config.EMAIL.password,
+          },
+          tls: {
+            rejectUnauthorize: false,
+          },
+          maxConnections: 5,
+          maxMessages: 10,
+        })
+      )
+
+      // transporter.
+      const from = "RankingWorld<mail@rankworld.com>"
+      const to = mail
+      const subject = "가입인증 메일"
+
+      const randomString = Math.random().toString(36).slice(2)
+
+      const html = "<p>아래 인증 코드를 복사하여 가입 창 E-mail Check란에 넣어주십시오.\n\n</p> " + "인증코드 :" + "<h3>" + randomString + "</h3>"
+
+      const mailOptions = {
+        from,
+        to,
+        subject,
+        html,
+      }
+
+      await transporter.sendMail(mailOptions)
+
+      transporter.close()
+      return randomString
+      // transporter.sendMail(mailOptions, (err, res) => {
+      //   if (err) {
+      //     console.log("failed... => ", err)
+      //     transporter.close()
+      //   } else {
+      //     console.log("succeed... => ", res)
+      //     transporter.close()
+      //   }
+      // })
+    },
 
     signup: async (_, { mail, ID, password }) => {
       if (users.find((iter) => iter.ID === ID)) return false

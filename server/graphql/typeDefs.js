@@ -27,10 +27,6 @@ const typeDefs = gql`
     hashTag: [String]
     genre: [String]
   }
-  # type Query {
-  #   me: users!
-  #   users: String
-  # }
   type Query {
     me: User!
     getMovieGenre(genre: String!): [Movies!]
@@ -39,6 +35,7 @@ const typeDefs = gql`
     signup(mail: String!, ID: String!, password: String!): Boolean!
     login(ID: String!, password: String!): User
     logout: Boolean!
+    emailAuth(mail: String!): String!
   }
 `
 

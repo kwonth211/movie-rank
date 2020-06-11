@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 module.exports = {
-  PORT: process.env.port || 8080,
+  PORT: process.env.port,
   HOST: process.env.host,
 
   EMAIL: {
