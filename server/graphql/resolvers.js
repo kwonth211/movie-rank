@@ -5,6 +5,7 @@ import rand from "csprng"
 import users from "./users"
 import movies from "./movies"
 import mongoose from "mongoose"
+import emailAuth from "./emailAuth"
 
 const resolvers = {
   Query: {
@@ -28,6 +29,8 @@ const resolvers = {
     },
   },
   Mutation: {
+    // emailTest: () => {},
+
     signup: async (_, { mail, ID, password }) => {
       if (users.find((iter) => iter.ID === ID)) return false
       bcrypt.hash(password, 10, function (err, passwordHash) {

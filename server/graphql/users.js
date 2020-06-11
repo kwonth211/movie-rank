@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
-
+import config from "./../config"
 mongoose
-  .connect("mongodb+srv://kwonth211:shdrn1@cluster0-umti3.mongodb.net/test?retryWrites=true&w=majority", {
+  .connect(`mongodb+srv://${config.DATABASE.dbId}:${config.DATABASE.password}@cluster0-umti3.mongodb.net/test?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
