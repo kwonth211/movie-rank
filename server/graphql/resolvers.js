@@ -17,6 +17,7 @@ const resolvers = {
 
     //   return users
     // },
+
     me: (_, __, { user }) => {
       if (!user) throw new AuthenticationError("Not Authenticated")
 
@@ -31,6 +32,13 @@ const resolvers = {
     },
   },
   Mutation: {
+    duplicateCheck: (_, { ID }) => {
+      if (users[0].find((iter) => iter.ID === ID)) {
+        return true
+      } else {
+        return false
+      }
+    },
     emailAuth: async (_, { mail }) => {
       const transporter = nodemailer.createTransport(
         smtpPool({
@@ -69,23 +77,14 @@ const resolvers = {
 
       transporter.close()
       return randomString
-      // transporter.sendMail(mailOptions, (err, res) => {
-      //   if (err) {
-      //     console.log("failed... => ", err)
-      //     transporter.close()
-      //   } else {
-      //     console.log("succeed... => ", res)
-      //     transporter.close()
-      //   }
-      // })
     },
 
-    signup: async (_, { mail, ID, password }) => {
-      if (users.find((iter) => iter.ID === ID)) return false
+    signup: async (_, { name, ID, password }) => {
+      if (users[0].find((iter) => iter.ID === ID)) return false
       bcrypt.hash(password, 10, function (err, passwordHash) {
         const newUser = {
-          no: users.length + 1,
-          mail,
+          no: users[0].length + 1,
+          name,
           ID,
           password: passwordHash,
           role: "user",

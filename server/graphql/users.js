@@ -10,7 +10,7 @@ mongoose
     let userArray = await mongoose
       .model("user", {
         no: Number,
-        mail: String,
+        name: String,
         ID: String,
         password: String,
         role: String,
@@ -19,6 +19,7 @@ mongoose
       .find()
 
     users.push(userArray)
+    console.log(users)
   })
 
   .catch((err) => {

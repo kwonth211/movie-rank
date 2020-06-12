@@ -16,10 +16,10 @@ import InputBase from "@material-ui/core/InputBase"
 import UserContext from "./../context/userContext"
 import useReactRouter from "use-react-router"
 import { useMutation } from "@apollo/react-hooks"
-import { gql } from "apollo-boost"
 import Box from "@material-ui/core/Box"
 import Popover from "@material-ui/core/Popover"
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
+import gql from "./../graphql/query"
 
 const drawerWidth = 240
 const mobileMenuId = "primary-search-account-menu-mobile"
@@ -142,11 +142,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 const menuId = "primary-search-account-menu"
-const LOGOUT = gql`
-  mutation {
-    logout
-  }
-`
+
 export default function Header() {
   const classes = useStyles()
   // const theme = useTheme();
@@ -154,7 +150,7 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
   const { history, location, match } = useReactRouter()
-  const [logout, { data }] = useMutation(LOGOUT)
+  const [logout, { data }] = useMutation(gql.LOGOUT)
 
   const { user, setUser } = useContext(UserContext)
 
@@ -234,7 +230,7 @@ export default function Header() {
             </IconButton>
             <Typography variant="h6" noWrap>
               <Link className={classes.link} to="/">
-                Movie Ranking
+                Ranking World
               </Link>
             </Typography>
             <div className={classes.search}>

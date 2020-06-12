@@ -3,8 +3,8 @@ import { gql } from "apollo-server"
 const typeDefs = gql`
   type User {
     no: Int!
-    mail: String
     ID: String!
+    name: String
     passwordHash: String
     role: String!
     token: String
@@ -32,7 +32,8 @@ const typeDefs = gql`
     getMovieGenre(genre: String!): [Movies!]
   }
   type Mutation {
-    signup(mail: String!, ID: String!, password: String!): Boolean!
+    duplicateCheck(ID: String!): Boolean
+    signup(name: String!, ID: String!, password: String!): Boolean!
     login(ID: String!, password: String!): User
     logout: Boolean!
     emailAuth(mail: String!): String!

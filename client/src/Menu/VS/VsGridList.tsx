@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container"
 import Link from "@material-ui/core/Link"
 import { imageArr } from "./imageArr"
 import "./../../App.css"
-import { gql } from "apollo-boost"
+import gql from "./../../graphql/query"
 import { useQuery, useLazyQuery } from "@apollo/react-hooks"
 import { fromJS, List, Map } from "immutable"
 
@@ -79,32 +79,11 @@ interface Movies {
   genre: [string]
 }
 
-const GETMOVIEGENRE = gql`
-  query getMovieGenre($genre: String!) {
-    getMovieGenre(genre: $genre) {
-      imgUrl
-      name
-      runtime
-      released
-      directors
-      writers
-      # // awards :   ??
-      year
-      countries
-      languages
-      # // ProductionCost: String
-      profit
-      votes
-      hashTag
-      genre
-    }
-  }
-`
 const totalImage: Movies[][] = [[], [], [], []]
 const totalPickCount: number[][] = [[], [], [], []]
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const classes = useStyles()
-  const [getMovieGenre, { called, loading, data }] = useLazyQuery(GETMOVIEGENRE)
+  const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
   const [imageArr, setImageArr] = useState<Movies[]>([])
   let [pageCount, setPageCount] = useState(0)
 

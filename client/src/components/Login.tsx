@@ -12,20 +12,9 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import React, { useState, useEffect, useContext } from "react"
-import { gql } from "apollo-boost"
 import { useMutation } from "@apollo/react-hooks"
 import UserContext from "./../context/userContext"
-
-const LOGIN = gql`
-  mutation login($ID: String!, $password: String!) {
-    login(ID: $ID, password: $password) {
-      ID
-      mail
-      role
-      token
-    }
-  }
-`
+import gql from "./../graphql/query"
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,7 +52,7 @@ export default function LoginComponent({ history }) {
   const classes = useStyles()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
-  const [login, { data, loading, error }] = useMutation(LOGIN)
+  const [login, { data, loading, error }] = useMutation(gql.LOGIN)
   const { user, setUser } = useContext(UserContext)
 
   if (user) history.replace("/")
@@ -92,7 +81,7 @@ export default function LoginComponent({ history }) {
           로그인
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField variant="outlined" margin="normal" fullWidth id="email" label="이메일 (abc@movierank.com)" name="email" autoComplete="email" autoFocus onChange={(e) => setID(e.target.value)} />
+          <TextField variant="outlined" margin="normal" fullWidth id="email" label="이메일 (aaa@rankingworld.com)" name="email" autoComplete="email" autoFocus onChange={(e) => setID(e.target.value)} />
           <TextField variant="outlined" margin="normal" fullWidth name="password" label="비밀번호" type="password" id="password" onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="로그인 상태 유지" />
           <Button
