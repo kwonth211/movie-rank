@@ -1,8 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import VsModalComponent from "./vsModalComponent"
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles"
 import { VsTournament } from "./VsTournament"
 import VsGridList from "./VsGridList"
+
 export default function TransitionsModal() {
   const [open, setOpen] = React.useState(false)
 

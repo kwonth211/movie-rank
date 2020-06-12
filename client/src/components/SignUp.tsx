@@ -76,7 +76,6 @@ export default function SignUp({ history }) {
   const [emailValidationText, setEmailValidationText] = useState("")
   let [countState, setCountState] = useState("")
   const [duplicateCheck] = useMutation(gql.DUPLICATE)
-  let [loginFlag, setLoginFlag] = useState<Promise<any> | null>(null)
   const { user, setUser } = useContext(UserContext)
   let [emailFlag, setEmailFlag] = useState(false)
 
