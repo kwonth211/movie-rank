@@ -55,7 +55,7 @@ export default function LoginComponent({ history }) {
   const [login, { data, loading, error }] = useMutation(gql.LOGIN)
   const { user, setUser } = useContext(UserContext)
 
-  // if (user) history.replace("/")
+  if (user) history.replace("/")
 
   useEffect(() => {
     if (data?.login) {

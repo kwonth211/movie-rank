@@ -15,10 +15,9 @@ function App() {
     if (data?.me) setUser(data.me)
   }, [data])
   return (
-    // <UserContext.Provider value={{ user, setUser }}>
-    //   <RouterComponent />
-    // </UserContext.Provider>
-    <RouterComponent />
+    <UserContext.Provider value={{ user, setUser }}>
+      <RouterComponent />
+    </UserContext.Provider>
   )
 }
 

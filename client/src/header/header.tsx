@@ -258,7 +258,7 @@ export default function Header() {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              {user?.token ? (
+              {localStorage?.token ? (
                 <>
                   <PopupState variant="popover" popupId="demo-popup-popover">
                     {(popupState) => (

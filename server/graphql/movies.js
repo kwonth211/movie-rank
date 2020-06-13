@@ -1,5 +1,5 @@
-const puppeteer = require("puppeteer");
-import mongoose from "mongoose";
+const puppeteer = require("puppeteer")
+import mongoose from "mongoose"
 
 export const MovieModel = mongoose.model("movies", {
   imgUrl: String,
@@ -18,8 +18,16 @@ export const MovieModel = mongoose.model("movies", {
   votes: Number,
   hashTag: Array,
   genre: Array,
-});
+})
 
+// export const getHtml = async () => {
+//   const allMovie = await MovieModel.find({ imgUrl: "" })
+
+//   console.log("adassda")
+//   console.log(allMovie)
+// }
+
+//나무위키 크롤링
 // export const genreArray = ["슈퍼히어로", "스포츠", "범죄", "드라마", "코미디", "로멘스/멜로", "스릴러", "로맨틱코미디", "전쟁", "판타지", "SF", "액션", "애니메이션", "다큐멘터리", "공포"]
 // export const getHtml = (async () => {
 //   //   const browser = await puppeteer.launch()

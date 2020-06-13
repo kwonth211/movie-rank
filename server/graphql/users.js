@@ -19,7 +19,7 @@ mongoose
       .find()
 
     users.push(userArray)
-    console.log(users)
+    // console.log(userss)
   })
 
   .catch((err) => {
