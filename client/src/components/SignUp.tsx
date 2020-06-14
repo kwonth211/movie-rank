@@ -199,7 +199,7 @@ export default function SignUp({ history }) {
             </Grid>
 
             <Grid item xs={12}>
-              <TextField style={{ width: "70%", marginRight: "10px" }} variant="outlined" required id="email" label="이메일 (aaa@rankingworld.com)" name="email" autoComplete="email" onChange={(e) => setID(e.target.value)} />
+              <TextField style={{ width: "68%", marginRight: "10px" }} variant="outlined" required id="email" label="이메일 (aaa@rankingworld.com)" name="email" autoComplete="email" onChange={(e) => setID(e.target.value)} />
               <Button
                 type="button"
                 variant="contained"

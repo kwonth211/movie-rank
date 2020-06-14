@@ -20,7 +20,8 @@ import Box from "@material-ui/core/Box"
 import Popover from "@material-ui/core/Popover"
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
 import gql from "./../graphql/query"
-
+import "./../App.css"
+import "./../index.css"
 const drawerWidth = 240
 const mobileMenuId = "primary-search-account-menu-mobile"
 
@@ -180,12 +181,9 @@ export default function Header() {
         dark: "#1f1311",
         contrastText: "#eecf8f",
       },
-      // thrid: {
-      //   light: "#ffffff",
-      //   main: "#10234f",
-      //   dark: "#1f1311",
-      //   contrastText: "#eecf8f",
-      // },
+    },
+    typography: {
+      fontFamily: "MapoGoldenPier !important",
     },
   })
   const handleDrawerOpen = () => {

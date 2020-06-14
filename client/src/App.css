@@ -13,6 +13,12 @@
   }
 }
 
+@font-face {
+  font-family: "MapoGoldenPier";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -42,21 +48,24 @@
   /* background: red !important; */
   height: 300px !important;
   padding-top: 50px !important;
-  padding-left: 200px !important;
+  display: flex !important;
+  justify-items: center !important;
+  justify-content: center !important;
+  /* padding-left: 200px !important; */
 }
 .control-prev:before {
-  content: url("./media/prev.png") !important;
+  /* content: url("./media/prev.png") !important; */
   /* background-color: rgb(240, 240, 240) !important; */
 }
 [dir="rtl"] .control-prev:before {
-  content: url("./media/prev.png") !important;
+  /* content: url("./media/prev.png") !important; */
 }
 
 .control-next:before {
-  content: url("./media/next.png") !important;
+  /* content: url("./media/next.png") !important; */
 }
 [dir="rtl"] .control-next:before {
-  content: url("./media/next.png") !important;
+  /* content: url("./media/next.png") !important; */
 }
 
 /* ----------------------------------------------

@@ -4,7 +4,10 @@ import React, { useState, useEffect } from "react"
 import { useQuery } from "@apollo/react-hooks"
 import UserContext from "./context/userContext"
 import gql from "./graphql/query"
+import "./App.css"
+import "./index.css"
 
+// import ""
 function App() {
   const [user, setUser] = useState(null)
   const { data } = useQuery(gql.ME)
