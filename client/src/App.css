@@ -13,8 +13,14 @@
   }
 }
 
-@font-face {
+/* @font-face {
   font-family: "MapoGoldenPier";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+} */
+@font-face {
+  font-family: "Noto Sans KR !important";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff") format("woff");
   font-weight: normal;
   font-style: normal;

@@ -13,7 +13,7 @@ export default function RouterComponent() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/" component={Greetings} name="hello world" mark="!!!!!" />
+        <Route exact path="/" component={Greetings} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUp} />
         {/* <Route path="/vs" component={Vs} /> */}

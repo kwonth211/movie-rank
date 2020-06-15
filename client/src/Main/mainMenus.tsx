@@ -23,8 +23,7 @@ const images = [
     text: (
       <h4>
         본인만의 인생 영화를
-        <br /> 투표하고
-        <br /> 공유하세요!
+        <br /> 투표하고 공유하세요!
       </h4>
     ),
   },
@@ -75,7 +74,8 @@ const theme = createMuiTheme({
     primary: purple,
   },
   typography: {
-    fontFamily: "MapoGoldenPier !important",
+    // fontFamily: "MapoGoldenPier !important",
+    fontFamily: "Noto Sans KR !important",
   },
 })
 
@@ -213,7 +213,7 @@ export default function ButtonBases() {
             <div>
               <div className={classes.title}>
                 <ThemeProvider theme={theme}>
-                  <Typography style={{ marginBottom: "-20px" }} component="h4" variant="h4" align="center">
+                  <Typography style={{ marginBottom: "-20px", fontSize: "30px" }} component="h4" variant="h5" align="center">
                     {/* Movie Ranking 본인만의 인생 영화를 <br />
                   투표하고 공유하세요! */}
                     {image.text}

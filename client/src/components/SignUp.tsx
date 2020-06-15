@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import gql from "./../graphql/query"
-
+import ProgressModelComponent from "./../common/ProgressModelComponent"
 import UserContext from "./../context/userContext"
 
 import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks"
@@ -79,7 +79,10 @@ export default function SignUp({ history }) {
   const { user, setUser } = useContext(UserContext)
   let [emailFlag, setEmailFlag] = useState(false)
 
+  const [progress, setProgress] = useState(false)
+
   const [login] = useMutation(gql.LOGIN)
+  if (user) history.replace("/")
 
   useEffect(() => {
     if (data?.signup === true) {
@@ -130,7 +133,11 @@ export default function SignUp({ history }) {
                 alert("인증확인 되었습니다.")
                 setEmailComponent(false)
               } else {
-                alert("문자가 일치하지 않습니다.")
+                if (emailValidationText) {
+                  alert("문자가 일치하지 않습니다.")
+                } else {
+                  alert("문자를 입력해주세요.")
+                }
               }
             }
           }}
@@ -157,8 +164,11 @@ export default function SignUp({ history }) {
         return
       } else {
       }
+
+      setProgress(true)
       let { data } = await emailAuth({ variables: { mail: ID } })
 
+      setProgress(false)
       authKey = data?.emailAuth
       alert("이메일이 발송되었습니다.")
       setEmailFlag(true)
@@ -174,6 +184,8 @@ export default function SignUp({ history }) {
 
   return (
     <Container component="main" maxWidth="xs">
+      <ProgressModelComponent flag={progress} />
+
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>{/* <LockOutlinedIcon /> */}</Avatar>

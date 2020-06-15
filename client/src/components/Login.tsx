@@ -15,7 +15,7 @@ import React, { useState, useEffect, useContext } from "react"
 import { useMutation } from "@apollo/react-hooks"
 import UserContext from "./../context/userContext"
 import gql from "./../graphql/query"
-
+import ProgressModelComponent from "./../common/ProgressModelComponent"
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(12),
@@ -65,18 +65,13 @@ export default function LoginComponent({ history }) {
     } else if (data?.login === null) alert("아이디 또는 비밀번호를 잘못 입력했습니다.")
   }, [data, setUser])
 
-  if (loading) return "Loading..."
+  // if (loading) return <ProgressModelComponent />
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        {/* <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar> */}
-        <Typography component="h1" variant="h5">
-          {/* Movie Ranking <br /> */}
-        </Typography>
+        <Typography component="h1" variant="h5"></Typography>
         <Typography component="h1" variant="h5">
           로그인
         </Typography>

@@ -6,7 +6,7 @@ import Fade from "@material-ui/core/Fade"
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import Button from "@material-ui/core/Button"
-import { Route, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import useReactRouter from "use-react-router"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,13 +45,6 @@ export default function VsModalComponent(props) {
   useEffect(() => {
     setOpen(true)
   }, [])
-  const handleOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
   const callbackFunction = {
     vsStart: (type) => {
       setOpen(false)
@@ -66,7 +59,7 @@ export default function VsModalComponent(props) {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{

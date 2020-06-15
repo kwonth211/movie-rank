@@ -12,6 +12,8 @@ import { imageArr } from "./imageArr"
 import gql from "./../../graphql/query"
 import { useQuery, useLazyQuery } from "@apollo/react-hooks"
 import { fromJS, List, Map } from "immutable"
+import CircularProgress from "@material-ui/core/CircularProgress"
+import ProgressModelComponent from "./../../common/ProgressModelComponent"
 
 function Copyright() {
   return (
@@ -142,7 +144,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
     setPickCount(tempCount)
   }
 
-  if (called && loading) return <p>Loading ...</p>
+  if (called && loading) return <ProgressModelComponent />
 
   return (
     <React.Fragment>

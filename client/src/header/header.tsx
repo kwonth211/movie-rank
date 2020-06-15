@@ -183,7 +183,7 @@ export default function Header() {
       },
     },
     typography: {
-      fontFamily: "MapoGoldenPier !important",
+      fontFamily: "Noto Sans KR !important",
     },
   })
   const handleDrawerOpen = () => {
