@@ -60,6 +60,26 @@ const GETMOVIEGENRE = gql`
   }
 `
 
+// 인터페이스 추가
+const GETMOVIEALL = gql`
+  query getMovieAll {
+    getMovieAll {
+      imgUrl
+      name
+      runtime
+      released
+      directors
+      writers
+      year
+      countries
+      languages
+      profit
+      votes
+      hashTag
+      genre
+    }
+  }
+`
 const queryObj = {
   ME,
   SIGNUP,
@@ -68,6 +88,7 @@ const queryObj = {
   LOGIN,
   LOGOUT,
   GETMOVIEGENRE,
+  GETMOVIEALL,
 }
 
 export default queryObj

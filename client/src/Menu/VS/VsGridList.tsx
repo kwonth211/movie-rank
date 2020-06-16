@@ -14,7 +14,7 @@ import { useQuery, useLazyQuery } from "@apollo/react-hooks"
 import { fromJS, List, Map } from "immutable"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import ProgressModelComponent from "./../../common/ProgressModelComponent"
-
+import { IMovie } from "./../../interface/IMovie"
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -62,29 +62,12 @@ const useStyles = makeStyles((theme) => ({
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-interface Movies {
-  imgUrl: string
-  cast: [string]
-  runtime: string
-  released: [string]
-  directors: [string]
-  writers: [string]
-  year: string
-  countries: [string]
-  languages: [string]
-  profit: string
-  name: string
-  votes: Number
-  hashTag: [string]
-  genre: [string]
-}
-
-const totalImage: Movies[][] = [[], [], [], []]
+const totalImage: IMovie[][] = [[], [], [], []]
 const totalPickCount: number[][] = [[], [], [], []]
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const classes = useStyles()
   const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
-  const [imageArr, setImageArr] = useState<Movies[]>([])
+  const [imageArr, setImageArr] = useState<IMovie[]>([])
   let [pageCount, setPageCount] = useState(0)
 
   let darkness = useRef<HTMLDivElement | null[]>([])
@@ -93,7 +76,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   let [pickCount, setPickCount] = useState(0)
 
   useEffect(() => {
-    getMovieGenre({ variables: { genre } })
     let imageList = data?.getMovieGenre
 
     // 이차원 배열로 16개씩 4개 담는다. 64개..
@@ -245,7 +227,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
                       width: "100%",
                       height: "100%",
                     }}
-                    image={"https://" + iterImage.imgUrl}
+                    image={iterImage.imgUrl}
                     title={iterImage.name}
                     onClick={() => {
                       if (pickCount <= 16) imageClickEvent(i)

@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import sha256 from "crypto-js/sha256"
 import rand from "csprng"
 import users from "./users"
-import movies from "./movies"
+import { movieArr } from "./movies"
 import mongoose from "mongoose"
 import { transporter } from "./emailAuth"
 import config from "./../config"
@@ -11,13 +11,6 @@ import nodemailer from "nodemailer"
 import smtpPool from "nodemailer-smtp-pool"
 const resolvers = {
   Query: {
-    // users: (_, __, { user }) => {
-    //   if (!users) throw new AuthenticationError("Not Authenticated")
-    //   if (!users.roles.includes("admin")) throw new ForbiddenError("Not Authorized")
-
-    //   return users
-    // },
-
     me: (_, __, { user }) => {
       if (!user) throw new AuthenticationError("Not Authenticated")
 
@@ -25,10 +18,13 @@ const resolvers = {
     },
     getMovieGenre: async (_, { genre }) => {
       let model = mongoose.model("movies")
+      let movies = []
 
-      const movies = await model.find({ genre })
-
+      movies = await model.find({ genre })
       return movies
+    },
+    getMovieAll: async () => {
+      return movieArr
     },
   },
   Mutation: {
@@ -98,6 +94,7 @@ const resolvers = {
       return true
     },
     login: async (_, { ID, password }) => {
+      console.log(movieArr)
       let user = users[0].find((iter) => iter.ID === ID)
       if (!user) return null // 해당 ID가 없을 때
       if (user.token) return user // 해당 ID로 이미 로그인되어 있을 때

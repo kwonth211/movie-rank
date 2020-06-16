@@ -29,6 +29,7 @@
     "graphql-yoga": "^1.18.3",
     "immutable": "^4.0.0-rc.12",
     "material-ui-popup-state": "^1.5.4",
+    "ngrok": "^3.2.7",
     "node-pre-gyp": "^0.14.0",
     "nodemon": "^2.0.4",
     "react": "^16.13.1",

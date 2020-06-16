@@ -20,20 +20,53 @@ export const MovieModel = mongoose.model("movies", {
   genre: Array,
 })
 
-// export const getHtml = async () => {
-//   const allMovie = await MovieModel.find({ imgUrl: "" })
+export let movieArr = []
+const getAllMovie = async () => {
+  movieArr = movieArr.concat(await MovieModel.find())
 
-//   console.log("adassda")
-//   console.log(allMovie)
+  return movieArr
+}
+getAllMovie()
+
+//네이버 영화이미지 없는것들 크롤링
+// export const getHtml = async () => {
+//   console.log("네이버 크롤링 시작>>>")
+//   let allMovie = await MovieModel.find({ imgUrl: "" })
+
+//   const browser = await puppeteer.launch({
+//     headless: false,
+//   })
+//   const page = await browser.newPage()
+//   await page.setViewport({
+//     width: 1920,
+//     height: 1080,
+//   })
+
+//   for (let i = 0; i < allMovie.length; i++) {
+//     await page.goto(`https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${allMovie[i].name}`)
+
+//     try {
+//       let temp = await page.$eval("#_au_movie_info > div.info_main > div > a > img[src]", (data) => {
+//         return data.getAttribute("src")
+//       })
+
+//       allMovie[i].imgUrl = temp
+//     } catch (e) {}
+//   }
+
+//   deleteMovieFunc()
+
+//   await MovieModel.insertMany(allMovie, () => {})
+
+//   // img
 // }
 
+// getHtml()
 //나무위키 크롤링
 // export const genreArray = ["슈퍼히어로", "스포츠", "범죄", "드라마", "코미디", "로멘스/멜로", "스릴러", "로맨틱코미디", "전쟁", "판타지", "SF", "액션", "애니메이션", "다큐멘터리", "공포"]
 // export const getHtml = (async () => {
-//   //   const browser = await puppeteer.launch()
-
 //   const browser = await puppeteer.launch({
-//     headless: true,
+//     headless: false,
 //   })
 //   const page = await browser.newPage()
 //   await page.setViewport({
@@ -227,18 +260,24 @@ export const MovieModel = mongoose.model("movies", {
 
 //     console.log(tempObj.genre)
 //     tempObj.hashTag = temp
-//     // let findIndex = temp.findIndex((iter) => iter.indexOf("년 영화") !== -1);
-//     // temp.splice(findIndex, 1);
-//     // findIndex = temp.findIndex((iter) => iter.indexOf("어 영화 작품") !== -1); //두개 이상일때 처리
-//     // temp.splice(findIndex, 1);
-//     // findIndex = temp.findIndex((iter) => iter.indexOf("의 영화 작품") !== -1);
-//     // temp.splice(findIndex, 1);
-//     // console.log(temp)
+
+//     ///여기부터는 네이버 이미지 (이미지 없을경우)
+//     if (!tempObj.imgUrl) {
+//       await page.goto(`https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${tempObj.name}`)
+
+//       try {
+//         let temp = await page.$eval("#_au_movie_info > div.info_main > div > a > img[src]", (data) => {
+//           return data.getAttribute("src")
+//         })
+
+//         tempObj.imgUrl = temp
+//       } catch (e) {}
+//     }
 //   }
 
 //   return Promise.resolve(tempObj)
 // }
 
-// const deleteMovieFunc = async () => {
-//   await MovieModel.deleteMany()
-// }
+const deleteMovieFunc = async () => {
+  await MovieModel.deleteMany()
+}

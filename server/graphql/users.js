@@ -26,6 +26,11 @@ mongoose
     console.log(err)
   })
 
-let users = []
-
+const users = []
 export default users
+
+// export const users = () => {
+//   return usersTest
+// }
+
+// export const moviesArray = () => {}

@@ -30,6 +30,7 @@ const typeDefs = gql`
   type Query {
     me: User!
     getMovieGenre(genre: String!): [Movies!]
+    getMovieAll: [Movies!]
   }
   type Mutation {
     duplicateCheck(ID: String!): Boolean
