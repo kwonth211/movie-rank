@@ -76,6 +76,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   let [pickCount, setPickCount] = useState(0)
 
   useEffect(() => {
+    getMovieGenre({ variables: { genre } })
     let imageList = data?.getMovieGenre
 
     // 이차원 배열로 16개씩 4개 담는다. 64개..
