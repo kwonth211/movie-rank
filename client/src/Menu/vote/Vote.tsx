@@ -158,6 +158,8 @@ export function CheckboxesTags() {
       allMovieList = data?.getMovieAll
     }
   }, [data])
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {}
   return (
     <Autocomplete
       multiple
@@ -166,50 +168,65 @@ export function CheckboxesTags() {
       }}
       id="checkboxes-tags-demo"
       options={movieList}
-      onClose={(e) => {
-        console.log(e)
+      onClose={(e) => {}}
+      onChange={(_, v) => {
+        console.log(v)
       }}
-      disableCloseOnSelect
+      // onChange={handleChange}
+      filterSelectedOptions
+      // disableCloseOnSelect
       getOptionLabel={(option) => option.name}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-          <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-          {option.name}
-        </React.Fragment>
-      )}
+      renderOption={(option, { selected }) => {
+        console.log(selected)
+        console.log(option)
+        return (
+          <React.Fragment>
+            {/* <Checkbox
+              icon={icon}
+              onChange={(e) => {
+                // console.log(e)
+                // debugger
+              }}
+              onClick={(e) => {
+                // debugger
+              }}
+              checkedIcon={checkedIcon}
+              style={{ marginRight: 8 }}
+              checked={selected}
+            /> */}
+            {option.name}
+          </React.Fragment>
+        )
+      }}
       style={{ width: 500 }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          variant="outlined"
-          label="영화를 검색해주세요"
-          onKeyDown={(e) => {
-            if (e.keyCode == 13) {
-              debugger
-              autoCompleteRef.current.ariaExpanded = false
-            }
-          }}
-          onChange={(e) => {
-            if (e.target.value) {
-              const filterData = allMovieList.filter((iter) => {
-                // if (iter.name.replace(/\s/gi, "").trim().indexOf(e.target.value) !== -1) {
-                //   return iter
-                // }
-                if (iter.name.indexOf(e.target.value) !== -1) {
-                  return iter
-                }
-              })
+      renderInput={(params) => {
+        return (
+          <TextField
+            {...params}
+            variant="outlined"
+            label="영화를 검색해주세요"
+            onKeyDown={(e) => {
+              if (e.keyCode == 13) {
+                console.log(params)
+                console.log(movieList)
+                //   setMovieList([])
+              }
+            }}
+            onChange={(e) => {
+              if (e.target.value) {
+                const filterData = allMovieList.filter((iter) => {
+                  if (iter.name.indexOf(e.target.value) !== -1) {
+                    return iter
+                  }
+                })
 
-              // if (filterData.length > 0) {
-              //   debugger
-              // }
-              console.log(filterData)
-              setMovieList(filterData)
-            }
-          }}
-          placeholder="Favorites"
-        />
-      )}
+                setMovieList(filterData)
+              }
+            }}
+            placeholder="Favorites"
+          />
+        )
+      }}
     />
   )
 }
