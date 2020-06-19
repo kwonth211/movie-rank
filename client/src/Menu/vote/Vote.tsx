@@ -70,8 +70,13 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "100%",
   },
   carMapContainer: {
+    // borderTop: "1px solid rgb(224,224,224)",
+    // borderRight: "1px solid rgb(224,224,224)",
+    // borderLeft: "1px solid rgb(224,224,224)",
+
     border: "1px solid rgb(224,224,224)",
     paddingTop: "15px", // 16:9
+    marginBottom: "20px",
   },
   star: {
     // paddingRight: "30px",
