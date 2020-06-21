@@ -27,6 +27,9 @@ import { IMovie } from "./../../interface/IMovie";
 import gql from "./../../graphql/query";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { IconButton } from "@material-ui/core";
+import "./vote.css";
+import { debug } from "console";
+
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const blackStar = require("./../../media/blackStar.png");
@@ -78,13 +81,18 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "100%",
   },
   carMapContainer: {
+    "&:hover": {
+      // opacity: 1,
+      boxShadow: theme.shadows[7],
+    },
+    // opacity: 0.65,
     // borderTop: "1px solid rgb(224,224,224)",
     // borderRight: "1px solid rgb(224,224,224)",
     // borderLeft: "1px solid rgb(224,224,224)",
-
-    border: "1px solid rgb(224,224,224)",
-    paddingTop: "15px", // 16:9
+    borderBottom: "1px solid rgb(224,224,224)",
+    // paddingTop: "15px", // 16:9
     marginBottom: "20px",
+    cursor: "pointer",
   },
   star: {
     // paddingRight: "30px",
@@ -104,10 +112,11 @@ type IVote = {
   };
 };
 
-export default function VoteComponent() {
+export default function VoteComponent({ history }) {
   const classes = useStyles();
 
   const [movieList, setMovieList] = useState([]);
+  // const { history, location, match } = useReactRouter();
 
   const callbackFunction = {
     searchMovie: (selectList) => {
@@ -116,6 +125,18 @@ export default function VoteComponent() {
   };
 
   const searchDetail = () => {};
+  const movieDetail = (e) => {
+    const tagName = e.target.tagName;
+    if (tagName !== "IMG") {
+      debugger;
+      if (tagName === "svg") {
+        // popup? 나옴
+      } else {
+        //페이지 이동
+        history.push("/moveiDetail");
+      }
+    }
+  };
 
   return (
     <React.Fragment>
@@ -164,7 +185,12 @@ export default function VoteComponent() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           {movieList.map((iter: IMovie) => (
-            <Grid className={classes.carMapContainer} container spacing={3}>
+            <Grid
+              onClick={movieDetail}
+              className={classes.carMapContainer}
+              container
+              spacing={3}
+            >
               <Grid item>
                 <ButtonBase onClick={searchDetail} className={classes.image}>
                   <img

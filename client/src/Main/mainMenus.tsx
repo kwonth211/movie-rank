@@ -1,18 +1,26 @@
-import React, { useState, useRef } from "react"
-import { Theme, makeStyles, createStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/styles"
-import ButtonBase from "@material-ui/core/ButtonBase"
-import Typography from "@material-ui/core/Typography"
-import EditIcon from "@material-ui/icons/Edit"
-import { Route, Link } from "react-router-dom"
-import { Carousel } from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { green, purple } from "@material-ui/core/colors"
-import Button from "@material-ui/core/Button"
+import React, { useState, useRef } from "react";
+import {
+  Theme,
+  makeStyles,
+  createStyles,
+  ThemeProvider,
+  createMuiTheme,
+} from "@material-ui/core/styles";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from "@material-ui/core/Typography";
+import EditIcon from "@material-ui/icons/Edit";
+import { Route, Link } from "react-router-dom";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { green, purple } from "@material-ui/core/colors";
+import Button from "@material-ui/core/Button";
+import LocationOn from "@material-ui/icons/LocationOn";
+
 // import icon from "../media/icons1.png";
-let vsIcon = require("../media/icon1.png")
-let analysis = require("../media/analysis.png")
-let review = require("../media/review.png")
-let vote = require("../media/vote.png")
+let vsIcon = require("../media/icon1.png");
+let analysis = require("../media/analysis.png");
+let review = require("../media/review.png");
+let vote = require("../media/vote.png");
 
 const images = [
   {
@@ -67,7 +75,7 @@ const images = [
   //   width: "23%",
   //   route: "/borad",
   // },
-]
+];
 
 const theme = createMuiTheme({
   palette: {
@@ -77,7 +85,7 @@ const theme = createMuiTheme({
     // fontFamily: "MapoGoldenPier !important",
     fontFamily: "Noto Sans KR !important",
   },
-})
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -86,13 +94,15 @@ const useStyles = makeStyles((theme: Theme) =>
       // flexWrap: "wrap",
       // minWidth: 400,
       // backgroundColor: "white",
-      // background "white",
       // width: "200px",
       // paddingLeft: "0px",
       // height: "500px",
       // paddingBottom: "10px",
       // paddingLeft: "20px",
       // marginLeft: "px",
+      height: 300,
+      marginBottom: "25px",
+      boxShadow: theme.shadows[5],
     },
     image: {
       // position: "relative",
@@ -104,31 +114,13 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "80% !important", // Overrides inline-style
         height: "80",
       },
-      // "&:hover, &$focusVisible": {
-      //   zIndex: 1,
-      //   "& $imageBackdrop": {
-      //     opacity: 0.2,
-      //   },
-      //   "& $imageMarked": {
-      //     opacity: 0.8,
-      //   },
-      //   "& $imageTitle": {
-      //     // border: "4px solid currentColor",
-      //   },
-      // },
     },
     focusVisible: {},
     imageButton: {
-      // position: "absolute",
       left: 0,
       right: 0,
       top: 0,
-      // bottom: 0,
-      // display: "flex",
-      // alignItems: "center",
-      // justifyContent: "center",
       color: "black",
-      // border: "2px solid black",
       borderRadius: "30px",
     },
     imageSrc: {
@@ -141,34 +133,28 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0,
 
       backgroundSize: "cover",
-      // backgroundPosition: "center 40%",
       borderRadius: "30px",
     },
     imageBackdrop: {
-      // position: "absolute",
       left: 0,
       right: 0,
       top: 0,
       bottom: 0,
-      // backgroundColor: "#00006c",
       opacity: 0.4,
-      // transition: theme.transitions.create("opacity"),
       borderRadius: "30px",
     },
     imageTitle: {
-      // position: "relative",
       fontWeight: "bold",
 
-      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) + 6}px`,
+      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
+        theme.spacing(1) + 6
+      }px`,
     },
     imageMarked: {
       height: 3,
       width: 18,
       backgroundColor: theme.palette.common.white,
-      // position: "absolute",
       bottom: -2,
-      // left: "calc(50% - 9px)",
-      // transition: theme.transitions.create("opacity"),
     },
     slide: {
       height: "500px",
@@ -177,8 +163,6 @@ const useStyles = makeStyles((theme: Theme) =>
       float: "left",
       display: "inlineFlex",
       verticalAlign: "middle",
-      // paddingLeft: "300px",
-      // marginLeft: "300px",
       position: "absolute",
       width: "50%",
       height: "50%",
@@ -188,14 +172,14 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0,
     },
   })
-)
+);
 
 export default function ButtonBases() {
-  const classes = useStyles()
-  let carRef = useRef(undefined)
+  const classes = useStyles();
+  let carRef = useRef(undefined);
 
   return (
-    <div className={classes.root} style={{ backgroundColor: "white" }}>
+    <div className={classes.root}>
       <Carousel
         ref={(ref) => {
           // carRef = ref
@@ -213,14 +197,26 @@ export default function ButtonBases() {
             <div>
               <div className={classes.title}>
                 <ThemeProvider theme={theme}>
-                  <Typography style={{ marginBottom: "-20px", fontSize: "30px" }} component="h4" variant="h5" align="center">
+                  <Typography
+                    style={{ marginBottom: "-20px", fontSize: "30px" }}
+                    component="h4"
+                    variant="h5"
+                    align="center"
+                  >
                     {/* Movie Ranking 본인만의 인생 영화를 <br />
                   투표하고 공유하세요! */}
                     {image.text}
                   </Typography>
 
                   <Link style={{ textDecoration: "none" }} to={image.route}>
-                    <Button variant="contained" style={{ fontSize: "15px", background: "rgb(97,200,142)", color: "white" }}>
+                    <Button
+                      variant="contained"
+                      style={{
+                        fontSize: "15px",
+                        background: "rgb(97,200,142)",
+                        color: "white",
+                      }}
+                    >
                       <div style={{ fontWeight: "bold" }}>{image.title}</div>
                     </Button>
                   </Link>
@@ -242,7 +238,12 @@ export default function ButtonBases() {
                   />
                   {/* <span className={classes.imageBackdrop} /> */}
                   {/* <span className={classes.imageButton}> */}
-                  <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
+                  <Typography
+                    component="span"
+                    variant="subtitle1"
+                    color="inherit"
+                    className={classes.imageTitle}
+                  >
                     <span className={classes.imageMarked} />
                   </Typography>
 
@@ -250,9 +251,9 @@ export default function ButtonBases() {
                 </div>
               </Button>
             </div>
-          )
+          );
         })}
       </Carousel>
     </div>
-  )
+  );
 }
