@@ -1,31 +1,39 @@
-import Checkbox from "@material-ui/core/Checkbox"
-import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
-import CheckBoxIcon from "@material-ui/icons/CheckBox"
-import { makeStyles } from "@material-ui/core/styles"
-import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject } from "react"
-import { useMutation } from "@apollo/react-hooks"
-import Container from "@material-ui/core/Container"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import Button from "@material-ui/core/Button"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Grid from "@material-ui/core/Grid"
-import Link from "@material-ui/core/Link"
-import Typography from "@material-ui/core/Typography"
-import ButtonBase from "@material-ui/core/ButtonBase"
-import { imageArr } from "./../VS/imageArr"
-import { useQuery, useLazyQuery } from "@apollo/react-hooks"
-import { IMovie } from "./../../interface/IMovie"
-import gql from "./../../graphql/query"
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
-const checkedIcon = <CheckBoxIcon fontSize="small" />
-const blackStar = require("./../../media/blackStar.png")
+import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { makeStyles } from "@material-ui/core/styles";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  MutableRefObject,
+  RefObject,
+} from "react";
+import { useMutation } from "@apollo/react-hooks";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import { imageArr } from "./../VS/imageArr";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { IMovie } from "./../../interface/IMovie";
+import gql from "./../../graphql/query";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import { IconButton } from "@material-ui/core";
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+const blackStar = require("./../../media/blackStar.png");
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    marginRight: theme.spacing(2),
+    // marginRight: theme.spacing(2),
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
@@ -80,32 +88,34 @@ const useStyles = makeStyles((theme) => ({
   },
   star: {
     // paddingRight: "30px",
-    marginRight: "15px",
     // width: "10px",
   },
   starImage: {
     width: "20px",
+    // paddingLeft: "5px",
+    // paddingRight: "0px",
+    marginLeft: "12px",
   },
-}))
+}));
 
 type IVote = {
   callbackFunction: {
-    searchMovie
-  }
-}
+    searchMovie;
+  };
+};
 
 export default function VoteComponent() {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [movieList, setMovieList] = useState([])
+  const [movieList, setMovieList] = useState([]);
 
   const callbackFunction = {
     searchMovie: (selectList) => {
-      setMovieList(selectList)
+      setMovieList(selectList);
     },
-  }
+  };
 
-  const searchDetail = () => {}
+  const searchDetail = () => {};
 
   return (
     <React.Fragment>
@@ -115,15 +125,31 @@ export default function VoteComponent() {
         {/* Hero unit */}
 
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
-            <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
+          <Container maxWidth="xl">
+            <Typography
+              component="h5"
+              variant="h5"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
               권태훈 님 , 인생영화를 검색 또는 태그해주세요
             </Typography>
-            <Typography variant="h6" align="center" color="textSecondary" paragraph>
+            <Typography
+              variant="h6"
+              align="center"
+              color="textSecondary"
+              paragraph
+            >
               최종 선택 1개의 영화가 투표권수 1개 입니다.
             </Typography>
             <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
+              <Grid
+                // style={{ width: "1800px" }}
+                container
+                spacing={10}
+                justify="center"
+              >
                 <Grid item>
                   <CheckboxesTags callbackFunction={callbackFunction} />
                 </Grid>
@@ -135,28 +161,41 @@ export default function VoteComponent() {
             </div>
           </Container>
         </div>
-        <Container className={classes.cardGrid} maxWidth="sm">
+        <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           {movieList.map((iter: IMovie) => (
             <Grid className={classes.carMapContainer} container spacing={3}>
               <Grid item>
                 <ButtonBase onClick={searchDetail} className={classes.image}>
-                  <img className={classes.img} alt="noImage" src={iter?.imgUrl?.indexOf("https://") === -1 ? "https://" + iter.imgUrl : iter.imgUrl} />
+                  <img
+                    className={classes.img}
+                    alt="noImage"
+                    src={
+                      iter?.imgUrl?.indexOf("https://") === -1
+                        ? "https://" + iter.imgUrl
+                        : iter.imgUrl
+                    }
+                  />
                 </ButtonBase>
               </Grid>
-              <Grid item xs={12} sm container>
+              <Grid item xs={12} md container>
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
                       {iter.name}
                     </Typography>
                     <Typography variant="body2" gutterBottom>
-                      {iter.genre.map((v, idx) => (idx === iter.genre.length - 1 ? v : v + " | "))}
+                      {iter.genre.map((v, idx) =>
+                        idx === iter.genre.length - 1 ? v : v + " | "
+                      )}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {iter.year}년 개봉
                     </Typography>
-                    <Typography variant="body2" color="textSecondary"></Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                    ></Typography>
                   </Grid>
                   <Grid item>
                     <Typography variant="body2" style={{ cursor: "pointer" }}>
@@ -165,9 +204,28 @@ export default function VoteComponent() {
                   </Grid>
                 </Grid>
                 <Grid item className={classes.star}>
-                  <Typography variant="subtitle1" style={{ cursor: "pointer" }}>
-                    {/* <ButtonBase> */}
-                    <img className={classes.starImage} alt="noImage" src={blackStar} />
+                  <Typography variant="subtitle2" style={{ cursor: "pointer" }}>
+                    <img
+                      className={classes.starImage}
+                      alt="noImage"
+                      src={blackStar}
+                    />
+                  </Typography>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <Typography variant="subtitle2" style={{ cursor: "pointer" }}>
+                    <IconButton
+                      aria-label="show more"
+                      // aria-controls={mobileMenuId}
+                      aria-haspopup="true"
+                      // onClick={handleMobileMenuOpen}
+                      color="inherit"
+                    >
+                      <MoreIcon />
+                    </IconButton>
                     {/* </ButtonBase> */}
                   </Typography>
                 </Grid>
@@ -182,49 +240,51 @@ export default function VoteComponent() {
       </footer>
       {/* End footer */}
     </React.Fragment>
-  )
+  );
 }
 
-let allMovieList: Array<IMovie> = []
+let allMovieList: Array<IMovie> = [];
 // export const CheckboxesTags: React.FunctionComponent<{
 //   callbackFunction: Object;
 // }> = ({ callbackFunction } = () => {
 const CheckboxesTags: React.FunctionComponent<{
-  callbackFunction: IVote["callbackFunction"]
+  callbackFunction: IVote["callbackFunction"];
 }> = ({ callbackFunction }) => {
-  const [getMovieAll, { called, loading, data }] = useLazyQuery(gql.GETMOVIEALL)
-  const [movieList, setMovieList] = useState<IMovie[] | []>([])
-  let [selectList, setSelectList] = useState<Array<IMovie>>([])
+  const [getMovieAll, { called, loading, data }] = useLazyQuery(
+    gql.GETMOVIEALL
+  );
+  const [movieList, setMovieList] = useState<IMovie[] | []>([]);
+  let [selectList, setSelectList] = useState<Array<IMovie>>([]);
 
   // let autoCompleteRef = useRef<RefObject<any>>(null)
-  let autoCompleteRef = React.useRef<any | null>(null)
+  let autoCompleteRef = React.useRef<any | null>(null);
 
   useEffect(() => {
-    getMovieAll()
+    getMovieAll();
     if (data?.getMovieAll) {
-      allMovieList = data?.getMovieAll
+      allMovieList = data?.getMovieAll;
     }
-  }, [data])
+  }, [data]);
 
   return (
     <Autocomplete
       multiple
       ref={(e: RefObject<any>) => {
-        autoCompleteRef.current = e
+        autoCompleteRef.current = e;
       }}
       id="checkboxes-tags-demo"
       options={movieList}
       onClose={(e) => {}}
       onChange={(_, v) => {
-        setSelectList(v)
+        setSelectList(v);
       }}
       filterSelectedOptions
       // disableCloseOnSelect
       getOptionLabel={(option) => option.name}
       renderOption={(option, { selected }) => {
-        return <React.Fragment>{option.name}</React.Fragment>
+        return <React.Fragment>{option.name}</React.Fragment>;
       }}
-      style={{ width: 500 }}
+      style={{ width: 650, marginLeft: "50px" }}
       renderInput={(params) => {
         return (
           <TextField
@@ -235,7 +295,7 @@ const CheckboxesTags: React.FunctionComponent<{
               if (e.keyCode == 13) {
                 if (autoCompleteRef?.current?.ariaExpanded == "false") {
                   //검색 도움창이 닫혀있을때
-                  callbackFunction.searchMovie(selectList)
+                  callbackFunction.searchMovie(selectList);
                 }
               }
             }}
@@ -243,20 +303,20 @@ const CheckboxesTags: React.FunctionComponent<{
               if (e.target.value) {
                 const filterData = allMovieList.filter((iter) => {
                   if (iter.name.indexOf(e.target.value) !== -1) {
-                    return iter
+                    return iter;
                   }
-                })
+                });
 
-                setMovieList(filterData)
+                setMovieList(filterData);
               }
             }}
-            placeholder="Favorites"
+            // placeholder="해쉬태그"
           />
-        )
+        );
       }}
     />
-  )
-}
+  );
+};
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 
 function Copyright() {
@@ -269,5 +329,5 @@ function Copyright() {
       {new Date().getFullYear()}
       {"."}
     </Typography>
-  )
+  );
 }
