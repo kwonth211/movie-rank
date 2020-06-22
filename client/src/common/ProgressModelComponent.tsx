@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
+import React from "react"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
 import Box from "@material-ui/core/Box"
-import { Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText, Badge, Button, IconButton } from "@material-ui/core"
+import { Typography } from "@material-ui/core"
 import Backdrop from "@material-ui/core/Backdrop"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

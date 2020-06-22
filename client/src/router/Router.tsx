@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React from "react"
 import Greetings from "../Main/main"
 import Header from "../header/header"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"

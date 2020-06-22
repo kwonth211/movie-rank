@@ -1,20 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
-import { imageArr } from "./imageArr";
-import gql from "./../../graphql/query";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import { fromJS, List, Map } from "immutable";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import ProgressModelComponent from "./../../common/ProgressModelComponent";
-import { IMovie } from "./../../interface/IMovie";
+import React, { useEffect, useState, useRef } from "react"
+import Button from "@material-ui/core/Button"
+import Card from "@material-ui/core/Card"
+import CardMedia from "@material-ui/core/CardMedia"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core/styles"
+import Container from "@material-ui/core/Container"
+import Link from "@material-ui/core/Link"
+import gql from "./../../graphql/query"
+import { useLazyQuery } from "@apollo/react-hooks"
+import ProgressModelComponent from "./../../common/ProgressModelComponent"
+import { IMovie } from "./../../interface/IMovie"
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -25,7 +22,7 @@ function Copyright() {
       {new Date().getFullYear()}
       {"."}
     </Typography>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -58,79 +55,76 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
-}));
+}))
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const totalImage: IMovie[][] = [[], [], [], []];
-const totalPickCount: number[][] = [[], [], [], []];
+const totalImage: IMovie[][] = [[], [], [], []]
+const totalPickCount: number[][] = [[], [], [], []]
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
-  const classes = useStyles();
-  const [getMovieGenre, { called, loading, data }] = useLazyQuery(
-    gql.GETMOVIEGENRE
-  );
-  const [imageArr, setImageArr] = useState<IMovie[]>([]);
-  let [pageCount, setPageCount] = useState(0);
+  const classes = useStyles()
+  const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
+  const [imageArr, setImageArr] = useState<IMovie[]>([])
+  let [pageCount, setPageCount] = useState(0)
 
-  let darkness = useRef<HTMLDivElement | null[]>([]);
-  let btn = useRef<HTMLDivElement | null[]>([]);
+  let darkness = useRef<HTMLDivElement | null[]>([])
+  let btn = useRef<HTMLDivElement | null[]>([])
 
-  let [pickCount, setPickCount] = useState(0);
+  let [pickCount, setPickCount] = useState(0)
 
   useEffect(() => {
-    getMovieGenre({ variables: { genre } });
-    let imageList = data?.getMovieGenre;
+    getMovieGenre({ variables: { genre } })
+    let imageList = data?.getMovieGenre
 
     // 이차원 배열로 16개씩 4개 담는다. 64개..
     if (imageList) {
       imageList = imageList.filter((iter) => {
         if (iter.imgUrl) {
-          return iter;
+          return iter
         }
-      });
+      })
 
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 12; j++) {
-          const randomInt =
-            Math.floor(Math.random() * (imageList.length - 0 + 1)) + 0;
-          let spliceData = imageList.splice(randomInt - 1, 1)[0];
+          const randomInt = Math.floor(Math.random() * (imageList.length - 0 + 1)) + 0
+          let spliceData = imageList.splice(randomInt - 1, 1)[0]
           if (spliceData && Object.keys(spliceData).length > 0) {
-            totalImage[i][j] = spliceData;
+            totalImage[i][j] = spliceData
           }
         }
       }
       // 처음엔 totalImage 중 0번째 .. 그이후에는 [1] [2][3] 식으로..
-      setImageArr(totalImage[pageCount]);
+      setImageArr(totalImage[pageCount])
     }
-  }, [data]);
+  }, [data])
 
-  useEffect(() => {});
+  useEffect(() => {})
 
   const imageClickEvent = (i) => {
     if (darkness.current[i].style.opacity == 0.6) {
-      darkness.current[i].style.opacity = 0;
-      btn.current[i].style.opacity = 0;
-      btn.current[i].style.transform = "";
-      const findIndex = totalPickCount[pageCount].findIndex((index) => i);
-      totalPickCount[pageCount].splice(findIndex, 1);
+      darkness.current[i].style.opacity = 0
+      btn.current[i].style.opacity = 0
+      btn.current[i].style.transform = ""
+      const findIndex = totalPickCount[pageCount].findIndex((index) => i)
+      totalPickCount[pageCount].splice(findIndex, 1)
     } else {
       if (pickCount !== 16) {
-        darkness.current[i].style.opacity = 0.6;
-        btn.current[i].style.opacity = 1;
-        btn.current[i].style.transform = "scale(1)";
-        totalPickCount[pageCount].push(i);
+        darkness.current[i].style.opacity = 0.6
+        btn.current[i].style.opacity = 1
+        btn.current[i].style.transform = "scale(1)"
+        totalPickCount[pageCount].push(i)
       }
     }
 
-    let tempCount = 0;
+    let tempCount = 0
     for (let i = 0; i < 4; i++) {
-      tempCount += totalPickCount[i].length;
+      tempCount += totalPickCount[i].length
     }
 
-    setPickCount(tempCount);
-  };
+    setPickCount(tempCount)
+  }
 
-  if (called && loading) return <ProgressModelComponent />;
+  if (called && loading) return <ProgressModelComponent />
 
   return (
     <React.Fragment>
@@ -141,21 +135,10 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
 
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography
-              component="h5"
-              variant="h5"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
+            <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
               kwonth211 님 , 좋아하는 영화 총 16개를 PICK 해주세요
             </Typography>
-            <Typography
-              variant="h6"
-              align="center"
-              color="textSecondary"
-              paragraph
-            >
+            <Typography variant="h6" align="center" color="textSecondary" paragraph>
               최종 선택 1개의 영화가 투표권수 1개 입니다.
             </Typography>
             <div className={classes.heroButtons}>
@@ -166,24 +149,22 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
                     color="primary"
                     onClick={() => {
                       if (pageCount > 0) {
-                        setPageCount(pageCount - 1);
-                        setImageArr(totalImage[--pageCount]);
+                        setPageCount(pageCount - 1)
+                        setImageArr(totalImage[--pageCount])
                         for (let i = 0; i < 12; i++) {
-                          const findIndex = totalPickCount[pageCount].findIndex(
-                            (iter) => {
-                              return iter === i;
-                            }
-                          );
+                          const findIndex = totalPickCount[pageCount].findIndex((iter) => {
+                            return iter === i
+                          })
 
                           if (darkness.current[i]) {
                             if (findIndex !== -1) {
-                              darkness.current[i].style.opacity = 0.6;
-                              btn.current[i].style.opacity = 1;
-                              btn.current[i].style.transform = "scale(1)";
+                              darkness.current[i].style.opacity = 0.6
+                              btn.current[i].style.opacity = 1
+                              btn.current[i].style.transform = "scale(1)"
                             } else {
-                              darkness.current[i].style.opacity = 0;
-                              btn.current[i].style.opacity = 0;
-                              btn.current[i].style.transform = "";
+                              darkness.current[i].style.opacity = 0
+                              btn.current[i].style.opacity = 0
+                              btn.current[i].style.transform = ""
                             }
                           }
                         }
@@ -197,23 +178,21 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
                   <Button
                     onClick={() => {
                       if (pageCount < 3) {
-                        setPageCount(pageCount + 1);
-                        setImageArr(totalImage[++pageCount]);
+                        setPageCount(pageCount + 1)
+                        setImageArr(totalImage[++pageCount])
                         for (let i = 0; i < 12; i++) {
-                          const findIndex = totalPickCount[pageCount].findIndex(
-                            (iter) => {
-                              return iter === i;
-                            }
-                          );
+                          const findIndex = totalPickCount[pageCount].findIndex((iter) => {
+                            return iter === i
+                          })
                           if (darkness.current[i]) {
                             if (findIndex !== -1) {
-                              darkness.current[i].style.opacity = 0.6;
-                              btn.current[i].style.opacity = 1;
-                              btn.current[i].style.transform = "scale(1)";
+                              darkness.current[i].style.opacity = 0.6
+                              btn.current[i].style.opacity = 1
+                              btn.current[i].style.transform = "scale(1)"
                             } else {
-                              darkness.current[i].style.opacity = 0;
-                              btn.current[i].style.opacity = 0;
-                              btn.current[i].style.transform = "";
+                              darkness.current[i].style.opacity = 0
+                              btn.current[i].style.opacity = 0
+                              btn.current[i].style.transform = ""
                             }
                           }
                         }
@@ -239,24 +218,17 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
           <Grid container spacing={3}>
             {imageArr.map((iterImage, i) => (
               <Grid item key={i} sm={2} md={2}>
-                <Card
-                  style={{ height: "175px", width: "125px" }}
-                  className={classes.card}
-                >
+                <Card style={{ height: "175px", width: "125px" }} className={classes.card}>
                   <CardMedia
                     className={"tracking-in-contract-bck"}
                     style={{
                       width: "100%",
                       height: "100%",
                     }}
-                    image={
-                      iterImage?.imgUrl?.indexOf("https://") === -1
-                        ? "https://" + iterImage.imgUrl
-                        : iterImage.imgUrl
-                    }
+                    image={iterImage?.imgUrl?.indexOf("https://") === -1 ? "https://" + iterImage.imgUrl : iterImage.imgUrl}
                     title={iterImage.name}
                     onClick={() => {
-                      if (pickCount <= 16) imageClickEvent(i);
+                      if (pickCount <= 16) imageClickEvent(i)
 
                       // console.log(totalPickCount)
                       // debugger
@@ -264,14 +236,14 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
                   >
                     <div
                       ref={(el) => {
-                        darkness.current[i] = el;
+                        darkness.current[i] = el
                       }}
                       // style={{ opacity: true ? 0.7 : 0.2 }}
                       className="darkness"
                     ></div>
                     <div
                       ref={(el) => {
-                        btn.current[i] = el;
+                        btn.current[i] = el
                       }}
                       className="btn-plus"
                     >
@@ -290,7 +262,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
       </footer>
       {/* End footer */}
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default VsGridList;
+export default VsGridList

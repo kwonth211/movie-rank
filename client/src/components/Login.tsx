@@ -1,4 +1,3 @@
-import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import TextField from "@material-ui/core/TextField"
@@ -52,7 +51,7 @@ export default function LoginComponent({ history }) {
   const classes = useStyles()
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
-  const [login, { data, loading, error }] = useMutation(gql.LOGIN)
+  const [login, { data }] = useMutation(gql.LOGIN)
   const { user, setUser } = useContext(UserContext)
   const [validationID, setValidationID] = useState(false)
 

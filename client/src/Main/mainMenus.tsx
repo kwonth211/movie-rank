@@ -1,14 +1,11 @@
-import React, { useState, useRef } from "react"
+import React from "react"
 import { Theme, makeStyles, createStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/styles"
-import ButtonBase from "@material-ui/core/ButtonBase"
 import Typography from "@material-ui/core/Typography"
-import EditIcon from "@material-ui/icons/Edit"
-import { Route, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { green, purple } from "@material-ui/core/colors"
+import { purple } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
-import LocationOn from "@material-ui/icons/LocationOn"
 
 // import icon from "../media/icons1.png";
 let vsIcon = require("../media/icon1.png")
@@ -169,7 +166,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ButtonBases() {
   const classes = useStyles()
-  let carRef = useRef(undefined)
 
   return (
     <div className={classes.root}>

@@ -9,7 +9,7 @@ import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone"
 import RefreshIcon from "@material-ui/icons/Refresh"
 import TabletMacIcon from "@material-ui/icons/TabletMac"
 import palette from "../../../theme/palette"
-import { Theme, createStyles, ThemeProvider, createMuiTheme, makeStyles } from "@material-ui/core/styles"
+import { Theme, makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

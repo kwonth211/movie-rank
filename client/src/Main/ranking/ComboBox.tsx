@@ -1,12 +1,7 @@
-import React, { useEffect, KeyboardEvent } from "react"
+import React, { KeyboardEvent } from "react"
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles"
-import Modal from "@material-ui/core/Modal"
-import Backdrop from "@material-ui/core/Backdrop"
-import Fade from "@material-ui/core/Fade"
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
-import Button from "@material-ui/core/Button"
-import { Route, Link } from "react-router-dom"
 import useReactRouter from "use-react-router"
 
 const options = ["SF", "스릴러", "로맨스", "모험", "판타지", "재난", "코미디", "드라마", "로맨틱코미디", "키즈"]
