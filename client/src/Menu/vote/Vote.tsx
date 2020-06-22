@@ -14,22 +14,43 @@ import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
 import Typography from "@material-ui/core/Typography"
 import ButtonBase from "@material-ui/core/ButtonBase"
-import { imageArr } from "./../VS/imageArr"
+import { imageArr } from "../VS/imageArr"
 import { useQuery, useLazyQuery } from "@apollo/react-hooks"
-import { IMovie } from "./../../interface/IMovie"
-import gql from "./../../graphql/query"
+import { IMovie } from "../../interface/IMovie"
+import gql from "../../graphql/query"
 import MoreIcon from "@material-ui/icons/MoreVert"
 import { IconButton } from "@material-ui/core"
 import "./vote.css"
-import { debug } from "console"
+
+import Paper from "@material-ui/core/Paper"
+import InputBase from "@material-ui/core/InputBase"
+import Divider from "@material-ui/core/Divider"
+import MenuIcon from "@material-ui/icons/Menu"
+import SearchIcon from "@material-ui/icons/Search"
+import DirectionsIcon from "@material-ui/icons/Directions"
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 const blackStar = require("./../../media/blackStar.png")
 
 const useStyles = makeStyles((theme) => ({
-  icon: {
-    // marginRight: theme.spacing(2),
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    // width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 50,
+    margin: 4,
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
@@ -96,6 +117,14 @@ const useStyles = makeStyles((theme) => ({
     // paddingLeft: "5px",
     // paddingRight: "0px",
     marginLeft: "12px",
+  },
+  underline: {
+    "&&&:before": {
+      borderBottom: "none !important",
+    },
+    "&&:after": {
+      borderBottom: "none !important",
+    },
   },
 }))
 
@@ -240,6 +269,8 @@ const CheckboxesTags: React.FunctionComponent<{
   const [movieList, setMovieList] = useState<IMovie[] | []>([])
   let [selectList, setSelectList] = useState<Array<IMovie>>([])
 
+  const classes = useStyles()
+
   // let autoCompleteRef = useRef<RefObject<any>>(null)
   let autoCompleteRef = React.useRef<any | null>(null)
 
@@ -263,7 +294,6 @@ const CheckboxesTags: React.FunctionComponent<{
         setSelectList(v)
       }}
       filterSelectedOptions
-      // disableCloseOnSelect
       getOptionLabel={(option) => option.name}
       renderOption={(option, { selected }) => {
         return <React.Fragment>{option.name}</React.Fragment>
@@ -271,31 +301,38 @@ const CheckboxesTags: React.FunctionComponent<{
       style={{ width: 650, marginLeft: "50px" }}
       renderInput={(params) => {
         return (
-          <TextField
-            {...params}
-            variant="outlined"
-            label="영화를 검색해주세요"
-            onKeyDown={(e) => {
-              if (e.keyCode == 13) {
-                if (autoCompleteRef?.current?.ariaExpanded == "false") {
-                  //검색 도움창이 닫혀있을때
-                  callbackFunction.searchMovie(selectList)
-                }
-              }
-            }}
-            onChange={(e) => {
-              if (e.target.value) {
-                const filterData = allMovieList.filter((iter) => {
-                  if (iter.name.indexOf(e.target.value) !== -1) {
-                    return iter
+          <Paper className={classes.root}>
+            <TextField
+              {...params}
+              InputProps={{ ...params.InputProps, disableUnderline: true }}
+              style={{ textDecoration: "none" }}
+              className={classes.input}
+              onKeyDown={(e) => {
+                if (e.keyCode == 13) {
+                  if (autoCompleteRef?.current?.ariaExpanded == "false") {
+                    //검색 도움창이 닫혀있을때
+                    callbackFunction.searchMovie(selectList)
                   }
-                })
+                }
+              }}
+              onChange={(e) => {
+                if (e.target.value) {
+                  const filterData = allMovieList.filter((iter) => {
+                    if (iter.name.indexOf(e.target.value) !== -1) {
+                      return iter
+                    }
+                  })
 
-                setMovieList(filterData)
-              }
-            }}
-            // placeholder="해쉬태그"
-          />
+                  setMovieList(filterData)
+                }
+              }}
+            />
+
+            <Divider className={classes.divider} orientation="vertical" />
+            <IconButton type="submit" className={classes.iconButton} aria-label="search">
+              <SearchIcon onClick={callbackFunction.searchMovie(selectList)} />
+            </IconButton>
+          </Paper>
         )
       }}
     />
