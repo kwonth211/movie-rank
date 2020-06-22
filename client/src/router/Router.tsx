@@ -8,6 +8,7 @@ import Vs from "../Menu/VS/vs"
 import Vote from "../Menu/vote/Vote"
 import AuthRouter from "./AuthRouter"
 import MovieDetail from "./../Menu/vote/movieDetail"
+import analysis from "./../Menu/analysis/analysis"
 
 export default function RouterComponent() {
   return (
@@ -23,6 +24,7 @@ export default function RouterComponent() {
         <AuthRouter path="/vs" component={Vs} />
         <AuthRouter path="/vote" component={Vote} />
         <AuthRouter path="/movieDetail" component={MovieDetail} />
+        <AuthRouter path="/analysis" component={analysis} />
       </Switch>
     </Router>
   )

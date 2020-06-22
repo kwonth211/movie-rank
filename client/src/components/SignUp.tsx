@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container"
 import gql from "./../graphql/query"
 import ProgressModelComponent from "./../common/ProgressModelComponent"
 import UserContext from "./../context/userContext"
+import InKo from "inko"
 
 import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks"
 function Copyright() {
@@ -64,6 +65,8 @@ let count = 240
 let timer
 
 let authKey = ""
+const inko = new InKo()
+
 export default function SignUp({ history }) {
   const classes = useStyles()
   const [ID, setID] = useState("")
@@ -80,6 +83,7 @@ export default function SignUp({ history }) {
   let [emailFlag, setEmailFlag] = useState(false)
 
   const [progress, setProgress] = useState(false)
+  const [validationID, setValidationID] = useState(false)
 
   const [login] = useMutation(gql.LOGIN)
   if (user) history.replace("/")
@@ -211,7 +215,29 @@ export default function SignUp({ history }) {
             </Grid>
 
             <Grid item xs={12}>
-              <TextField style={{ width: "68%", marginRight: "10px" }} variant="outlined" required id="email" label="이메일 (aaa@rankingworld.com)" name="email" autoComplete="email" onChange={(e) => setID(e.target.value)} />
+              <TextField
+                style={{ width: "68%", marginRight: "10px" }}
+                onKeyDown={(e) => {
+                  setTimeout(() => {
+                    let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+                    if (regExp.test(ID)) {
+                      setValidationID(false)
+                      // 양식 맞음
+                    } else {
+                      setValidationID(true)
+                    }
+                  })
+                }}
+                error={validationID}
+                helperText={validationID ? "이메일 형식으로 입력해주세요." : ""}
+                variant="outlined"
+                required
+                id="email"
+                label="이메일 (aaa@rankingworld.com)"
+                name="email"
+                autoComplete="email"
+                onChange={(e) => setID(e.target.value)}
+              />
               <Button
                 type="button"
                 variant="contained"
@@ -225,7 +251,6 @@ export default function SignUp({ history }) {
               </Button>
             </Grid>
             {emailComponent ? getEmailComponent() : <></>}
-            {validationEmail ? getValidationEmail() : <></>}
             <Grid item xs={12}>
               <TextField variant="outlined" required fullWidth name="password" label="비밀번호를 입력해주세요" type="password" id="password" onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
             </Grid>
@@ -247,7 +272,7 @@ export default function SignUp({ history }) {
 
               if (authKey && emailFlag && count > 0 && !emailComponent) {
                 // 인증키를 발급받고 인증확인이 되었을때 인증시간이 지나지 않았을때
-                signup({ variables: { ID, password, name } })
+                signup({ variables: { ID, password: inko.ko2en(password), name } })
               } else {
                 alert("이메일 인증을 해주세요")
               }
@@ -260,7 +285,13 @@ export default function SignUp({ history }) {
           </Button>
           <Grid container justify="flex-end" style={{ marginTop: "20px" }}>
             <Grid item>
-              <Link className={classes.link} variant="body2">
+              <Link
+                onClick={() => {
+                  history.push("/login")
+                }}
+                className={classes.link}
+                variant="body2"
+              >
                 이미 가입되어 있다면 로그인
               </Link>
             </Grid>

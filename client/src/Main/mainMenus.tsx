@@ -1,26 +1,20 @@
-import React, { useState, useRef } from "react";
-import {
-  Theme,
-  makeStyles,
-  createStyles,
-  ThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Typography from "@material-ui/core/Typography";
-import EditIcon from "@material-ui/icons/Edit";
-import { Route, Link } from "react-router-dom";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { green, purple } from "@material-ui/core/colors";
-import Button from "@material-ui/core/Button";
-import LocationOn from "@material-ui/icons/LocationOn";
+import React, { useState, useRef } from "react"
+import { Theme, makeStyles, createStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/styles"
+import ButtonBase from "@material-ui/core/ButtonBase"
+import Typography from "@material-ui/core/Typography"
+import EditIcon from "@material-ui/icons/Edit"
+import { Route, Link } from "react-router-dom"
+import { Carousel } from "react-responsive-carousel"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import { green, purple } from "@material-ui/core/colors"
+import Button from "@material-ui/core/Button"
+import LocationOn from "@material-ui/icons/LocationOn"
 
 // import icon from "../media/icons1.png";
-let vsIcon = require("../media/icon1.png");
-let analysis = require("../media/analysis.png");
-let review = require("../media/review.png");
-let vote = require("../media/vote.png");
+let vsIcon = require("../media/icon1.png")
+let analysis = require("../media/analysis.png")
+let review = require("../media/review.png")
+let vote = require("../media/vote.png")
 
 const images = [
   {
@@ -48,11 +42,12 @@ const images = [
   },
   {
     url: analysis,
-    title: "취향 분석 하러가기",
+    title: "통계 보러가기",
     width: "23%",
+    route: "/analysis",
     text: (
       <h4>
-        본인에 맞는 취향을 <br /> 그래프를 통해 확인하세요!
+        영화 투표 통계를 <br /> 확인해보세요!
       </h4>
     ),
   },
@@ -75,7 +70,7 @@ const images = [
   //   width: "23%",
   //   route: "/borad",
   // },
-];
+]
 
 const theme = createMuiTheme({
   palette: {
@@ -85,7 +80,7 @@ const theme = createMuiTheme({
     // fontFamily: "MapoGoldenPier !important",
     fontFamily: "Noto Sans KR !important",
   },
-});
+})
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -146,9 +141,7 @@ const useStyles = makeStyles((theme: Theme) =>
     imageTitle: {
       fontWeight: "bold",
 
-      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
-        theme.spacing(1) + 6
-      }px`,
+      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) + 6}px`,
     },
     imageMarked: {
       height: 3,
@@ -172,11 +165,11 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0,
     },
   })
-);
+)
 
 export default function ButtonBases() {
-  const classes = useStyles();
-  let carRef = useRef(undefined);
+  const classes = useStyles()
+  let carRef = useRef(undefined)
 
   return (
     <div className={classes.root}>
@@ -197,12 +190,7 @@ export default function ButtonBases() {
             <div>
               <div className={classes.title}>
                 <ThemeProvider theme={theme}>
-                  <Typography
-                    style={{ marginBottom: "-20px", fontSize: "30px" }}
-                    component="h4"
-                    variant="h5"
-                    align="center"
-                  >
+                  <Typography style={{ marginBottom: "-20px", fontSize: "30px" }} component="h4" variant="h5" align="center">
                     {/* Movie Ranking 본인만의 인생 영화를 <br />
                   투표하고 공유하세요! */}
                     {image.text}
@@ -238,12 +226,7 @@ export default function ButtonBases() {
                   />
                   {/* <span className={classes.imageBackdrop} /> */}
                   {/* <span className={classes.imageButton}> */}
-                  <Typography
-                    component="span"
-                    variant="subtitle1"
-                    color="inherit"
-                    className={classes.imageTitle}
-                  >
+                  <Typography component="span" variant="subtitle1" color="inherit" className={classes.imageTitle}>
                     <span className={classes.imageMarked} />
                   </Typography>
 
@@ -251,9 +234,9 @@ export default function ButtonBases() {
                 </div>
               </Button>
             </div>
-          );
+          )
         })}
       </Carousel>
     </div>
-  );
+  )
 }

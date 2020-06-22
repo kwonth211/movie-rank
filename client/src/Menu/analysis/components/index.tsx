@@ -1,0 +1,8 @@
+export { default as TotalVoters } from "./TotalVoters"
+export { default as RealtimeVoting } from "./RealtimeVoting"
+export { default as LatestProducts } from "./LatestProducts"
+export { default as LatestSales } from "./LatestSales"
+export { default as TasksProgress } from "./TasksProgress"
+export { default as TotalProfit } from "./TotalProfit"
+export { default as TotalUsers } from "./TotalUsers"
+export { default as GenreGraph } from "./GenreGraph"
