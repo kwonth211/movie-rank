@@ -46,6 +46,7 @@
     "react-scripts": "3.4.1",
     "react-slick": "^0.26.1",
     "recharts": "^1.8.5",
+    "recoil": "^0.0.10",
     "typescript": "~3.7.2",
     "use-react-router": "^1.0.7"
   },

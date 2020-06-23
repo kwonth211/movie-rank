@@ -13,13 +13,16 @@ import MoreIcon from "@material-ui/icons/MoreVert"
 import { Route, Link } from "react-router-dom"
 import SearchIcon from "@material-ui/icons/Search"
 import InputBase from "@material-ui/core/InputBase"
-import UserContext from "./../context/userContext"
 import useReactRouter from "use-react-router"
 import { useMutation } from "@apollo/react-hooks"
 import Box from "@material-ui/core/Box"
 import Popover from "@material-ui/core/Popover"
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
 import gql from "./../graphql/query"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { UserState } from "../atoms"
+import { useQuery } from "@apollo/react-hooks"
+
 import "./../App.css"
 import "./../index.css"
 const drawerWidth = 240
@@ -151,9 +154,10 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
   const { history, location, match } = useReactRouter()
+  const [user, setUser] = useRecoilState(UserState)
   const [logout, { data }] = useMutation(gql.LOGOUT)
-
-  const { user, setUser } = useContext(UserContext)
+  const { data: userData } = useQuery(gql.ME)
+  // const { user, setUser } = useContext(UserContext)
 
   useEffect(() => {
     if (data?.logout) {
@@ -162,6 +166,10 @@ export default function Header() {
       alert("로그아웃에 성공했습니다")
     } else if (data?.logout === null) alert("로그아웃에 실패했습니다")
   }, [data, setUser])
+
+  useEffect(() => {
+    if (userData?.me) setUser(userData.me)
+  }, [userData])
 
   const theme = createMuiTheme({
     palette: {

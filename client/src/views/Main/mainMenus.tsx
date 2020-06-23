@@ -8,10 +8,10 @@ import { purple } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
 
 // import icon from "../media/icons1.png";
-let vsIcon = require("../media/icon1.png")
-let analysis = require("../media/analysis.png")
-let review = require("../media/review.png")
-let vote = require("../media/vote.png")
+let vsIcon = require("../../media/icon1.png")
+let analysis = require("../../media/analysis.png")
+let review = require("../../media/review.png")
+let vote = require("../../media/vote.png")
 
 const images = [
   {

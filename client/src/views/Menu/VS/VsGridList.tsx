@@ -8,10 +8,10 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import Link from "@material-ui/core/Link"
-import gql from "./../../graphql/query"
+import gql from "../../../graphql/query"
 import { useLazyQuery } from "@apollo/react-hooks"
-import ProgressModelComponent from "./../../common/ProgressModelComponent"
-import { IMovie } from "./../../interface/IMovie"
+import ProgressModelComponent from "../../../common/ProgressModelComponent"
+import { IMovie } from "../../../interface/IMovie"
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">

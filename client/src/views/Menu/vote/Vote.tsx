@@ -5,33 +5,25 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
 import { makeStyles } from "@material-ui/core/styles"
 import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject } from "react"
-import { useMutation } from "@apollo/react-hooks"
 import Container from "@material-ui/core/Container"
 import CssBaseline from "@material-ui/core/CssBaseline"
-import Button from "@material-ui/core/Button"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
 import Typography from "@material-ui/core/Typography"
 import ButtonBase from "@material-ui/core/ButtonBase"
-import { imageArr } from "../VS/imageArr"
-import { useQuery, useLazyQuery } from "@apollo/react-hooks"
-import { IMovie } from "../../interface/IMovie"
-import gql from "../../graphql/query"
+import { IMovie } from "../../../interface/IMovie"
 import MoreIcon from "@material-ui/icons/MoreVert"
 import { IconButton } from "@material-ui/core"
 import "./vote.css"
+import { AllMovieState } from "../../../atoms"
+import { useRecoilValue, useRecoilState } from "recoil"
 
 import Paper from "@material-ui/core/Paper"
-import InputBase from "@material-ui/core/InputBase"
 import Divider from "@material-ui/core/Divider"
-import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
-import DirectionsIcon from "@material-ui/icons/Directions"
-
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
-const blackStar = require("./../../media/blackStar.png")
+const blackStar = require("./../../../media/blackStar.png")
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,7 +129,7 @@ type IVote = {
 export default function VoteComponent({ history }) {
   const classes = useStyles()
 
-  const [movieList, setMovieList] = useState([])
+  const [movieList, setMovieList] = useState<IMovie[]>([])
   // const { history, location, match } = useReactRouter();
 
   const callbackFunction = {
@@ -150,12 +142,11 @@ export default function VoteComponent({ history }) {
   const movieDetail = (e) => {
     const tagName = e.target.tagName
     if (tagName !== "IMG") {
-      debugger
       if (tagName === "svg") {
         // popup? 나옴
       } else {
         //페이지 이동
-        history.push("/movieDetail")
+        history.push({ pathname: "/movieDetail", search: "?query=" + encodeURI(movieList[0].name) })
       }
     }
   }
@@ -258,28 +249,17 @@ export default function VoteComponent({ history }) {
   )
 }
 
-let allMovieList: Array<IMovie> = []
-// export const CheckboxesTags: React.FunctionComponent<{
-//   callbackFunction: Object;
-// }> = ({ callbackFunction } = () => {
 const CheckboxesTags: React.FunctionComponent<{
   callbackFunction: IVote["callbackFunction"]
 }> = ({ callbackFunction }) => {
-  const [getMovieAll, { called, loading, data }] = useLazyQuery(gql.GETMOVIEALL)
-  const [movieList, setMovieList] = useState<IMovie[] | []>([])
-  let [selectList, setSelectList] = useState<Array<IMovie>>([])
+  const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
+
+  const [movieList, setMovieList] = useState<IMovie[]>([])
+  let [selectList, setSelectList] = useState<IMovie[]>([])
 
   const classes = useStyles()
 
-  // let autoCompleteRef = useRef<RefObject<any>>(null)
   let autoCompleteRef = React.useRef<any | null>(null)
-
-  useEffect(() => {
-    getMovieAll()
-    if (data?.getMovieAll) {
-      allMovieList = data?.getMovieAll
-    }
-  }, [data])
 
   return (
     <Autocomplete
@@ -338,7 +318,6 @@ const CheckboxesTags: React.FunctionComponent<{
     />
   )
 }
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 
 function Copyright() {
   return (

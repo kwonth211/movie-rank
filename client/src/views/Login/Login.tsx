@@ -10,9 +10,10 @@ import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import React, { useState, useEffect, useContext } from "react"
 import { useMutation } from "@apollo/react-hooks"
-import UserContext from "./../context/userContext"
-import gql from "./../graphql/query"
+import gql from "../../graphql/query"
 import InKo from "inko"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { UserState } from "../../atoms"
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(12),
@@ -52,8 +53,8 @@ export default function LoginComponent({ history }) {
   const [ID, setID] = useState("")
   const [password, setPassword] = useState("")
   const [login, { data }] = useMutation(gql.LOGIN)
-  const { user, setUser } = useContext(UserContext)
   const [validationID, setValidationID] = useState(false)
+  const [user, setUser] = useRecoilState(UserState)
 
   if (user) history.replace("/")
 

@@ -6,7 +6,7 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward"
 import MoneyIcon from "@material-ui/icons/Money"
 import { Theme, createStyles, ThemeProvider, createMuiTheme, makeStyles } from "@material-ui/core/styles"
 // import {  } from "@material-ui/styles"
-import palette from "../../../theme/palette"
+import palette from "../../../../theme/palette"
 
 const useStyles = makeStyles((theme) => ({
   root: {

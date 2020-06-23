@@ -6,7 +6,7 @@ import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core"
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
 import { Theme, createStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 import { makeStyles } from "@material-ui/styles"
-import palette from "./../../../../theme/palette"
+import palette from "../../../../../theme/palette"
 
 const useStyles = makeStyles((theme: Theme) => {
   return {

@@ -1,27 +1,34 @@
 import RouterComponent from "./router/Router"
 import React, { useState, useEffect } from "react"
 // import { gql } from "apollo-boost"
-import { useQuery } from "@apollo/react-hooks"
-import UserContext from "./context/userContext"
 import gql from "./graphql/query"
+import { RecoilRoot, atom, useRecoilState } from "recoil"
+import { AllMovieState } from "./atoms"
 import "./App.css"
 import "./index.css"
+import { useQuery, useLazyQuery } from "@apollo/react-hooks"
 
+import { IMovie } from "./interface/IMovie"
 // import ""
-function App() {
-  const [user, setUser] = useState(null)
-  const { data } = useQuery(gql.ME)
 
-  console.log("data>>>>", data)
+let allMovieList: Array<IMovie> = []
+
+function App() {
+  const [getMovieAll, { called, loading, data }] = useLazyQuery(gql.GETMOVIEALL)
+
+  // const { data } = useQuery(gql.ME)
+  const [AllMovie, setAllMovie] = useRecoilState(AllMovieState)
+
+  // console.log("data>>>>", data)
 
   useEffect(() => {
-    if (data?.me) setUser(data.me)
+    getMovieAll()
+    if (data?.getMovieAll) {
+      // allMovieList = data.getMovieAll
+      setAllMovie(data.getMovieAll)
+    }
   }, [data])
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <RouterComponent />
-    </UserContext.Provider>
-  )
+  return <RouterComponent />
 }
 
 export default App

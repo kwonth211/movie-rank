@@ -12,10 +12,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import gql from "./../graphql/query"
-import ProgressModelComponent from "./../common/ProgressModelComponent"
-import UserContext from "./../context/userContext"
+import gql from "../../graphql/query"
+import ProgressModelComponent from "../../common/ProgressModelComponent"
 import InKo from "inko"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { UserState } from "../../atoms"
 
 import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks"
 function Copyright() {
@@ -79,7 +80,8 @@ export default function SignUp({ history }) {
   const [emailValidationText, setEmailValidationText] = useState("")
   let [countState, setCountState] = useState("")
   const [duplicateCheck] = useMutation(gql.DUPLICATE)
-  const { user, setUser } = useContext(UserContext)
+  const [user, setUser] = useRecoilState(UserState)
+
   let [emailFlag, setEmailFlag] = useState(false)
 
   const [progress, setProgress] = useState(false)
@@ -151,8 +153,6 @@ export default function SignUp({ history }) {
       </Grid>
     )
   }
-
-  const getValidationEmail = () => <div style={{ marginLeft: "8px", color: "red" }}>올바른 이메일 형식이 아닙니다</div>
 
   const emailValidationClick = async () => {
     let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i

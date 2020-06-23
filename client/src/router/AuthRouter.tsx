@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import UserContext from "./../context/userContext"
 import React, { useContext, FunctionComponent, useEffect } from "react"
 import useReactRouter from "use-react-router"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { UserState } from "../atoms"
 
 const AuthRouter: React.FunctionComponent<{
   path: String
   component: FunctionComponent<Route>
-  // children: ch;
 }> = ({ path, component, children }) => {
-  console.log(component)
-  const { user } = useContext(UserContext)
+  const user = useRecoilValue(UserState)
+
   const { history } = useReactRouter()
 
   useEffect(() => {
@@ -20,8 +20,6 @@ const AuthRouter: React.FunctionComponent<{
     }
   }, [user])
 
-  //   return <>로그인안됨</>
-  // }
   return <Route path={path} component={component} />
 }
 

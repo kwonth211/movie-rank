@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core"
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward"
 import PeopleIcon from "@material-ui/icons/PeopleOutlined"
-import palette from "../../../../theme/palette"
+import palette from "../../../../../theme/palette"
 import { Theme, createStyles, ThemeProvider, createMuiTheme, makeStyles } from "@material-ui/core/styles"
 // import {  } from "@material-ui/styles"
 
