@@ -186,8 +186,8 @@ export default function VoteComponent({ history }) {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          {movieList.map((iter: IMovie) => (
-            <Grid onClick={movieDetail} className={classes.carMapContainer} container spacing={3}>
+          {movieList.map((iter: IMovie, i) => (
+            <Grid key={i} onClick={movieDetail} className={classes.carMapContainer} container spacing={3}>
               <Grid item>
                 <ButtonBase onClick={searchDetail} className={classes.image}>
                   <img className={classes.img} alt="noImage" src={iter?.imgUrl?.indexOf("https://") === -1 ? "https://" + iter.imgUrl : iter.imgUrl} />

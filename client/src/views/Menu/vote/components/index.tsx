@@ -1,0 +1,8 @@
+export { default as MovieInfo } from "./MovieInfo/MovieInfo"
+export { default as RealtimeVoting } from "./RealtimeVoting"
+export { default as Review } from "./Review/Review"
+export { default as LatestSales } from "./LatestSales"
+export { default as TasksProgress } from "./TasksProgress"
+export { default as TotalProfit } from "./TotalProfit"
+export { default as TotalUsers } from "./TotalUsers"
+export { default as GenreGraph } from "./GenreGraph"

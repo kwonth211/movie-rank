@@ -20,10 +20,12 @@ const images = [
     width: "23%",
     route: "/vote",
     text: (
-      <h4>
-        본인만의 인생 영화를
-        <br /> 투표하고 공유하세요!
-      </h4>
+      <div>
+        <h4>
+          본인만의 인생 영화를
+          <br /> 투표하고 공유하세요!
+        </h4>
+      </div>
     ),
   },
   {
@@ -32,9 +34,11 @@ const images = [
     width: "23%",
     route: "/vs",
     text: (
-      <h4>
-        장르별 영화 월드컵을 <br /> 진행해보세요!
-      </h4>
+      <div>
+        <h4>
+          장르별 영화 월드컵을 <br /> 진행해보세요!
+        </h4>
+      </div>
     ),
   },
   {
@@ -43,9 +47,11 @@ const images = [
     width: "23%",
     route: "/analysis",
     text: (
-      <h4>
-        영화 투표 통계를 <br /> 확인해보세요!
-      </h4>
+      <div>
+        <h4>
+          영화 투표 통계를 <br /> 확인해보세요!
+        </h4>
+      </div>
     ),
   },
   //   <EditIcon></EditIcon>,
@@ -55,9 +61,11 @@ const images = [
     width: "23%",
     route: "/borad",
     text: (
-      <h4>
-        인생영화 후기를 <br /> 작성하고 공유하세요!
-      </h4>
+      <div>
+        <h4>
+          인생영화 후기를 <br /> 작성하고 공유하세요!
+        </h4>
+      </div>
     ),
   },
   // {
@@ -183,7 +191,7 @@ export default function ButtonBases() {
       >
         {images.map((image, i) => {
           return (
-            <div>
+            <div key={i}>
               <div className={classes.title}>
                 <ThemeProvider theme={theme}>
                   <Typography style={{ marginBottom: "-20px", fontSize: "30px" }} component="h4" variant="h5" align="center">
