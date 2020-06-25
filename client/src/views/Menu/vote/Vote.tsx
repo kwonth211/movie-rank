@@ -4,7 +4,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete"
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
 import { makeStyles } from "@material-ui/core/styles"
-import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject } from "react"
+import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useCallback } from "react"
 import Container from "@material-ui/core/Container"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Grid from "@material-ui/core/Grid"
@@ -21,122 +21,28 @@ import { useRecoilValue, useRecoilState } from "recoil"
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
 import SearchIcon from "@material-ui/icons/Search"
+import { useStyles } from "./style"
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 const blackStar = require("./../../../media/blackStar.png")
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
-    height: "100%",
-    // width: 400,
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 50,
-    margin: 4,
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 4),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(6),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-  },
-  cardContent: {
-    flexGrow: 2,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-
-  paper: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    maxWidth: 500,
-  },
-  image: {
-    width: 128,
-    height: 156,
-  },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
-  },
-  carMapContainer: {
-    "&:hover": {
-      // opacity: 1,
-      boxShadow: theme.shadows[7],
-    },
-    // opacity: 0.65,
-    // borderTop: "1px solid rgb(224,224,224)",
-    // borderRight: "1px solid rgb(224,224,224)",
-    // borderLeft: "1px solid rgb(224,224,224)",
-    borderBottom: "1px solid rgb(224,224,224)",
-    // paddingTop: "15px", // 16:9
-    marginBottom: "20px",
-    cursor: "pointer",
-  },
-  star: {
-    // paddingRight: "30px",
-    // width: "10px",
-  },
-  starImage: {
-    width: "20px",
-    // paddingLeft: "5px",
-    // paddingRight: "0px",
-    marginLeft: "12px",
-  },
-  underline: {
-    "&&&:before": {
-      borderBottom: "none !important",
-    },
-    "&&:after": {
-      borderBottom: "none !important",
-    },
-  },
-}))
-
-type IVote = {
-  callbackFunction: {
-    searchMovie
-  }
-}
+// type IVote = {
+//   callbackFunction: {
+//     searchMovie
+//   }
+// }
 
 export default function VoteComponent({ history }) {
   const classes = useStyles()
 
   const [movieList, setMovieList] = useState<IMovie[]>([])
-  // const { history, location, match } = useReactRouter();
 
-  const callbackFunction = {
-    searchMovie: (selectList) => {
-      setMovieList(selectList)
+  const setMovieListCallback = useCallback(
+    (param) => {
+      return setMovieList(param)
     },
-  }
+    [movieList]
+  )
 
   const searchDetail = () => {}
   const movieDetail = (e) => {
@@ -174,7 +80,7 @@ export default function VoteComponent({ history }) {
                 justify="center"
               >
                 <Grid item>
-                  <CheckboxesTags callbackFunction={callbackFunction} />
+                  <CheckboxesTags callback={setMovieListCallback} />
                 </Grid>
                 {/* <Grid item>{CheckboxesTags(callbackFunction)}</Grid> */}
                 <Grid item>
@@ -249,13 +155,14 @@ export default function VoteComponent({ history }) {
   )
 }
 
-const CheckboxesTags: React.FunctionComponent<{
-  callbackFunction: IVote["callbackFunction"]
-}> = ({ callbackFunction }) => {
+export const CheckboxesTags: React.FunctionComponent<{
+  callback: Function
+}> = ({ callback }) => {
   const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
 
-  const [movieList, setMovieList] = useState<IMovie[]>([])
-  let [selectList, setSelectList] = useState<IMovie[]>([])
+  const [hashTagList, setHashTagList] = useState<IMovie[]>([])
+
+  let [selectList, setSelectList] = useState<IMovie[]>([]) //
 
   const classes = useStyles()
 
@@ -268,7 +175,7 @@ const CheckboxesTags: React.FunctionComponent<{
         autoCompleteRef.current = e
       }}
       id="checkboxes-tags-demo"
-      options={movieList}
+      options={hashTagList}
       onClose={(e) => {}}
       onChange={(_, v) => {
         setSelectList(v)
@@ -291,7 +198,8 @@ const CheckboxesTags: React.FunctionComponent<{
                 if (e.keyCode == 13) {
                   if (autoCompleteRef?.current?.ariaExpanded == "false") {
                     //검색 도움창이 닫혀있을때
-                    callbackFunction.searchMovie(selectList)
+                    // callbackFunction.searchMovie(selectList)
+                    callback(selectList)
                   }
                 }
               }}
@@ -303,14 +211,15 @@ const CheckboxesTags: React.FunctionComponent<{
                     }
                   })
 
-                  setMovieList(filterData)
+                  setHashTagList(filterData)
                 }
               }}
             />
 
             <Divider className={classes.divider} orientation="vertical" />
             <IconButton type="submit" className={classes.iconButton} aria-label="search">
-              <SearchIcon onClick={callbackFunction.searchMovie(selectList)} />
+              {/* <SearchIcon onClick={callbackFunction.searchMovie(selectList)} /> */}
+              <SearchIcon onClick={callback(selectList)} />
             </IconButton>
           </Paper>
         )

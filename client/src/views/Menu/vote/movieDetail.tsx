@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject } from "react"
+import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useMemo } from "react"
 import { useRecoilValue, useRecoilState } from "recoil"
 import { AllMovieState } from "../../../atoms"
 import { IMovie } from "../../../graphql/query"
@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 const MovieDetail = ({ history }) => {
   const classes = useStyles()
-
   const allMovie = useRecoilValue<IMovie[] | null>(AllMovieState)
   const [searchMovie, setSearchMovie] = useState<IMovie | null>(null)
 
@@ -34,9 +33,8 @@ const MovieDetail = ({ history }) => {
       }
       setSearchMovie(filterData)
     }
-  }, [allMovie])
+  }, [allMovie, movieString])
 
-  console.log(searchMovie)
   if (searchMovie) {
     return (
       <div className={classes.root}>

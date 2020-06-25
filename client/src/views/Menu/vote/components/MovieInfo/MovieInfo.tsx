@@ -66,7 +66,7 @@ const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({ searchMovie }) 
               </div>
 
               <div className={classes.image}>
-                <img className={classes.img} alt="noImage" src={searchMovie.imgUrl.indexOf("https://") === -1 ? "https://" + searchMovie.imgUrl : searchMovie.imgUrl} />
+                <img className={classes.img} alt="noImage" src={searchMovie.imgUrl && searchMovie.imgUrl.indexOf("https://") === -1 ? "https://" + searchMovie.imgUrl : searchMovie.imgUrl} />
               </div>
               <div className={classes.button}>
                 <Button variant="outlined" color="secondary">

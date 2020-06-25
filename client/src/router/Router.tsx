@@ -18,9 +18,6 @@ export default function RouterComponent() {
         <Route exact path="/" component={Greetings} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUp} />
-        {/* <Route path="/vs" component={Vs} /> */}
-        {/* <Route path="/vs" component={Vs} />
-         */}
         <AuthRouter path="/vs" component={Vs} />
         <AuthRouter path="/vote" component={Vote} />
         <AuthRouter path="/movieDetail" component={MovieDetail} />
