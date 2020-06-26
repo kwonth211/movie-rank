@@ -18,11 +18,12 @@ const MovieDetail = ({ history }) => {
   const allMovie = useRecoilValue<IMovie[] | null>(AllMovieState)
   const [searchMovie, setSearchMovie] = useState<IMovie | null>(null)
 
-  if (window.location.search) {
+  if (window.location.search && window.location.search.split("=")[1]) {
     movieString = decodeURI(window.location.search.split("=")[1])
   } else {
     alert("검색된 영화가 없습니다")
-    history.replace("/vote")
+    // window.location.reload(true)
+    history.replace("/")
   }
 
   useEffect(() => {

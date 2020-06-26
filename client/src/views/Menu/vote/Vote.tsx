@@ -26,12 +26,6 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 const blackStar = require("./../../../media/blackStar.png")
 
-// type IVote = {
-//   callbackFunction: {
-//     searchMovie
-//   }
-// }
-
 export default function VoteComponent({ history }) {
   const classes = useStyles()
 
@@ -73,16 +67,10 @@ export default function VoteComponent({ history }) {
               최종 선택 1개의 영화가 투표권수 1개 입니다.
             </Typography>
             <div className={classes.heroButtons}>
-              <Grid
-                // style={{ width: "1800px" }}
-                container
-                spacing={10}
-                justify="center"
-              >
+              <Grid container spacing={10} justify="center">
                 <Grid item>
                   <CheckboxesTags callback={setMovieListCallback} />
                 </Grid>
-                {/* <Grid item>{CheckboxesTags(callbackFunction)}</Grid> */}
                 <Grid item>
                   <div className={"count"}></div>
                 </Grid>
@@ -91,7 +79,6 @@ export default function VoteComponent({ history }) {
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
           {movieList.map((iter: IMovie, i) => (
             <Grid key={i} onClick={movieDetail} className={classes.carMapContainer} container spacing={3}>
               <Grid item>
@@ -164,6 +151,7 @@ export const CheckboxesTags: React.FunctionComponent<{
 
   let [selectList, setSelectList] = useState<IMovie[]>([]) //
 
+  const [textField, setTextField] = useState("")
   const classes = useStyles()
 
   let autoCompleteRef = React.useRef<any | null>(null)
@@ -178,11 +166,23 @@ export const CheckboxesTags: React.FunctionComponent<{
       options={hashTagList}
       onClose={(e) => {}}
       onChange={(_, v) => {
+        console.log(v)
         setSelectList(v)
       }}
       filterSelectedOptions
-      getOptionLabel={(option) => option.name}
+      filterOptions={(r) => {
+        return r
+      }}
+      getOptionLabel={(option) => {
+        // return option.name
+        // if (typeof option == "object") {
+        return option.name.replace(/\s/gi, "")
+        // } else {
+        // return hashTagList[0] ? hashTagList[0].name : ""
+        // }
+      }}
       renderOption={(option, { selected }) => {
+        console.log(option)
         return <React.Fragment>{option.name}</React.Fragment>
       }}
       style={{ width: 650, marginLeft: "50px" }}
@@ -198,18 +198,22 @@ export const CheckboxesTags: React.FunctionComponent<{
                 if (e.keyCode == 13) {
                   if (autoCompleteRef?.current?.ariaExpanded == "false") {
                     //검색 도움창이 닫혀있을때
-                    // callbackFunction.searchMovie(selectList)
+                    console.log(selectList)
                     callback(selectList)
+                  } else {
+                    // setSelectList([hashTagList[0]])
                   }
                 }
               }}
               onChange={(e) => {
+                setTextField(e.target.value)
                 if (e.target.value) {
                   const filterData = allMovieList.filter((iter) => {
-                    if (iter.name.indexOf(e.target.value) !== -1) {
+                    if (iter.name.indexOf(e.target.value.replace(/\s/gi, "")) !== -1 || iter.name.replace(/\s/gi, "").indexOf(e.target.value) !== -1 || iter.name.indexOf(e.target.value) !== -1 || iter.name.replace(/\s/gi, "").indexOf(e.target.value.replace(/\s/gi, "")) !== -1) {
                       return iter
                     }
                   })
+                  console.log(filterData)
 
                   setHashTagList(filterData)
                 }
