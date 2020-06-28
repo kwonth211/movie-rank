@@ -1,20 +1,5 @@
-import { gql } from "apollo-boost"
-export interface IMovie {
-  imgUrl: string
-  cast: [string]
-  runtime: string
-  released: [string]
-  directors: [string]
-  writers: [string]
-  year: string
-  countries: [string]
-  languages: [string]
-  profit: string
-  name: string
-  votes: Number
-  hashTag: [string]
-  genre: [string]
-}
+import { gql } from "apollo-boost";
+
 const ME = gql`
   {
     me {
@@ -22,22 +7,22 @@ const ME = gql`
       token
     }
   }
-`
+`;
 const SIGNUP = gql`
   mutation signup($ID: String!, $password: String!, $name: String!) {
     signup(ID: $ID, password: $password, name: $name)
   }
-`
+`;
 const EMAILAUTH = gql`
   mutation emailAuth($mail: String!) {
     emailAuth(mail: $mail)
   }
-`
+`;
 const DUPLICATE = gql`
   mutation duplicateCheck($ID: String!) {
     duplicateCheck(ID: $ID)
   }
-`
+`;
 const LOGIN = gql`
   mutation login($ID: String!, $password: String!) {
     login(ID: $ID, password: $password) {
@@ -47,12 +32,12 @@ const LOGIN = gql`
       token
     }
   }
-`
+`;
 const LOGOUT = gql`
   mutation {
     logout
   }
-`
+`;
 const GETMOVIEGENRE = gql`
   query getMovieGenre($genre: String!) {
     getMovieGenre(genre: $genre) {
@@ -71,9 +56,11 @@ const GETMOVIEGENRE = gql`
       votes
       hashTag
       genre
+      code
+      englishName
     }
   }
-`
+`;
 
 // 인터페이스 추가
 const GETMOVIEALL = gql`
@@ -92,9 +79,11 @@ const GETMOVIEALL = gql`
       votes
       hashTag
       genre
+      code
+      englishName
     }
   }
-`
+`;
 
 const queryObj = {
   ME,
@@ -105,6 +94,6 @@ const queryObj = {
   LOGOUT,
   GETMOVIEGENRE,
   GETMOVIEALL,
-}
+};
 
-export default queryObj
+export default queryObj;

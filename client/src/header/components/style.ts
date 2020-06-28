@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +22,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "auto",
     whiteSpace: "nowrap",
     overflow: "hidden",
-    textOverflow: "ellipsis",
+    // textOverflow: "ellipsis",
   },
   iconButton: {
     padding: 10,
@@ -105,4 +105,4 @@ export const useStyles = makeStyles((theme) => ({
       borderBottom: "none !important",
     },
   },
-}))
+}));

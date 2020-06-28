@@ -1,5 +1,5 @@
-const puppeteer = require("puppeteer");
 import mongoose from "mongoose";
+const puppeteer = require("puppeteer");
 
 export const MovieModel = mongoose.model("movies", {
   imgUrl: String,
@@ -18,58 +18,30 @@ export const MovieModel = mongoose.model("movies", {
   votes: Number,
   hashTag: Array,
   genre: Array,
+  code: Number,
+  englishName: String,
 });
 
 export let movieArr = [];
 const getAllMovie = async () => {
   movieArr = movieArr.concat(await MovieModel.find());
 
+  console.log(movieArr);
+
   return movieArr;
 };
 getAllMovie();
 
-//네이버 영화이미지 없는것들 크롤링  ##사용안함
-// export const getHtml = async () => {
-//   console.log("네이버 크롤링 시작>>>")
-//   let allMovie = await MovieModel.find({ imgUrl: "" })
+// 나무위키 크롤링
 
-//   const browser = await puppeteer.launch({
-//     headless: false,
-//   })
-//   const page = await browser.newPage()
-//   await page.setViewport({
-//     width: 1920,
-//     height: 1080,
-//   })
-
-//   for (let i = 0; i < allMovie.length; i++) {
-//     await page.goto(`https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${allMovie[i].name}`)
-
-//     try {
-//       let temp = await page.$eval("#_au_movie_info > div.info_main > div > a > img[src]", (data) => {
-//         return data.getAttribute("src")
-//       })
-
-//       allMovie[i].imgUrl = temp
-//     } catch (e) {}
-//   }
-
-//   deleteMovieFunc()
-
-//   await MovieModel.insertMany(allMovie, () => {})
-
-//   // img
-// }
-
-// getHtml()
-//나무위키 크롤링
 // export const genreArray = [
 //   "슈퍼히어로",
 //   "스포츠",
 //   "범죄",
 //   "드라마",
 //   "코미디",
-//   "로멘스/멜로",
+//   "로맨스",
+//   "멜로",
 //   "스릴러",
 //   "로맨틱코미디",
 //   "전쟁",
@@ -81,6 +53,7 @@ getAllMovie();
 //   "공포",
 // ];
 // export const getHtml = (async () => {
+//   console.log("크롤링 시작");
 //   const browser = await puppeteer.launch({
 //     headless: true,
 //   });
@@ -95,7 +68,7 @@ getAllMovie();
 //   let data = [];
 //   // console.log(MovieModel);
 
-//   for (let year = 2012; year <= 2016; year++) {
+//   for (let year = 2010; year <= 2016; year++) {
 //     await page.goto(
 //       `https://ko.wikipedia.org/w/index.php?title=%EB%B6%84%EB%A5%98:${year}%EB%85%84_%EC%98%81%ED%99%94`
 //     );
@@ -136,6 +109,8 @@ getAllMovie();
 //   await browser.close();
 // })();
 
+// let code = 1;
+
 // async function getAll(page, year) {
 //   let data = [];
 
@@ -170,25 +145,26 @@ getAllMovie();
 //         }, temp);
 
 //         if (
-//           tempObj.name.indexOf("목록") === -1 ||
+//           tempObj.name.indexOf("목록") === -1 &&
 //           tempObj.name.indexOf("사용자") === -1
 //         ) {
-//           let findIndex = tempObj.name.indexOf(`${year}년`);
+//           let findIndex = tempObj.name.indexOf(`년 영화`);
 //           if (findIndex !== -1) {
-//             tempObj.name = tempObj.name.substr(0, findIndex - 1);
+//             tempObj.name = tempObj.name.substr(0, findIndex - 5);
 //           }
 //           findIndex = tempObj.name.indexOf(`(영화)`);
 //           if (findIndex !== -1) {
 //             tempObj.name = tempObj.name.substr(0, findIndex - 1);
 //           }
+//           console.log(tempObj.name);
 //           tempObj.link = await page.evaluate((data) => {
 //             return data.href;
 //           }, temp);
 //           tempObj.year = year.toString();
 //           tempObj.votes = 0;
+//           tempObj.code = code++;
 //           tempObj.genre = [];
 //           data.push(tempObj);
-//           console.log(tempObj);
 //         }
 //       }
 //     }
@@ -201,29 +177,27 @@ getAllMovie();
 //   if (tempObj.name.indexOf("년 영화") === -1) {
 //     await page.goto(tempObj.link);
 
-//     // let temp = await page.$("#mw-content-text > div > table > tbody ");
-
+//     let temp;
 //     // img
-//     let temp = await page.$$eval(
-//       "#mw-content-text > div > table.infobox.vevent > tbody > tr:nth-child(2) > td > a > img[src]",
-//       (data) => {
-//         return data.map((iter) => iter.getAttribute("src"));
-//       }
-//     );
+//     // let  temp= await page.$$eval(
+//     //   "#mw-content-text > div > table.infobox.vevent > tbody > tr:nth-child(2) > td > a > img[src]",
+//     //   (data) => {
+//     //     return data.map((iter) => iter.getAttribute("src"));
+//     //   }
+//     // );
 
-//     // console.log(temp)
+//     // console.log(temp);
 
-//     tempObj = {
-//       ...tempObj,
-//       imgUrl: temp.length > 0 ? temp[0].split("//")[1] : "",
-//     };
+//     // tempObj = {
+//     //   ...tempObj,
+//     //   imgUrl: temp.length > 0 ? temp[0].split("//")[1] : "",
+//     // };
 //     // console.log(tempObj)
 
 //     let tabelSize = await page.$$eval(
 //       "#mw-content-text > div > table > tbody > tr",
 //       (data) => data.length
 //     );
-//     // console.log(tabelSize);
 //     for (let i = 1; i <= tabelSize; i++) {
 //       let trSize = await page.$$eval(
 //         `#mw-content-text > div > table > tbody > tr:nth-child(${i}) >th`,
@@ -335,28 +309,41 @@ getAllMovie();
 
 //     tempObj.hashTag = temp;
 
-//     ///여기부터는 네이버 이미지 (이미지 없을경우)
-//     if (!tempObj.imgUrl) {
-//       await page.goto(
-//         `https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=영화 ${tempObj.name}`
+//     ///여기부터는 네이버 이미지
+//     await page.goto(
+//       `https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=영화 ${tempObj.name}`
+//     );
+
+//     try {
+//       let temp = await page.$eval(
+//         "#_au_movie_info > div.info_main > div > a > img[src]",
+//         (data) => {
+//           return data.getAttribute("src");
+//         }
 //       );
 
-//       try {
-//         let temp = await page.$eval(
-//           "#_au_movie_info > div.info_main > div > a > img[src]",
-//           (data) => {
-//             return data.getAttribute("src");
-//           }
-//         );
+//       let englishName = await page.$eval(
+//         "#_au_movie_info > div.info_main > h3 > a > span",
+//         (data) => {
+//           return data.textContent;
+//         }
+//       );
 
-//         tempObj.imgUrl = temp;
-//       } catch (e) {}
-//     }
+//       const index = englishName.indexOf(",");
+//       if (index !== -1) {
+//         englishName = englishName.substr(1, index - 1);
+//         tempObj.englishName = englishName;
+//       }
+
+//       tempObj.imgUrl = temp;
+//     } catch (e) {}
+
+//     console.log(tempObj);
 //   }
 
 //   return Promise.resolve(tempObj);
 // }
 
-const deleteMovieFunc = async () => {
-  await MovieModel.deleteMany();
-};
+// const deleteMovieFunc = async () => {
+//   await MovieModel.deleteMany();
+// };

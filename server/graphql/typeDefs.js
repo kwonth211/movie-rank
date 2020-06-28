@@ -1,4 +1,4 @@
-import { gql } from "apollo-server"
+import { gql } from "apollo-server";
 
 const typeDefs = gql`
   type User {
@@ -26,6 +26,8 @@ const typeDefs = gql`
     votes: Int!
     hashTag: [String]
     genre: [String]
+    code: Int!
+    englishName: String
   }
   type Query {
     me: User!
@@ -39,6 +41,6 @@ const typeDefs = gql`
     logout: Boolean!
     emailAuth(mail: String!): String!
   }
-`
+`;
 
-export default typeDefs
+export default typeDefs;

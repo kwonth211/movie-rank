@@ -44,7 +44,6 @@
     "react-responsive-carousel": "^3.2.7",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-slick": "^0.26.1",
     "recharts": "^1.8.5",
     "recoil": "^0.0.10",
     "typescript": "~3.7.2",
