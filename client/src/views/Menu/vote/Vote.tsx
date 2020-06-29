@@ -16,10 +16,8 @@ import MoreIcon from "@material-ui/icons/MoreVert"
 import { IconButton } from "@material-ui/core"
 import "./vote.css"
 import { AllMovieState } from "../../../atoms"
-import { useRecoilValue, useRecoilState } from "recoil"
+import { useRecoilValue } from "recoil"
 import useReactRouter from "use-react-router"
-import { useQuery, useLazyQuery } from "@apollo/react-hooks"
-import gql from "./../../../graphql/query"
 
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
@@ -33,18 +31,12 @@ export default function VoteComponent() {
   const classes = useStyles()
 
   const { history, location, match } = useReactRouter()
-  // const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
+  const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
   const [movieList, setMovieList] = useState<IMovie[]>([])
-  const [getMovieAll, { called, loading, data }] = useLazyQuery(gql.GETMOVIEALL)
 
   useEffect(() => {
-    getMovieAll()
-    if (data?.getMovieAll) {
-      // allMovieList = data.getMovieAll
-      setMovieList(data.getMovieAll.slice(0, 10))
-      // setAllMovie(data.getMovieAll)
-    }
-  }, [data])
+    setMovieList(allMovieList.slice(0, 10))
+  }, [allMovieList])
 
   const setMovieListCallback = useCallback(
     (param) => {
@@ -52,11 +44,6 @@ export default function VoteComponent() {
     },
     [movieList]
   )
-
-  // const setMovieListCallback = (param) => {
-  //   debugger
-  //   setMovieList(param)
-  // }
 
   const searchDetail = () => {}
   const movieDetail = (e) => {
