@@ -17,6 +17,9 @@ import { IconButton } from "@material-ui/core"
 import "./vote.css"
 import { AllMovieState } from "../../../atoms"
 import { useRecoilValue, useRecoilState } from "recoil"
+import useReactRouter from "use-react-router"
+import { useQuery, useLazyQuery } from "@apollo/react-hooks"
+import gql from "./../../../graphql/query"
 
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
@@ -26,10 +29,22 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 const blackStar = require("./../../../media/blackStar.png")
 
-export default function VoteComponent({ history }) {
+export default function VoteComponent() {
   const classes = useStyles()
 
+  const { history, location, match } = useReactRouter()
+  // const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
   const [movieList, setMovieList] = useState<IMovie[]>([])
+  const [getMovieAll, { called, loading, data }] = useLazyQuery(gql.GETMOVIEALL)
+
+  useEffect(() => {
+    getMovieAll()
+    if (data?.getMovieAll) {
+      // allMovieList = data.getMovieAll
+      setMovieList(data.getMovieAll.slice(0, 10))
+      // setAllMovie(data.getMovieAll)
+    }
+  }, [data])
 
   const setMovieListCallback = useCallback(
     (param) => {
@@ -37,6 +52,11 @@ export default function VoteComponent({ history }) {
     },
     [movieList]
   )
+
+  // const setMovieListCallback = (param) => {
+  //   debugger
+  //   setMovieList(param)
+  // }
 
   const searchDetail = () => {}
   const movieDetail = (e) => {
@@ -46,10 +66,13 @@ export default function VoteComponent({ history }) {
         // popup? 나옴
       } else {
         //페이지 이동
-        history.push({ pathname: "/movieDetail", search: "?query=" + encodeURI(movieList[0].name) })
+
+        history.push({ pathname: "/movieDetail", search: "?query=" + encodeURI(e.currentTarget.innerText.split("\n")[0]) })
       }
     }
   }
+
+  console.log(movieList)
 
   return (
     <React.Fragment>
@@ -59,26 +82,29 @@ export default function VoteComponent({ history }) {
         {/* Hero unit */}
 
         <div className={classes.heroContent}>
-          <Container maxWidth="xl">
-            <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
-              권태훈 님 , 인생영화를 검색 또는 태그해주세요
-            </Typography>
-            <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              최종 선택 1개의 영화가 투표권수 1개 입니다.
-            </Typography>
+          <Container maxWidth="lg">
+            <div style={{ marginLeft: "130px" }}>
+              <Typography component="h5" variant="h5" color="textPrimary" gutterBottom>
+                권태훈 님 , 인생영화를 검색 또는 태그해주세요
+              </Typography>
+            </div>
+            {/* <Typography variant="h6" color="textSecondary" paragraph>
+                최종 선택 1개의 영화가 투표권수 1개 입니다.
+              </Typography> */}
             <div className={classes.heroButtons}>
-              <Grid container spacing={10} justify="center">
+              <Grid container spacing={8} justify="flex-start">
                 <Grid item>
                   <CheckboxesTags callback={setMovieListCallback} />
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                   <div className={"count"}></div>
-                </Grid>
+                </Grid> */}
               </Grid>
             </div>
           </Container>
         </div>
-        <Container className={classes.cardGrid} maxWidth="md">
+        {/* <Container className={classes.cardGrid}  maxWidth="sm"> */}
+        <Container className={classes.cardGrid}>
           {movieList.map((iter: IMovie, i) => (
             <Grid key={i} onClick={movieDetail} className={classes.carMapContainer} container spacing={3}>
               <Grid item>
@@ -134,9 +160,9 @@ export default function VoteComponent({ history }) {
         </Container>
       </main>
       {/* Footer */}
-      <footer className={classes.footer}>
+      {/* <footer className={classes.footer}>
         <Copyright />
-      </footer>
+      </footer> */}
       {/* End footer */}
     </React.Fragment>
   )
@@ -167,7 +193,7 @@ export const CheckboxesTags: React.FunctionComponent<{
       onClose={(e) => {}}
       onChange={(_, v) => {
         console.log(v)
-        setSelectList(v)
+        callback(v)
       }}
       filterSelectedOptions
       filterOptions={(r) => {
@@ -182,10 +208,9 @@ export const CheckboxesTags: React.FunctionComponent<{
         // }
       }}
       renderOption={(option, { selected }) => {
-        console.log(option)
         return <React.Fragment>{option.name}</React.Fragment>
       }}
-      style={{ width: 650, marginLeft: "50px" }}
+      style={{ width: "650px", marginLeft: "30px" }}
       renderInput={(params) => {
         return (
           <Paper className={classes.root}>
@@ -199,6 +224,7 @@ export const CheckboxesTags: React.FunctionComponent<{
                   if (autoCompleteRef?.current?.ariaExpanded == "false") {
                     //검색 도움창이 닫혀있을때
                     console.log(selectList)
+                    debugger
                     callback(selectList)
                   } else {
                     // setSelectList([hashTagList[0]])
@@ -213,7 +239,6 @@ export const CheckboxesTags: React.FunctionComponent<{
                       return iter
                     }
                   })
-                  console.log(filterData)
 
                   setHashTagList(filterData)
                 }
@@ -222,8 +247,11 @@ export const CheckboxesTags: React.FunctionComponent<{
 
             <Divider className={classes.divider} orientation="vertical" />
             <IconButton type="submit" className={classes.iconButton} aria-label="search">
-              {/* <SearchIcon onClick={callbackFunction.searchMovie(selectList)} /> */}
-              <SearchIcon onClick={callback(selectList)} />
+              <SearchIcon
+                onClick={(e) => {
+                  callback(selectList)
+                }}
+              />
             </IconButton>
           </Paper>
         )

@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import { useStyles } from "./style"
 import Container from "@material-ui/core/Container"
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, InputHTMLAttributes } from "react"
 import { useMutation } from "@apollo/react-hooks"
 import gql from "../../graphql/query"
 import InKo from "inko"
@@ -16,7 +16,10 @@ import { useRecoilValue, useRecoilState } from "recoil"
 import { UserState } from "../../atoms"
 
 const inko = new InKo()
-
+type KeyboardEvent = {
+  target: HTMLInputElement
+  key: string
+}
 export default function LoginComponent({ history }) {
   const classes = useStyles()
   const [ID, setID] = useState("")
@@ -35,6 +38,7 @@ export default function LoginComponent({ history }) {
     } else if (data?.login === null) alert("아이디 또는 비밀번호를 잘못 입력했습니다.")
   }, [data, setUser])
 
+  // console.log(validationID)
   // if (loading) return <ProgressModelComponent />
 
   return (
@@ -56,20 +60,19 @@ export default function LoginComponent({ history }) {
             helperText={validationID ? "이메일 형식으로 입력해주세요." : ""}
             label="이메일 (aaa@rankingworld.com)"
             name="email"
-            onKeyDown={(e) => {
-              setTimeout(() => {
-                let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
-                if (regExp.test(ID)) {
-                  setValidationID(false)
-                  // 양식 맞음
-                } else {
-                  setValidationID(true)
-                }
-              })
-            }}
             autoComplete="email"
             autoFocus
-            onChange={(e) => setID(e.target.value)}
+            // onChange={(e) => }
+            onChange={(e) => {
+              let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+              if (regExp.test(e.target.value)) {
+                setValidationID(false)
+                // 양식 맞음
+              } else {
+                setValidationID(true)
+              }
+              setID(e.target.value)
+            }}
           />
           <TextField variant="outlined" margin="normal" fullWidth name="password" label="비밀번호" type="password" id="password" onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="로그인 상태 유지" />

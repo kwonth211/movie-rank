@@ -52,7 +52,7 @@
 .carousel .slide {
   background-color: rgb(240, 240, 240) !important;
   /* background: red !important; */
-  height: 300px !important;
+  height: 220px !important;
   /* padding-top: 50px !important; */
   display: flex !important;
   justify-items: center !important;

@@ -100,8 +100,8 @@ const useStyles = makeStyles((theme: Theme) =>
       // paddingBottom: "10px",
       // paddingLeft: "20px",
       // marginLeft: "px",
-      height: 300,
-      marginBottom: "25px",
+      height: "220px",
+      // marginBottom: "25px",
       boxShadow: theme.shadows[5],
     },
     image: {

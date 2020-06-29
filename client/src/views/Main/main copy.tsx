@@ -10,12 +10,11 @@ import MainCard from "./ranking/mainCard"
 import MainMenus from "./mainMenus"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
-import Vote from "./../Menu/vote/Vote"
+
 // import * as Pagination from "./mainPagination";
 import CustomPaginationActionsTable from "./ranking/mainPagination"
 import Title from "./hotIssue/Title"
 import DashBoard from "./hotIssue/DashBoard"
-import RealtimeVoting from "./../Menu/analysis/components/RealtimeVoting"
 const drawerWidth = 240
 
 function Copyright() {
@@ -55,14 +54,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   footer: {
-    borderTop: `1px solid ${theme.palette.divider}`,
+    // borderTop: `1px solid ${theme.palette.divider}`,
     // marginTop: theme.spacing(20),
-    paddingTop: theme.spacing(20),
-    paddingBottom: theme.spacing(3),
-    [theme.breakpoints.up("sm")]: {
-      // paddingTop: theme.spacing(20),
-      paddingBottom: theme.spacing(1),
-    },
+    // paddingTop: theme.spacing(20),
+    // paddingBottom: theme.spacing(3),
+    // [theme.breakpoints.up("sm")]: {
+    //   paddingTop: theme.spacing(20),
+    //   paddingBottom: theme.spacing(1),
+    // },
   },
   typography: {
     fontFamily: "Raleway, Arial",
@@ -146,23 +145,27 @@ export default function Main({ name, mark, count }: GreetingsProps) {
   const classes = useStyles()
   return (
     <React.Fragment>
-      <div style={{ backgroundColor: "white", height: "1500px" }}>
+      <div style={{ backgroundColor: "white" }}>
         <CssBaseline />
 
+        {/* Hero unit */}
+        {/* <Container style={{}} maxWidth="md" component="main"> */}
         <MainMenus />
+        {/* </Container> */}
 
-        <div>
-          <Grid container spacing={10}>
-            <Grid style={{ marginRight: "0px", paddingRight: "0px" }} item lg={12} sm={12} xl={12} xs={12}>
-              <Vote />
-            </Grid>
+        <div className={classes.warpCard}>
+          <div style={{ float: "left" }}>
+            <MainCard />
+          </div>
+          <div style={{ float: "right" }}>
+            <CustomPaginationActionsTable />
+          </div>
+        </div>
 
-            <RealtimeVoting />
-          </Grid>
+        <div className={classes.DashBoard}>
+          <DashBoard></DashBoard>
         </div>
       </div>
-
-      <div className={classes.footer}>{Copyright()}</div>
     </React.Fragment>
   )
 }

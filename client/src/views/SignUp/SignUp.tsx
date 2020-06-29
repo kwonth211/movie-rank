@@ -217,17 +217,6 @@ export default function SignUp({ history }) {
             <Grid item xs={12}>
               <TextField
                 style={{ width: "68%", marginRight: "10px" }}
-                onKeyDown={(e) => {
-                  setTimeout(() => {
-                    let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
-                    if (regExp.test(ID)) {
-                      setValidationID(false)
-                      // 양식 맞음
-                    } else {
-                      setValidationID(true)
-                    }
-                  })
-                }}
                 error={validationID}
                 helperText={validationID ? "이메일 형식으로 입력해주세요." : ""}
                 variant="outlined"
@@ -236,7 +225,17 @@ export default function SignUp({ history }) {
                 label="이메일 (aaa@rankingworld.com)"
                 name="email"
                 autoComplete="email"
-                onChange={(e) => setID(e.target.value)}
+                onChange={(e) => {
+                  let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+                  if (regExp.test(e.target.value)) {
+                    setValidationID(false)
+                    // 양식 맞음
+                  } else {
+                    setValidationID(true)
+                  }
+
+                  setID(e.target.value)
+                }}
               />
               <Button
                 type="button"

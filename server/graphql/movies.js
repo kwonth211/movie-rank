@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-const puppeteer = require("puppeteer");
+import mongoose from "mongoose"
+const puppeteer = require("puppeteer")
 
 export const MovieModel = mongoose.model("movies", {
   imgUrl: String,
@@ -20,17 +20,18 @@ export const MovieModel = mongoose.model("movies", {
   genre: Array,
   code: Number,
   englishName: String,
-});
+})
 
-export let movieArr = [];
-const getAllMovie = async () => {
-  movieArr = movieArr.concat(await MovieModel.find());
+export let movieArr = []
+const getAllMovie = (async () => {
+  movieArr = movieArr.concat(await MovieModel.find())
 
-  console.log(movieArr);
+  // console.log(movieArr);
+  console.log("영화 로딩 완료")
 
-  return movieArr;
-};
-getAllMovie();
+  return movieArr
+})()
+// getAllMovie();
 
 // 나무위키 크롤링
 

@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    height: "100%",
+    // height: "100%",
     // width: 400,
   },
   input: {
@@ -21,14 +21,22 @@ export const useStyles = makeStyles((theme) => ({
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 4),
+    padding: theme.spacing(8, 0, 2, 20),
+    // paddingLeft: "300px",
+    // marginLeft: "300px",
+
+    // paddingLeft: theme.spacing(10),
   },
   heroButtons: {
     marginTop: theme.spacing(6),
+    // marginLeft: theme.spacing(20),
   },
   cardGrid: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(8),
+    // paddingLeft: "20px",
+    marginLeft: "10%",
+    width: "55%",
   },
   card: {
     height: "100%",
@@ -63,9 +71,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   carMapContainer: {
     "&:hover": {
-      // opacity: 1,
-      boxShadow: theme.shadows[7],
+      opacity: 1,
     },
+    opacity: 0.8,
+    boxShadow: theme.shadows[7],
+    borderRadius: "20px",
     // opacity: 0.65,
     // borderTop: "1px solid rgb(224,224,224)",
     // borderRight: "1px solid rgb(224,224,224)",

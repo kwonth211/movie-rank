@@ -1,32 +1,31 @@
-import React, { useEffect, KeyboardEvent, FunctionComponent } from "react";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
-import useReactRouter from "use-react-router";
-import { modalStyles } from "./style";
+import React, { useEffect, KeyboardEvent, FunctionComponent } from "react"
+import Modal from "@material-ui/core/Modal"
+import Backdrop from "@material-ui/core/Backdrop"
+import Fade from "@material-ui/core/Fade"
+import TextField from "@material-ui/core/TextField"
+import Autocomplete from "@material-ui/lab/Autocomplete"
+import Button from "@material-ui/core/Button"
+import { Link } from "react-router-dom"
+import useReactRouter from "use-react-router"
+import { modalStyles } from "./style"
 type modalFlag = {
-  show: boolean;
-};
+  show: boolean
+}
 
 // interface KeyboardEvent {
 //   enterKey: boolean;
 // }
 
 export const ModalComponent: FunctionComponent<{
-  modalFlag: boolean;
-  title: string;
+  modalFlag: boolean
+  title: string
 }> = ({ modalFlag, title }) => {
-  const classes = modalStyles();
-  const [open, setOpen] = React.useState(false);
+  const classes = modalStyles()
+  const [open, setOpen] = React.useState(false)
 
-  console.log(modalFlag);
   useEffect(() => {
-    setOpen(modalFlag);
-  }, [modalFlag]);
+    setOpen(modalFlag)
+  }, [modalFlag])
 
   return (
     <div>
@@ -47,15 +46,12 @@ export const ModalComponent: FunctionComponent<{
             <h2 id="transition-modal-title">{title}</h2>
 
             <div>
-              <div
-                className={classes.button}
-                style={{ marginTop: "10px", float: "right" }}
-              >
+              <div className={classes.button} style={{ marginTop: "10px", float: "right" }}>
                 <Button
                   variant="outlined"
                   color="primary"
                   onClick={() => {
-                    setOpen(false);
+                    setOpen(false)
                   }}
                 >
                   취소
@@ -69,7 +65,7 @@ export const ModalComponent: FunctionComponent<{
         </Fade>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default ModalComponent;
+export default ModalComponent

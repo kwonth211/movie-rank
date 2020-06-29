@@ -9,20 +9,23 @@ import Vote from "../views/Menu/vote/Vote"
 import AuthRouter from "./AuthRouter"
 import MovieDetail from "../views/Menu/vote/movieDetail"
 import analysis from "../views/Menu/analysis/analysis"
+import ScrollToTop from "./ScrollToTop"
 
 export default function RouterComponent() {
   return (
     <Router>
-      <Header />
-      <Switch>
-        <Route exact path="/" component={Greetings} />
-        <Route path="/login" component={LoginForm} />
-        <Route path="/signup" component={SignUp} />
-        <AuthRouter path="/vs" component={Vs} />
-        <AuthRouter path="/vote" component={Vote} />
-        <AuthRouter path="/movieDetail" component={MovieDetail} />
-        <AuthRouter path="/analysis" component={analysis} />
-      </Switch>
+      <ScrollToTop>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Greetings} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/signup" component={SignUp} />
+          <AuthRouter path="/vs" component={Vs} />
+          <AuthRouter path="/vote" component={Vote} />
+          <AuthRouter path="/movieDetail" component={MovieDetail} />
+          <AuthRouter path="/analysis" component={analysis} />
+        </Switch>
+      </ScrollToTop>
     </Router>
   )
 }

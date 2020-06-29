@@ -1,32 +1,30 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { FunctionComponent, useEffect, useState } from "react"
+import ReactDOM from "react-dom"
 
-import clsx from "clsx";
-import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core";
-import { IMovie } from "../../../../../interface/IMovie";
-import Button from "@material-ui/core/Button";
-import useReactRouter from "use-react-router";
-import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
-import { useStyles } from "./style";
-import Modal from "./../../../../../common/Modal";
+import clsx from "clsx"
+import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core"
+import { IMovie } from "../../../../../interface/IMovie"
+import Button from "@material-ui/core/Button"
+import useReactRouter from "use-react-router"
+import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded"
+import { useStyles } from "./style"
+import Modal from "./../../../../../common/Modal"
 
-const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({
-  searchMovie,
-}) => {
-  const classes = useStyles();
-  const { history } = useReactRouter();
-  const [modalFlag, setModalFlag] = useState(false);
+const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({ searchMovie }) => {
+  const classes = useStyles()
+  const { history } = useReactRouter()
+  const [modalFlag, setModalFlag] = useState(false)
   useEffect(() => {
-    console.log(searchMovie);
+    console.log(searchMovie)
     if (Object.keys(searchMovie).length === 0) {
-      alert("검색된 결과가 없습니다.");
-      history.replace("/");
+      alert("검색된 결과가 없습니다.")
+      history.replace("/")
     }
-  }, [searchMovie]);
+  }, [searchMovie])
 
   const voteClick = () => {
-    setModalFlag(true);
-  };
+    setModalFlag(true)
+  }
 
   if (Object.keys(searchMovie).length > 0) {
     return (
@@ -38,26 +36,12 @@ const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({
                 <Typography variant="h5" style={{ display: "inline" }}>
                   {searchMovie.name}{" "}
                 </Typography>
-                <Typography
-                  style={{ display: "inline" }}
-                  color="textSecondary"
-                  variant="h6"
-                >
-                  ({searchMovie.englishName})
+                <Typography style={{ display: "inline" }} color="textSecondary" variant="h6">
+                  {searchMovie.englishName ? "(" + searchMovie.englishName + ")" : ""}
                 </Typography>
                 <br />
                 <Typography className={classes.caption} variant="caption">
-                  개요 :{" "}
-                  {searchMovie.genre.map((iter, idx) =>
-                    idx !== searchMovie.genre.length - 1 ? iter + " , " : iter
-                  )}{" "}
-                  |{" "}
-                  {searchMovie.countries.map((iter, idx) =>
-                    idx !== searchMovie.countries.length - 1
-                      ? iter + " , "
-                      : iter
-                  )}{" "}
-                  | {searchMovie.runtime}
+                  개요 : {searchMovie.genre.map((iter, idx) => (idx !== searchMovie.genre.length - 1 ? iter + " , " : iter))} | {searchMovie.countries.map((iter, idx) => (idx !== searchMovie.countries.length - 1 ? iter + " , " : iter))} | {searchMovie.runtime}
                 </Typography>
                 <br />
                 <Typography className={classes.caption} variant="caption">
@@ -65,19 +49,11 @@ const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({
                 </Typography>
                 <br />
                 <Typography className={classes.caption} variant="caption">
-                  감독 :{" "}
-                  {searchMovie.directors.map((iter, idx) =>
-                    idx !== searchMovie.directors.length - 1
-                      ? iter + " , "
-                      : iter
-                  )}
+                  감독 : {searchMovie.directors.map((iter, idx) => (idx !== searchMovie.directors.length - 1 ? iter + " , " : iter))}
                 </Typography>
                 <br />
                 <Typography className={classes.caption} variant="caption">
-                  저자 :{" "}
-                  {searchMovie.writers.map((iter, idx) =>
-                    idx !== searchMovie.writers.length - 1 ? iter + " , " : iter
-                  )}
+                  저자 : {searchMovie.writers.map((iter, idx) => (idx !== searchMovie.writers.length - 1 ? iter + " , " : iter))}
                 </Typography>
                 {/* <Typography className={classes.title} color="textSecondary" gutterBottom variant="body2">
                 해쉬태그 :{" "}
@@ -100,23 +76,10 @@ const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({
                 </div>
 
                 <div className={classes.image}>
-                  <img
-                    className={classes.img}
-                    alt="noImage"
-                    src={
-                      searchMovie.imgUrl &&
-                      searchMovie.imgUrl.indexOf("https://") === -1
-                        ? "https://" + searchMovie.imgUrl
-                        : searchMovie.imgUrl
-                    }
-                  />
+                  <img className={classes.img} alt="noImage" src={searchMovie.imgUrl && searchMovie.imgUrl.indexOf("https://") === -1 ? "https://" + searchMovie.imgUrl : searchMovie.imgUrl} />
                 </div>
                 <div className={classes.button}>
-                  <Button
-                    onClick={voteClick}
-                    variant="outlined"
-                    color="secondary"
-                  >
+                  <Button onClick={voteClick} variant="outlined" color="secondary">
                     투표 하기
                   </Button>
                 </div>
@@ -130,19 +93,16 @@ const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({
               <Typography className={classes.differenceValue} variant="body2">
                 투표 수 : 132
               </Typography>
-              <Typography
-                className={classes.caption}
-                variant="caption"
-              ></Typography>
+              <Typography className={classes.caption} variant="caption"></Typography>
             </div>
           </CardContent>
         </Card>
         <Modal modalFlag={modalFlag} title={"투표 하시겠습니까?"} />
       </>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export default MovieInfo;
+export default MovieInfo
