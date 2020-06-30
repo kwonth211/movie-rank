@@ -9,9 +9,6 @@ import "./index.css"
 import { useQuery, useLazyQuery } from "@apollo/react-hooks"
 
 import { IMovie } from "./interface/IMovie"
-// import ""
-
-let allMovieList: Array<IMovie> = []
 
 function App() {
   const [getMovieAll, { called, loading, data }] = useLazyQuery(gql.GETMOVIEALL)

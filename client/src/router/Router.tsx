@@ -1,14 +1,14 @@
 import React from "react"
-import Greetings from "../views/Main/main"
+import Greetings from "../views/Main/Main"
 import Header from "../header/header"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import LoginForm from "../views/Login/Login"
 import SignUp from "../views/SignUp/SignUp"
-import Vs from "../views/Menu/VS/vs"
-import Vote from "../views/Menu/vote/Vote"
+import Vs from "../views/Menu/Vs/vs"
+import Vote from "../views/Main/SearhMain/SearchMain"
 import AuthRouter from "./AuthRouter"
-import MovieDetail from "../views/Menu/vote/movieDetail"
-import analysis from "../views/Menu/analysis/analysis"
+import MovieDetail from "../views/Menu/MovieDetail/movieDetail"
+import analysis from "../views/Menu/Analysis/analysis"
 import ScrollToTop from "./ScrollToTop"
 
 export default function RouterComponent() {
@@ -21,7 +21,7 @@ export default function RouterComponent() {
           <Route path="/login" component={LoginForm} />
           <Route path="/signup" component={SignUp} />
           <AuthRouter path="/vs" component={Vs} />
-          <AuthRouter path="/vote" component={Vote} />
+          {/* <AuthRouter path="/vote" component={Vote} /> */}
           <AuthRouter path="/movieDetail" component={MovieDetail} />
           <AuthRouter path="/analysis" component={analysis} />
         </Switch>

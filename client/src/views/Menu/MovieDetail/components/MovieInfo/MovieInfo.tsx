@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button"
 import useReactRouter from "use-react-router"
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded"
 import { useStyles } from "./style"
-import Modal from "./../../../../../common/Modal"
+import Modal from "../../../../../common/Modal"
 
 const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({ searchMovie }) => {
   const classes = useStyles()

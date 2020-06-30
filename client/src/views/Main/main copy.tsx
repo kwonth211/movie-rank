@@ -7,7 +7,7 @@ import Link from "@material-ui/core/Link"
 import Container from "@material-ui/core/Container"
 import Box from "@material-ui/core/Box"
 import MainCard from "./ranking/mainCard"
-import MainMenus from "./mainMenus"
+import MainMenus from "./Banner/MainMenus"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
 

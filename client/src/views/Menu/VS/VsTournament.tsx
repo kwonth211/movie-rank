@@ -61,6 +61,7 @@ export function VsTournament() {
 
   let [tileState, setTileState] = React.useState(fromJS([]))
   useEffect(() => {
+    console.log("asd")
     tileState = spliceImage()
 
     setTileState(tileState)

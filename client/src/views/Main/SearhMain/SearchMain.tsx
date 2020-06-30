@@ -4,7 +4,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete"
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
 import { makeStyles } from "@material-ui/core/styles"
-import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useCallback } from "react"
+import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useCallback, FunctionComponent } from "react"
 import Container from "@material-ui/core/Container"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Grid from "@material-ui/core/Grid"
@@ -15,10 +15,8 @@ import { IMovie } from "../../../interface/IMovie"
 import MoreIcon from "@material-ui/icons/MoreVert"
 import { IconButton } from "@material-ui/core"
 import "./vote.css"
-import { AllMovieState } from "../../../atoms"
-import { useRecoilValue } from "recoil"
 import useReactRouter from "use-react-router"
-
+import { SearchBox } from "./components/SearchBox"
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
 import SearchIcon from "@material-ui/icons/Search"
@@ -27,22 +25,27 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 const blackStar = require("./../../../media/blackStar.png")
 
-export default function VoteComponent() {
+export const SearchMain: FunctionComponent<{ rankMovie: IMovie[] | []; rankMovieCallback: Function }> = ({ rankMovie }) => {
   const classes = useStyles()
 
   const { history, location, match } = useReactRouter()
-  const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
-  const [movieList, setMovieList] = useState<IMovie[]>([])
+
+  const [searchMovie, setSearchMovie] = useState<IMovie[]>([])
 
   useEffect(() => {
-    setMovieList(allMovieList.slice(0, 10))
-  }, [allMovieList])
+    // setSearchMovie(rankMovie.slice(0, 5))
+    setSearchMovie(rankMovie)
+  }, [rankMovie])
 
-  const setMovieListCallback = useCallback(
+  const setSearchMovieCallback = useCallback(
     (param) => {
-      return setMovieList(param)
+      if (param.length > 0) {
+        return setSearchMovie(param)
+      } else {
+        return setSearchMovie(rankMovie.slice(0, 5))
+      }
     },
-    [movieList]
+    [searchMovie]
   )
 
   const searchDetail = () => {}
@@ -59,8 +62,6 @@ export default function VoteComponent() {
     }
   }
 
-  console.log(movieList)
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -75,24 +76,18 @@ export default function VoteComponent() {
                 권태훈 님 , 인생영화를 검색 또는 태그해주세요
               </Typography>
             </div>
-            {/* <Typography variant="h6" color="textSecondary" paragraph>
-                최종 선택 1개의 영화가 투표권수 1개 입니다.
-              </Typography> */}
             <div className={classes.heroButtons}>
               <Grid container spacing={8} justify="flex-start">
                 <Grid item>
-                  <CheckboxesTags callback={setMovieListCallback} />
+                  <SearchBox callback={setSearchMovieCallback} />
                 </Grid>
-                {/* <Grid item>
-                  <div className={"count"}></div>
-                </Grid> */}
               </Grid>
             </div>
           </Container>
         </div>
         {/* <Container className={classes.cardGrid}  maxWidth="sm"> */}
         <Container className={classes.cardGrid}>
-          {movieList.map((iter: IMovie, i) => (
+          {searchMovie.map((iter: IMovie, i) => (
             <Grid key={i} onClick={movieDetail} className={classes.carMapContainer} container spacing={3}>
               <Grid item>
                 <ButtonBase onClick={searchDetail} className={classes.image}>
@@ -155,98 +150,7 @@ export default function VoteComponent() {
   )
 }
 
-export const CheckboxesTags: React.FunctionComponent<{
-  callback: Function
-}> = ({ callback }) => {
-  const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
-
-  const [hashTagList, setHashTagList] = useState<IMovie[]>([])
-
-  let [selectList, setSelectList] = useState<IMovie[]>([]) //
-
-  const [textField, setTextField] = useState("")
-  const classes = useStyles()
-
-  let autoCompleteRef = React.useRef<any | null>(null)
-
-  return (
-    <Autocomplete
-      multiple
-      ref={(e: RefObject<any>) => {
-        autoCompleteRef.current = e
-      }}
-      id="checkboxes-tags-demo"
-      options={hashTagList}
-      onClose={(e) => {}}
-      onChange={(_, v) => {
-        console.log(v)
-        callback(v)
-      }}
-      filterSelectedOptions
-      filterOptions={(r) => {
-        return r
-      }}
-      getOptionLabel={(option) => {
-        // return option.name
-        // if (typeof option == "object") {
-        return option.name.replace(/\s/gi, "")
-        // } else {
-        // return hashTagList[0] ? hashTagList[0].name : ""
-        // }
-      }}
-      renderOption={(option, { selected }) => {
-        return <React.Fragment>{option.name}</React.Fragment>
-      }}
-      style={{ width: "650px", marginLeft: "30px" }}
-      renderInput={(params) => {
-        return (
-          <Paper className={classes.root}>
-            <TextField
-              {...params}
-              InputProps={{ ...params.InputProps, disableUnderline: true }}
-              style={{ textDecoration: "none" }}
-              className={classes.input}
-              onKeyDown={(e) => {
-                if (e.keyCode == 13) {
-                  if (autoCompleteRef?.current?.ariaExpanded == "false") {
-                    //검색 도움창이 닫혀있을때
-                    console.log(selectList)
-                    debugger
-                    callback(selectList)
-                  } else {
-                    // setSelectList([hashTagList[0]])
-                  }
-                }
-              }}
-              onChange={(e) => {
-                setTextField(e.target.value)
-                if (e.target.value) {
-                  const filterData = allMovieList.filter((iter) => {
-                    if (iter.name.indexOf(e.target.value.replace(/\s/gi, "")) !== -1 || iter.name.replace(/\s/gi, "").indexOf(e.target.value) !== -1 || iter.name.indexOf(e.target.value) !== -1 || iter.name.replace(/\s/gi, "").indexOf(e.target.value.replace(/\s/gi, "")) !== -1) {
-                      return iter
-                    }
-                  })
-
-                  setHashTagList(filterData)
-                }
-              }}
-            />
-
-            <Divider className={classes.divider} orientation="vertical" />
-            <IconButton type="submit" className={classes.iconButton} aria-label="search">
-              <SearchIcon
-                onClick={(e) => {
-                  callback(selectList)
-                }}
-              />
-            </IconButton>
-          </Paper>
-        )
-      }}
-    />
-  )
-}
-
+export default SearchMain
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
