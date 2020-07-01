@@ -1,27 +1,25 @@
-import Checkbox from "@material-ui/core/Checkbox"
-import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
-import { makeStyles } from "@material-ui/core/styles"
 import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useCallback, FunctionComponent } from "react"
 import Container from "@material-ui/core/Container"
-import CssBaseline from "@material-ui/core/CssBaseline"
 import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
-import Typography from "@material-ui/core/Typography"
 import ButtonBase from "@material-ui/core/ButtonBase"
 import { IMovie } from "../../../interface/IMovie"
 import MoreIcon from "@material-ui/icons/MoreVert"
-import { IconButton } from "@material-ui/core"
 import "./vote.css"
+import Popover from "@material-ui/core/Popover"
+import { Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText, Badge, Button, IconButton } from "@material-ui/core"
 import useReactRouter from "use-react-router"
 import { SearchBox } from "./components/SearchBox"
-import Paper from "@material-ui/core/Paper"
-import Divider from "@material-ui/core/Divider"
-import SearchIcon from "@material-ui/icons/Search"
 import { useStyles } from "./style"
+import Box from "@material-ui/core/Box"
+import Modal from "./../../../common/Modal"
+import useModal from "./../../../common/useModal"
+
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
+
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 const blackStar = require("./../../../media/blackStar.png")
 
@@ -32,10 +30,16 @@ export const SearchMain: FunctionComponent<{ rankMovie: IMovie[] | []; rankMovie
 
   const [searchMovie, setSearchMovie] = useState<IMovie[]>([])
 
+  const [popupFlag, setPopupFlag] = useState(new Array(5).fill(false))
+
+  const { modalFlag, toggle, modalTitle } = useModal()
+
   useEffect(() => {
-    // setSearchMovie(rankMovie.slice(0, 5))
     setSearchMovie(rankMovie)
   }, [rankMovie])
+  useEffect(() => {
+    setPopupFlag(searchMovie.map(() => false))
+  }, [searchMovie])
 
   const setSearchMovieCallback = useCallback(
     (param) => {
@@ -50,16 +54,36 @@ export const SearchMain: FunctionComponent<{ rankMovie: IMovie[] | []; rankMovie
 
   const searchDetail = () => {}
   const movieDetail = (e) => {
-    const tagName = e.target.tagName
-    if (tagName !== "IMG") {
-      if (tagName === "svg") {
-        // popup? 나옴
-      } else {
-        //페이지 이동
-
-        history.push({ pathname: "/movieDetail", search: "?query=" + encodeURI(e.currentTarget.innerText.split("\n")[0]) })
-      }
+    if ((e.target.className && e.target.tagName === "DIV") || (e.target.tagName === "IMG" && e.target.className.indexOf("img") !== -1)) {
+      history.push({ pathname: "/movieDetail", search: "?query=" + encodeURI(e.currentTarget.innerText.split("\n")[0]) })
     }
+  }
+  const handleClose = (e) => {
+    e.stopPropagation()
+    let tempArr = popupFlag.map(() => false)
+    setPopupFlag(tempArr)
+  }
+
+  const voteClick = () => {
+    // handleClose(e)
+    toggle("투표 하시겠습니까?", {
+      callback: () => {
+        console.log("확인눌렀다!!!!!!!!!!!!!!")
+      },
+    })
+  }
+
+  const starIconClick = () => {
+    // handleClose(e)
+    toggle("즐겨찾기 하시겠습니까?", {
+      callback: () => {
+        console.log("즐찾눌렀다!!!!!!!!!!!!!!")
+      },
+    })
+  }
+  const test = (e, i) => {
+    // if (e.target.tagName === "svg" || e.target.tagName === "BUTTON") {
+    // }
   }
 
   return (
@@ -85,7 +109,6 @@ export const SearchMain: FunctionComponent<{ rankMovie: IMovie[] | []; rankMovie
             </div>
           </Container>
         </div>
-        {/* <Container className={classes.cardGrid}  maxWidth="sm"> */}
         <Container className={classes.cardGrid}>
           {searchMovie.map((iter: IMovie, i) => (
             <Grid key={i} onClick={movieDetail} className={classes.carMapContainer} container spacing={3}>
@@ -115,24 +138,69 @@ export const SearchMain: FunctionComponent<{ rankMovie: IMovie[] | []; rankMovie
                   </Grid>
                 </Grid>
                 <Grid item className={classes.star}>
-                  <Typography variant="subtitle2" style={{ cursor: "pointer" }}>
-                    <img className={classes.starImage} alt="noImage" src={blackStar} />
-                  </Typography>
+                  <IconButton onClick={starIconClick} edge="end" aria-label="account of current user" aria-haspopup="true" color="inherit">
+                    <Typography variant="subtitle2" style={{ cursor: "pointer" }}>
+                      <img className={classes.starImage} alt="noImage" src={blackStar} />
+                    </Typography>
+                  </IconButton>
                   <br />
                   <br />
                   <br />
                   <br />
                   <br />
-                  <Typography variant="subtitle2" style={{ cursor: "pointer" }}>
-                    <IconButton
-                      aria-label="show more"
-                      // aria-controls={mobileMenuId}
-                      aria-haspopup="true"
-                      // onClick={handleMobileMenuOpen}
-                      color="inherit"
-                    >
-                      <MoreIcon />
-                    </IconButton>
+                  <Typography
+                    onClick={(e) => {
+                      let tempArr = popupFlag.map((iter, arrayIndex) => (i === arrayIndex ? true : false))
+                      console.log(tempArr)
+                      setPopupFlag(tempArr)
+                    }}
+                    variant="subtitle2"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <PopupState variant="popover" popupId="demo-popup-popover">
+                      {(popupState) => (
+                        <div>
+                          <IconButton
+                            edge="end"
+                            aria-label="account of current user"
+                            // aria-controls={menuId}
+                            aria-haspopup="true"
+                            color="inherit"
+                            {...bindTrigger(popupState)}
+
+                            // onClick={handleProfileMenuOpen}
+                          >
+                            <MoreIcon />
+                          </IconButton>
+                          <Popover
+                            // onRequestClose={this.handleRequestClose}
+                            {...bindPopover(popupState)}
+                            open={popupFlag[i]}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                              vertical: "top",
+                              horizontal: "right",
+                            }}
+                            transformOrigin={{
+                              vertical: "center",
+                              horizontal: "left",
+                            }}
+                          >
+                            <Box p={1}>
+                              <Button>상세보기</Button>
+                            </Box>
+                            <Box
+                              onClick={(e) => {
+                                voteClick()
+                              }}
+                              p={1}
+                            >
+                              <Button>투표하기</Button>
+                            </Box>
+                          </Popover>
+                        </div>
+                      )}
+                    </PopupState>
                     {/* </ButtonBase> */}
                   </Typography>
                 </Grid>
@@ -140,12 +208,9 @@ export const SearchMain: FunctionComponent<{ rankMovie: IMovie[] | []; rankMovie
             </Grid>
           ))}
         </Container>
+
+        <Modal modalFlag={modalFlag} toggle={toggle} title={modalTitle} />
       </main>
-      {/* Footer */}
-      {/* <footer className={classes.footer}>
-        <Copyright />
-      </footer> */}
-      {/* End footer */}
     </React.Fragment>
   )
 }

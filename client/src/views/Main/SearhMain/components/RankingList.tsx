@@ -32,6 +32,7 @@ export const RankingList: FunctionComponent<{ rankMovie: IMovie[]; rankMovieCall
     if (splitNumber === 10) {
       // setFilterList(rankMovie)
 
+      cardRef.current.style.transition = "all ease 1s 0s"
       cardRef.current.style.top = "8%"
       setSplitNumber(5)
       rankMovieCallback(10)
@@ -91,14 +92,7 @@ export const RankingList: FunctionComponent<{ rankMovie: IMovie[]; rankMovieCall
       </CardContent>
       <Divider />
       <CardActions className={classes.actions}>
-        <Button
-          onClick={() => {
-            viewMore()
-          }}
-          color="primary"
-          size="small"
-          variant="text"
-        >
+        <Button onClick={viewMore} color="primary" size="small" variant="text">
           view {splitNumber} <ArrowRightIcon />
         </Button>
       </CardActions>

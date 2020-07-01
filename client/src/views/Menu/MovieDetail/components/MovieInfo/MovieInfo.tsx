@@ -97,7 +97,7 @@ const MovieInfo: FunctionComponent<{ searchMovie: IMovie }> = ({ searchMovie }) 
             </div>
           </CardContent>
         </Card>
-        <Modal modalFlag={modalFlag} title={"투표 하시겠습니까?"} />
+        {/* <Modal modalFlag={modalFlag} title={"투표 하시겠습니까?"} /> */}
       </>
     )
   } else {

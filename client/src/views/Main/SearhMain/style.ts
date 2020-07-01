@@ -141,7 +141,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "20px",
     // paddingLeft: "5px",
     // paddingRight: "0px",
-    marginLeft: "12px",
+    // marginLeft: "2px",
   },
   underline: {
     "&&&:before": {

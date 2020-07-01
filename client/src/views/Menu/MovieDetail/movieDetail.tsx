@@ -1,56 +1,39 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  MutableRefObject,
-  RefObject,
-  useMemo,
-} from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { AllMovieState } from "../../../atoms";
-import { IMovie } from "../../../interface/IMovie";
-import { Grid } from "@material-ui/core";
-import { Theme, makeStyles } from "@material-ui/core/styles";
-import {
-  MovieInfo,
-  TotalUsers,
-  TasksProgress,
-  TotalProfit,
-  LatestSales,
-  GenreGraph,
-  Review,
-  RealtimeVoting,
-} from "./components";
-let movieString = "";
+import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useMemo } from "react"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { AllMovieState } from "../../../atoms"
+import { IMovie } from "../../../interface/IMovie"
+import { Grid } from "@material-ui/core"
+import { Theme, makeStyles } from "@material-ui/core/styles"
+import { MovieInfo, TotalUsers, TasksProgress, TotalProfit, LatestSales, GenreGraph, Review, RealtimeVoting } from "./components"
+let movieString = ""
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(4),
   },
-}));
+}))
 const MovieDetail = ({ history }) => {
-  const classes = useStyles();
-  const allMovie = useRecoilValue<IMovie[] | null>(AllMovieState);
-  const [searchMovie, setSearchMovie] = useState<IMovie | null>(null);
+  const classes = useStyles()
+  const allMovie = useRecoilValue<IMovie[] | null>(AllMovieState)
+  const [searchMovie, setSearchMovie] = useState<IMovie | null>(null)
 
   if (window.location.search && window.location.search.split("=")[1]) {
-    movieString = decodeURI(window.location.search.split("=")[1]);
+    movieString = decodeURI(window.location.search.split("=")[1])
   } else {
-    alert("검색된 영화가 없습니다");
+    alert("검색된 영화가 없습니다")
     // window.location.reload(true)
-    history.replace("/");
+    history.replace("/")
   }
 
   useEffect(() => {
     if (allMovie && allMovie?.length > 0) {
-      let filterData = allMovie.filter((iter) => iter.name === movieString)[0];
+      let filterData = allMovie.filter((iter) => iter.name.trim() === movieString)[0]
       if (filterData === undefined) {
-        filterData = Object();
+        filterData = Object()
       }
-      setSearchMovie(filterData);
+      setSearchMovie(filterData)
     }
-  }, [allMovie, movieString]);
+  }, [allMovie, movieString])
 
   if (searchMovie) {
     return (
@@ -75,10 +58,10 @@ const MovieDetail = ({ history }) => {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export default MovieDetail;
+export default MovieDetail

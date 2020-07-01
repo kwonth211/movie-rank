@@ -221,6 +221,7 @@ export default function SignUp({ history }) {
                 helperText={validationID ? "이메일 형식으로 입력해주세요." : ""}
                 variant="outlined"
                 required
+                disabled={emailComponent}
                 id="email"
                 label="이메일 (aaa@rankingworld.com)"
                 name="email"

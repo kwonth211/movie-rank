@@ -63,9 +63,15 @@ export default function Main() {
     setRankMovie(allMovieList.slice(0, 5)) // rank만 정렬해서 props 로 내려줄
   }, [allMovieList])
 
-  const rankMovieCallback = (number) => {
-    setRankMovie(allMovieList.slice(0, number))
-  }
+  // const rankMovieCallback = (number) => {
+  //   setRankMovie(allMovieList.slice(0, number))
+  // }
+  const rankMovieCallback = useCallback(
+    (number) => {
+      setRankMovie(allMovieList.slice(0, number))
+    },
+    [rankMovie]
+  )
 
   return (
     <React.Fragment>
