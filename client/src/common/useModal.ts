@@ -1,27 +1,27 @@
-import { useState } from "react"
+import { useState } from "react";
 
-let tempCallback
+let tempCallback;
 const useModal = () => {
-  const [modalFlag, setModalFlag] = useState(false)
-  const [modalTitle, setModalTitle] = useState("")
+  const [modalFlag, setModalFlag] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
 
-  const toggle = (title = "", callback) => {
-    setModalFlag(!modalFlag)
-    setModalTitle(title)
+  const toggle = (title = "", callback = {}) => {
+    setModalFlag(!modalFlag);
+    setModalTitle(title);
 
-    if (callback) tempCallback = callback
+    if (Object.keys(callback).length > 0) tempCallback = callback;
 
-    return tempCallback
+    return tempCallback;
     // if (callbackOk) {
     //   console.log(callbackOk)
     // }
-  }
+  };
 
   return {
     modalFlag,
     toggle,
     modalTitle,
-  }
-}
+  };
+};
 
-export default useModal
+export default useModal;

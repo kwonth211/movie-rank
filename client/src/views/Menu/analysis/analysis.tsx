@@ -1,21 +1,36 @@
-import React from "react"
-import { Grid } from "@material-ui/core"
+import React from "react";
+import { Grid } from "@material-ui/core";
 
-import { TotalVoters, TotalUsers, TasksProgress, TotalProfit, LatestSales, GenreGraph, LatestProducts, RealtimeVoting } from "./components"
+import {
+  TotalVoters,
+  TotalUsers,
+  TasksProgress,
+  TotalProfit,
+  LatestSales,
+  GenreGraph,
+  LatestProducts,
+  RealtimeVoting,
+} from "./components";
 // import { TotalVoters, RealtimeVoting } from "./components"
 // import { LatestOrders } from "./components"
 
-import { Theme, makeStyles, createStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/styles"
+import {
+  Theme,
+  makeStyles,
+  createStyles,
+  ThemeProvider,
+  createMuiTheme,
+} from "@material-ui/core/styles";
 
 // const {  } = require("./components")
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(4),
   },
-}))
+}));
 
 const Dashboard = () => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
@@ -46,7 +61,7 @@ const Dashboard = () => {
         </Grid>
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
