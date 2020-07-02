@@ -7,6 +7,7 @@ const context = async ({ req }) => {
   if (token.length != 64) return { user: null }
 
   const user = users[0].find((iter) => iter.token === token)
+  console.log("contextUser>>>", user)
 
   return { user }
 }

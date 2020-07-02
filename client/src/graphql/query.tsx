@@ -1,28 +1,30 @@
-import { gql } from "apollo-boost";
+import { gql } from "apollo-boost"
 
 const ME = gql`
   {
     me {
       ID
       token
+      favoriteMovie
+      no
     }
   }
-`;
+`
 const SIGNUP = gql`
   mutation signup($ID: String!, $password: String!, $name: String!) {
     signup(ID: $ID, password: $password, name: $name)
   }
-`;
+`
 const EMAILAUTH = gql`
   mutation emailAuth($mail: String!) {
     emailAuth(mail: $mail)
   }
-`;
+`
 const DUPLICATE = gql`
   mutation duplicateCheck($ID: String!) {
     duplicateCheck(ID: $ID)
   }
-`;
+`
 const LOGIN = gql`
   mutation login($ID: String!, $password: String!) {
     login(ID: $ID, password: $password) {
@@ -30,14 +32,21 @@ const LOGIN = gql`
       name
       role
       token
+      favoriteMovie
+      no
     }
   }
-`;
+`
 const LOGOUT = gql`
   mutation {
     logout
   }
-`;
+`
+const UPDATEFAVORITEMOVIE = gql`
+  mutation updateFavorite($movies: [String]!, $no: Int!) {
+    updateFavorite(movies: $movies, no: $no)
+  }
+`
 const GETMOVIEGENRE = gql`
   query getMovieGenre($genre: String!) {
     getMovieGenre(genre: $genre) {
@@ -60,7 +69,7 @@ const GETMOVIEGENRE = gql`
       englishName
     }
   }
-`;
+`
 
 // 인터페이스 추가
 const GETMOVIEALL = gql`
@@ -83,7 +92,7 @@ const GETMOVIEALL = gql`
       englishName
     }
   }
-`;
+`
 
 const queryObj = {
   ME,
@@ -94,6 +103,7 @@ const queryObj = {
   LOGOUT,
   GETMOVIEGENRE,
   GETMOVIEALL,
-};
+  UPDATEFAVORITEMOVIE,
+}
 
-export default queryObj;
+export default queryObj

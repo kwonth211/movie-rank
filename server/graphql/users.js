@@ -15,6 +15,7 @@ mongoose
         password: String,
         role: String,
         token: String,
+        favoriteMovie: Array,
       })
       .find()
 

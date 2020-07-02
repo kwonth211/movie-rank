@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+import { gql } from "apollo-server"
 
 const typeDefs = gql`
   type User {
@@ -8,6 +8,7 @@ const typeDefs = gql`
     passwordHash: String
     role: String!
     token: String
+    favoriteMovie: [String]
   }
   type Movies {
     imgUrl: String
@@ -35,12 +36,13 @@ const typeDefs = gql`
     getMovieAll: [Movies!]
   }
   type Mutation {
+    updateFavorite(movies: [String], no: Int!): Boolean!
     duplicateCheck(ID: String!): Boolean
     signup(name: String!, ID: String!, password: String!): Boolean!
     login(ID: String!, password: String!): User
     logout: Boolean!
     emailAuth(mail: String!): String!
   }
-`;
+`
 
-export default typeDefs;
+export default typeDefs

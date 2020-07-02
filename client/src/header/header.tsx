@@ -1,88 +1,70 @@
-import React, { useEffect, useContext } from "react";
-import clsx from "clsx";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  fade,
-} from "@material-ui/core/styles";
-import {
-  Drawer,
-  CssBaseline,
-  AppBar,
-  Toolbar,
-  List,
-  Typography,
-  Divider,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Badge,
-  Button,
-  IconButton,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import { Route, Link } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import InputBase from "@material-ui/core/InputBase";
-import useReactRouter from "use-react-router";
-import { useMutation } from "@apollo/react-hooks";
-import Box from "@material-ui/core/Box";
-import Popover from "@material-ui/core/Popover";
-import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
-import gql from "./../graphql/query";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { UserState } from "../atoms";
-import { useQuery } from "@apollo/react-hooks";
-import { useStyles } from "./style";
-import { IMovie } from "../interface/IMovie";
-import { Search } from "./components/Search";
-import "./../App.css";
-import "./../index.css";
+import React, { useEffect, useContext } from "react"
+import clsx from "clsx"
+import { createMuiTheme, MuiThemeProvider, fade } from "@material-ui/core/styles"
+import { Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText, Badge, Button, IconButton } from "@material-ui/core"
+import MenuIcon from "@material-ui/icons/Menu"
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
+import ChevronRightIcon from "@material-ui/icons/ChevronRight"
+import InboxIcon from "@material-ui/icons/MoveToInbox"
+import MailIcon from "@material-ui/icons/Mail"
+import NotificationsIcon from "@material-ui/icons/Notifications"
+import AccountCircle from "@material-ui/icons/AccountCircle"
+import MoreIcon from "@material-ui/icons/MoreVert"
+import { Route, Link } from "react-router-dom"
+import SearchIcon from "@material-ui/icons/Search"
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
+import InputBase from "@material-ui/core/InputBase"
+import useReactRouter from "use-react-router"
+import { useMutation } from "@apollo/react-hooks"
+import Box from "@material-ui/core/Box"
+import Popover from "@material-ui/core/Popover"
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
+import gql from "./../graphql/query"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { UserState } from "../atoms"
+import { useQuery } from "@apollo/react-hooks"
+import { useStyles } from "./style"
+import { IMovie } from "../interface/IMovie"
+import { Search } from "./components/Search"
+import "./../App.css"
+import "./../index.css"
 
-const mobileMenuId = "primary-search-account-menu-mobile";
+const mobileMenuId = "primary-search-account-menu-mobile"
 
-const menuId = "primary-search-account-menu";
+const menuId = "primary-search-account-menu"
 
 export default function Header() {
-  const classes = useStyles();
+  const classes = useStyles()
   // const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [
-    mobileMoreAnchorEl,
-    setMobileMoreAnchorEl,
-  ] = React.useState<null | HTMLElement>(null);
-  const { history, location, match } = useReactRouter();
-  const [user, setUser] = useRecoilState(UserState);
-  const [logout, { data }] = useMutation(gql.LOGOUT);
-  const { data: userData } = useQuery(gql.ME);
+  const [open, setOpen] = React.useState(false)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null)
+  const { history, location, match } = useReactRouter()
+  const [user, setUser] = useRecoilState(UserState)
+  const [logout, { data }] = useMutation(gql.LOGOUT)
+  const { data: userData } = useQuery(gql.ME)
   // const { user, setUser } = useContext(UserContext)
 
   const callbackFunction = {
     searchMovie: (selectList) => {
       // setMovieList(selectList)
     },
-  };
+  }
 
   useEffect(() => {
     if (data?.logout) {
-      localStorage.removeItem("token");
-      setUser(null);
-      alert("로그아웃에 성공했습니다");
-    } else if (data?.logout === null) alert("로그아웃에 실패했습니다");
-  }, [data, setUser]);
+      localStorage.removeItem("token")
+      setUser(null)
+      alert("로그아웃에 성공했습니다")
+    } else if (data?.logout === null) alert("로그아웃에 실패했습니다")
+  }, [data, setUser])
 
   useEffect(() => {
-    if (userData?.me) setUser(userData.me);
-  }, [userData]);
+    if (userData?.me) {
+      debugger
+      setUser(userData.me)
+    }
+  }, [userData])
 
   const theme = createMuiTheme({
     palette: {
@@ -106,31 +88,31 @@ export default function Header() {
     typography: {
       fontFamily: "Noto Sans KR !important",
     },
-  });
+  })
   const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleDrawerClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+    setMobileMoreAnchorEl(null)
+  }
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+    setAnchorEl(null)
+    handleMobileMenuClose()
+  }
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
 
   return (
     <div className={classes.root}>
@@ -143,13 +125,7 @@ export default function Header() {
           })}
         >
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, open && classes.hide)}
-            >
+            <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={clsx(classes.menuButton, open && classes.hide)}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap>
@@ -180,18 +156,12 @@ export default function Header() {
                   <MailIcon />
                 </Badge>
               </IconButton>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
+              <IconButton aria-label="show 17 new notifications" color="inherit">
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
+              <IconButton aria-label="show 17 new notifications" color="inherit">
                 <Badge color="secondary">
                   <ShoppingCartIcon />
                 </Badge>
@@ -229,7 +199,7 @@ export default function Header() {
                           <Box p={1}>
                             <Button
                               onClick={() => {
-                                logout();
+                                logout()
                               }}
                               color="primary"
                             >
@@ -247,7 +217,7 @@ export default function Header() {
                   color="inherit"
                   className={classes.link}
                   onClick={() => {
-                    history.push("/login");
+                    history.push("/login")
                   }}
                 >
                   로그인하기
@@ -255,13 +225,7 @@ export default function Header() {
               )}
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
+              <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
                 <MoreIcon />
               </IconButton>
             </div>
@@ -277,21 +241,13 @@ export default function Header() {
           }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
+            <IconButton onClick={handleDrawerClose}>{theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}</IconButton>
           </div>
           <Divider />
           <List>
             {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
@@ -300,9 +256,7 @@ export default function Header() {
           <List>
             {["All mail", "Trash", "Spam"].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
@@ -317,5 +271,5 @@ export default function Header() {
         </main>
       </MuiThemeProvider>
     </div>
-  );
+  )
 }

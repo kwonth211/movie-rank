@@ -2,25 +2,26 @@ import { AuthenticationError, ForbiddenError } from "apollo-server"
 import bcrypt from "bcrypt"
 import sha256 from "crypto-js/sha256"
 import rand from "csprng"
-import users from "./users"
-import { movieArr } from "./movies"
+import { users } from "./users"
+import { movieArr, MovieModel } from "./movies"
 import mongoose from "mongoose"
 import { transporter } from "./emailAuth"
 import config from "./../config"
 import nodemailer from "nodemailer"
 import smtpPool from "nodemailer-smtp-pool"
+
 const resolvers = {
   Query: {
     me: (_, __, { user }) => {
+      console.log(">>>>>", user)
       if (!user) throw new AuthenticationError("Not Authenticated")
 
       return user
     },
     getMovieGenre: async (_, { genre }) => {
-      let model = mongoose.model("movies")
       let movies = []
 
-      movies = await model.find({ genre })
+      movies = await MovieModel.find({ genre })
       return movies
     },
     getMovieAll: async () => {
@@ -28,6 +29,19 @@ const resolvers = {
     },
   },
   Mutation: {
+    updateFavorite: async (_, { movies, no }) => {
+      let model = mongoose.model("user")
+
+      model.findOneAndUpdate({ no }, { favoriteMovie: movies }, { new: true }, (err, doc) => {
+        if (err) {
+          console.log("에러 발생 >>", err)
+        }
+        let findIndex = users[0].findIndex((iter) => iter.no === no)
+        users[0][findIndex].favoriteMovie = doc.favoriteMovie
+      })
+
+      return true
+    },
     duplicateCheck: (_, { ID }) => {
       if (users[0].find((iter) => iter.ID === ID)) {
         return true
