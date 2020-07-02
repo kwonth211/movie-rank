@@ -1,34 +1,22 @@
-import mongoose from "mongoose"
 import config from "./../config"
-mongoose
-  .connect(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PASSWORD}@cluster0-umti3.mongodb.net/test?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(async (response) => {
-    console.log("몽구스 연결 성공")
-    let userArray = await mongoose
-      .model("user", {
-        no: Number,
-        name: String,
-        ID: String,
-        password: String,
-        role: String,
-        token: String,
-        favoriteMovie: Array,
-      })
-      .find()
+import mongoose from "mongoose"
 
-    users.push(userArray)
-    // console.log(userss)
-  })
+export const UserModel = mongoose.model("user", {
+  no: Number,
+  name: String,
+  ID: String,
+  password: String,
+  role: String,
+  token: String,
+  favoriteMovie: Array,
+})
 
-  .catch((err) => {
-    console.log(err)
-  })
+export let users = []
+;(async () => {
+  users = users.concat(await UserModel.find())
 
-const users = []
-export default users
+  console.log("유저 로딩 완료")
+})()
 
 // export const users = () => {
 //   return usersTest

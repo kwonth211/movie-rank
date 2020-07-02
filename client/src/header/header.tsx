@@ -61,7 +61,6 @@ export default function Header() {
 
   useEffect(() => {
     if (userData?.me) {
-      debugger
       setUser(userData.me)
     }
   }, [userData])

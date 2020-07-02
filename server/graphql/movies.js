@@ -23,7 +23,7 @@ export const MovieModel = mongoose.model("movies", {
 })
 
 export let movieArr = []
-const getAllMovie = (async () => {
+;(async () => {
   movieArr = movieArr.concat(await MovieModel.find())
 
   // console.log(movieArr);

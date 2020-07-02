@@ -2,10 +2,8 @@ import { AuthenticationError, ForbiddenError } from "apollo-server"
 import bcrypt from "bcrypt"
 import sha256 from "crypto-js/sha256"
 import rand from "csprng"
-import { users } from "./users"
+import { users, UserModel } from "./users"
 import { movieArr, MovieModel } from "./movies"
-import mongoose from "mongoose"
-import { transporter } from "./emailAuth"
 import config from "./../config"
 import nodemailer from "nodemailer"
 import smtpPool from "nodemailer-smtp-pool"
@@ -13,7 +11,6 @@ import smtpPool from "nodemailer-smtp-pool"
 const resolvers = {
   Query: {
     me: (_, __, { user }) => {
-      console.log(">>>>>", user)
       if (!user) throw new AuthenticationError("Not Authenticated")
 
       return user
@@ -30,20 +27,18 @@ const resolvers = {
   },
   Mutation: {
     updateFavorite: async (_, { movies, no }) => {
-      let model = mongoose.model("user")
-
-      model.findOneAndUpdate({ no }, { favoriteMovie: movies }, { new: true }, (err, doc) => {
+      UserModel.findOneAndUpdate({ no }, { favoriteMovie: movies }, { new: true }, (err, doc) => {
         if (err) {
           console.log("에러 발생 >>", err)
         }
-        let findIndex = users[0].findIndex((iter) => iter.no === no)
-        users[0][findIndex].favoriteMovie = doc.favoriteMovie
+        let findIndex = users.findIndex((iter) => iter.no === no)
+        users[findIndex].favoriteMovie = doc.favoriteMovie
       })
 
       return true
     },
     duplicateCheck: (_, { ID }) => {
-      if (users[0].find((iter) => iter.ID === ID)) {
+      if (users.find((iter) => iter.ID === ID)) {
         return true
       } else {
         return false
@@ -90,27 +85,24 @@ const resolvers = {
     },
 
     signup: async (_, { name, ID, password }) => {
-      if (users[0].find((iter) => iter.ID === ID)) return false
+      if (users.find((iter) => iter.ID === ID)) return false
       bcrypt.hash(password, 10, function (err, passwordHash) {
         const newUser = {
-          no: users[0].length + 1,
+          no: users.length + 1,
           name,
           ID,
           password: passwordHash,
           role: "user",
           token: "",
         }
-        let model = mongoose.model("user")
-        model(newUser).save()
-        users[0] = users[0].concat(newUser)
+        UserModel(newUser).save()
+        users = users.concat(newUser)
       })
 
       return true
     },
     login: async (_, { ID, password }) => {
-      console.log(users[0])
-      console.log(ID)
-      let user = users[0].find((iter) => iter.ID === ID)
+      let user = users.find((iter) => iter.ID === ID)
       if (!user) return null // 해당 ID가 없을 때
       if (user.token) return user // 해당 ID로 이미 로그인되어 있을 때
 
@@ -121,7 +113,6 @@ const resolvers = {
       return user
     },
     logout: (_, __, { user }) => {
-      console.log(user)
       if (user?.token) {
         // 로그인 상태라면(토큰이 존재하면)
         user.token = ""
