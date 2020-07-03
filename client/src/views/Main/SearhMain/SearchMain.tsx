@@ -157,18 +157,16 @@ export const SearchMain: FunctionComponent<{
 
       <main>
         {/* Hero unit */}
-
-        <div>
-          <Navigation></Navigation>
+        <div className={classes.navigation}>
+          <Container maxWidth="lg">
+            <Navigation />
+          </Container>
         </div>
-
         <div className={classes.heroContent}>
           <Container maxWidth="lg">
-            <div style={{ marginLeft: "170px" }}>
-              <Typography component="h5" variant="h5" color="textPrimary" gutterBottom>
+            <div>{/* <Typography component="h5" variant="h5" color="textPrimary" gutterBottom>
                 인생영화를 검색 또는 태그해주세요
-              </Typography>
-            </div>
+              </Typography> */}</div>
             <div className={classes.heroButtons}>
               <Grid container spacing={8} justify="flex-start">
                 <Grid item>

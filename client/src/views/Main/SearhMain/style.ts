@@ -66,14 +66,23 @@ export const useStyles = makeStyles((theme) => ({
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 2, 20),
+    padding: theme.spacing(0, 0, 0, 20),
     // paddingLeft: "300px",
     // marginLeft: "300px",
 
     // paddingLeft: theme.spacing(10),
   },
+  navigation: {
+    padding: theme.spacing(6, 0, 0),
+
+    // backgroundColor: theme.palette.background.paper,
+    // padding: theme.spacing(8, 0, 2, 20),
+    // paddingLeft: "300px",
+    // marginLeft: "300px",
+    // paddingLeft: theme.spacing(10),
+  },
   heroButtons: {
-    // marginTop: theme.spacing(6),
+    marginTop: theme.spacing(6),
     // marginLeft: theme.spacing(20),
   },
   cardGrid: {

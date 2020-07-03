@@ -77,6 +77,7 @@ export const SearchBox: React.FunctionComponent<{
               InputProps={{ ...params.InputProps, disableUnderline: true }}
               style={{ textDecoration: "none" }}
               className={classes.input}
+              // label={"본인의 인생영화를 검색또는 태그해주세요"}
               onKeyDown={(e) => {
                 if (e.keyCode == 13) {
                   if (autoCompleteRef?.current?.ariaExpanded == "false") {
