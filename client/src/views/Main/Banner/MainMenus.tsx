@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     imageSrc: {
       position: "absolute",
-      width: "80%",
+      width: "60%",
       height: "60%",
       left: 220,
       right: 0,
