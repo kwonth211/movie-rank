@@ -69,6 +69,7 @@ export const SearchMain: FunctionComponent<{
         return false
       })
     }
+    console.log(defaultArray)
     setStarImage(defaultArray)
   }, [searchMovie, user])
 
@@ -215,7 +216,7 @@ export const SearchMain: FunctionComponent<{
                     color="inherit"
                   >
                     <Typography variant="subtitle2" style={{ cursor: "pointer" }}>
-                      <img className={classes.starImage} alt="noImage" src={starImage[i] === false ? blackStar : yellowStar} />
+                      <img className={classes.starImage} alt="noImage" src={starImage[i] === true ? yellowStar : blackStar} />
                     </Typography>
                   </IconButton>
                   <br />

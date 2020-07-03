@@ -5,11 +5,11 @@ import Header from "../header/header"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import LoginForm from "../views/Login/Login"
 import SignUp from "../views/Login/SignUp"
-import Vs from "../views/Menu/Vs/vs"
+import Vs from "../views/Menu/VS/vs"
 import Vote from "../views/Main/SearhMain/SearchMain"
 import AuthRouter from "./AuthRouter"
 import MovieDetail from "../views/Menu/MovieDetail/movieDetail"
-import analysis from "../views/Menu/Analysis/analysis"
+import analysis from "../views/Menu/analysis/analysis"
 import ScrollToTop from "./ScrollToTop"
 
 export default function RouterComponent() {

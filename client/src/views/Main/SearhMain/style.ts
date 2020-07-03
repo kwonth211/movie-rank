@@ -1,33 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles"
 
-// @keyframes fadein {
-//   from { opacity: 0; }
-//   to   { opacity: 1; }
-// }
-
-// /* Firefox < 16 */
-// @-moz-keyframes fadein {
-//   from { opacity: 0; }
-//   to   { opacity: 1; }
-// }
-
-// /* Safari, Chrome and Opera > 12.1 */
-// @-webkit-keyframes fadein {
-//   from { opacity: 0; }
-//   to   { opacity: 1; }
-// }
-
-// /* Internet Explorer */
-// @-ms-keyframes fadein {
-//   from { opacity: 0; }
-//   to   { opacity: 1; }
-// }
-
-// /* Opera < 12.1 */
-// @-o-keyframes fadein {
-//   from { opacity: 0; }
-//   to   { opacity: 1; }
-// }
 export const useStyles = makeStyles((theme) => ({
   "@-webkit-keyframes cardGrid": {
     "0%": {
@@ -73,7 +45,11 @@ export const useStyles = makeStyles((theme) => ({
     // paddingLeft: theme.spacing(10),
   },
   navigation: {
-    padding: theme.spacing(6, 0, 0),
+    backgroundColor: theme.palette.background.paper,
+
+    padding: theme.spacing(5, 7, 3, 35),
+
+    // padding: theme.spacing(6, 0, 0),
 
     // backgroundColor: theme.palette.background.paper,
     // padding: theme.spacing(8, 0, 2, 20),
@@ -82,13 +58,12 @@ export const useStyles = makeStyles((theme) => ({
     // paddingLeft: theme.spacing(10),
   },
   heroButtons: {
-    marginTop: theme.spacing(6),
+    // marginTop: theme.spacing(6),
     // marginLeft: theme.spacing(20),
   },
   cardGrid: {
-    // WebkitAnimation: "fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both",
-    // animation: "fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both",
     animation: `$cardGrid 3000ms ${theme.transitions.easing.easeInOut}`,
+    // animation: `$cardGrid 3000ms cubic-bezier(0.390, 0.575, 0.565, 1.000) both`,
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(8),
     // paddingLeft: "20px",

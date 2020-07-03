@@ -52,11 +52,11 @@ export const RankingList: FunctionComponent<{ rankMovie: IMovie[]; rankMovieCall
       className={clsx(classes.root)}
     >
       <CardHeader
-        action={
-          <Button color="primary" size="small" variant="outlined">
-            New entry
-          </Button>
-        }
+        // action={
+        //   <Button color="primary" size="small" variant="outlined">
+        //     New entry
+        //   </Button>
+        // }
         title="투표 랭킹"
       />
       <Divider />
