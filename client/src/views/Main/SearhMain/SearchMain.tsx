@@ -114,7 +114,7 @@ export const SearchMain: FunctionComponent<{
   }
 
   const starIconClick = (e, i) => {
-    if (Object.keys(user).length > 0) {
+    if (user && Object.keys(user).length > 0) {
       if (starImage[i]) {
         // 즐겨찾기 취소
         toggle("즐겨찾기를 취소하시겠습니까?", {

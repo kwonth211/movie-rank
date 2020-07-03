@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button"
 
 // import icon from "../media/icons1.png";
 let vsIcon = require("./../../../media/icon1.png")
-let analysis = require("./../../../media/analysis.png")
+let analysis = require("./../../../media/3156627.jpg")
 let review = require("../.././../media/review.png")
 let vote = require("./../../../media/vote.png")
 
@@ -125,8 +125,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     imageSrc: {
       position: "absolute",
-      width: "50%",
-      height: "50%",
+      width: "80%",
+      height: "60%",
       left: 220,
       right: 0,
       top: 50,

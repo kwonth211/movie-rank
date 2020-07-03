@@ -46,11 +46,14 @@ const hasTagArray = ["비올때 생각나는", "눈물나게 슬픈", "소름끼
 const HashTagComponent = () => {
   const classes = useNavStyles()
 
+  const hashTagDetailClick = (e) => {
+    console.log(e.target.innerText)
+  }
   return (
     <div className={classes.hashTag}>
       {hasTagArray.map((iter) => {
         return (
-          <Button style={{ padding: "10px" }}>
+          <Button style={{ padding: "10px" }} onClick={hashTagDetailClick}>
             <Typography variant="body2" color="textSecondary">
               #{iter}
             </Typography>

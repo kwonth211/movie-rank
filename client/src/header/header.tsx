@@ -73,7 +73,7 @@ export default function Header() {
         // dark: "#660000",
         // contrastText: "#ffffff",
         light: "#ffffff",
-        main: "#000000",
+        main: "#424242",
         dark: "#ffffff",
         contrastText: "#ffffff",
       },
@@ -132,6 +132,12 @@ export default function Header() {
                 MOVOTE
               </Link>
             </Typography>
+
+            <div style={{ marginRight: "430px", marginLeft: "30px" }}>
+              <Button style={{ color: "white" }}>영화 대 영화</Button>
+              <Button style={{ color: "white" }}>통계 보기</Button>
+              <Button style={{ color: "white" }}>게시판</Button>
+            </div>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -229,6 +235,11 @@ export default function Header() {
               </IconButton>
             </div>
           </Toolbar>
+          {/* <div style={{ marginLeft: "200px" }}>
+            <Button style={{ color: "white" }}>영화 대 영화</Button>
+            <Button style={{ color: "white" }}>통계 보기</Button>
+            <Button style={{ color: "white" }}>게시판</Button>
+          </div> */}
         </AppBar>
         <Drawer
           className={classes.drawer}

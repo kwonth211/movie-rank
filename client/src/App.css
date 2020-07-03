@@ -51,6 +51,8 @@
 /* 캐서렐 css */
 .carousel .slide {
   background-color: rgb(240, 240, 240) !important;
+  /* background-color: white !important; */
+  /* background-color: yellowgreen !important; */
   /* background: red !important; */
   height: 220px !important;
   /* padding-top: 50px !important; */

@@ -48,21 +48,21 @@ export const useNavStyles = makeStyles((theme) => ({
   "@-webkit-keyframes hashTag": {
     "0%": {
       transform: "scale(0)",
-      transformOrigin: "50% 0%",
+      transformOrigin: "0% 0%",
     },
     "100%": {
       transform: "scale(1)",
-      transformOrigin: "50% 0%",
+      transformOrigin: "0% 0%",
     },
   },
   "@keyframes hashTag": {
     "0%": {
       transform: "scale(0)",
-      transformOrigin: "50% 0%",
+      transformOrigin: "0% 0%",
     },
     "100%": {
       transform: "scale(1)",
-      transformOrigin: "50% 0%",
+      transformOrigin: "0% 0%",
     },
   },
   root: {
@@ -72,14 +72,14 @@ export const useNavStyles = makeStyles((theme) => ({
   },
   hashTag: {
     marginLeft: "-120px",
-    animation: `$hashTag 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+    animation: `$hashTag 180ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
   },
   genre: {
     marginLeft: "-120px",
-    animation: `$hashTag 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+    animation: `$hashTag 180ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
   },
   userInfo: {
     marginLeft: "80px",
-    animation: `$hashTag 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+    animation: `$hashTag 180ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
   },
 }))
