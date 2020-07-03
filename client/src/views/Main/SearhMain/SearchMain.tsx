@@ -13,6 +13,7 @@ import Popover from "@material-ui/core/Popover"
 import { Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText, Badge, Button, IconButton } from "@material-ui/core"
 import useReactRouter from "use-react-router"
 import { SearchBox } from "./components/SearchBox"
+import Navigation from "./components/Navigation"
 import { useStyles } from "./style"
 import Box from "@material-ui/core/Box"
 import Modal from "./../../../common/Modal"
@@ -156,6 +157,10 @@ export const SearchMain: FunctionComponent<{
 
       <main>
         {/* Hero unit */}
+
+        <div>
+          <Navigation></Navigation>
+        </div>
 
         <div className={classes.heroContent}>
           <Container maxWidth="lg">
