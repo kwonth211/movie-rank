@@ -80,15 +80,16 @@ export const SearchBox: React.FunctionComponent<{
               InputProps={{ ...params.InputProps, disableUnderline: true }}
               style={{ textDecoration: "none" }}
               className={classes.input}
-              placeholder={autoCompleteRef?.current?.innerText ? "" : "#본인의 인생영화를 검색또는 태그해주세요"}
+              placeholder={autoCompleteRef?.current?.innerText ? "" : "#인생영화를 검색또는 태그해주세요"}
               // label={"본인의 인생영화를 검색또는 태그해주세요"}
               onKeyDown={(e) => {
                 if (e.keyCode == 13) {
                   if (autoCompleteRef?.current?.ariaExpanded == "false") {
                     //검색 도움창이 닫혀있을때
-                    callback(selectList)
+                    // console.log(selectList)
+                    // callback(selectList)
                   } else {
-                    // setSelectList([hashTagList[0]])
+                    setSelectList([hashTagList[0]])
                   }
                 }
               }}

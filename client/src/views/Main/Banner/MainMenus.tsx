@@ -8,26 +8,26 @@ import { purple } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
 
 // import icon from "../media/icons1.png";
-let vsIcon = require("./../../../media/icon1.png")
-let analysis = require("./../../../media/3156627.jpg")
-let review = require("../.././../media/review.png")
+let vsIcon = require("./../../../media/vs.jpg")
+let analysis = require("./../../../media/analysis.jpg")
+let review = require("../.././../media/board.jpg")
 let vote = require("./../../../media/vote.png")
 
 const images = [
-  {
-    url: vote,
-    title: "투표하러 가기",
-    width: "23%",
-    route: "/vote",
-    text: (
-      <div>
-        <h4>
-          본인만의 인생 영화를
-          <br /> 투표하고 공유하세요!
-        </h4>
-      </div>
-    ),
-  },
+  // {
+  //   url: vote,
+  //   title: "투표하러 가기",
+  //   width: "23%",
+  //   route: "/vote",
+  //   text: (
+  //     <div>
+  //       <h4>
+  //         본인만의 인생 영화를
+  //         <br /> 투표하고 공유하세요!
+  //       </h4>
+  //     </div>
+  //   ),
+  // },
   {
     url: vsIcon,
     title: "영화 대 영화",
@@ -125,11 +125,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     imageSrc: {
       position: "absolute",
-      width: "60%",
+      width: "75%",
       height: "60%",
-      left: 220,
+      left: 100,
       right: 0,
-      top: 50,
+      top: 55,
       bottom: 0,
 
       backgroundSize: "cover",

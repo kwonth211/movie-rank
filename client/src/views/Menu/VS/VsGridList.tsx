@@ -12,18 +12,6 @@ import gql from "../../../graphql/query"
 import { useLazyQuery } from "@apollo/react-hooks"
 import ProgressModelComponent from "../../../common/ProgressModelComponent"
 import { IMovie } from "../../../interface/IMovie"
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  )
-}
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -60,15 +48,17 @@ const useStyles = makeStyles((theme) => ({
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const totalImage: IMovie[][] = [[], [], [], []]
-const totalPickCount: number[][] = [[], [], [], []]
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
+  let [totalPickCount, setTotalPickCount] = useState<Number[][]>([[], [], [], []])
   const classes = useStyles()
   const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
   const [imageArr, setImageArr] = useState<IMovie[]>([])
   let [pageCount, setPageCount] = useState(0)
 
   let darkness = useRef<HTMLDivElement | null[]>([])
+
   let btn = useRef<HTMLDivElement | null[]>([])
+  console.log(">>>>>", btn)
 
   let [pickCount, setPickCount] = useState(0)
 
@@ -112,7 +102,9 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
         darkness.current[i].style.opacity = 0.6
         btn.current[i].style.opacity = 1
         btn.current[i].style.transform = "scale(1)"
+
         totalPickCount[pageCount].push(i)
+        setTotalPickCount(totalPickCount)
       }
     }
 
@@ -136,7 +128,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
-              kwonth211 님 , 좋아하는 영화 총 16개를 PICK 해주세요
+              권태훈 님 , 좋아하는 영화 총 16개를 PICK 해주세요
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
               최종 선택 1개의 영화가 투표권수 1개 입니다.
@@ -257,9 +249,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
         </Container>
       </main>
       {/* Footer */}
-      <footer className={classes.footer}>
-        <Copyright />
-      </footer>
+      <footer className={classes.footer}></footer>
       {/* End footer */}
     </React.Fragment>
   )
