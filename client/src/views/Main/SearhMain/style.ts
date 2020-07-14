@@ -22,6 +22,8 @@ export const useStyles = makeStyles((theme) => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
+    width: 650,
+    // height: "30px",
     // height: "100%",
     // width: 400,
   },
@@ -90,6 +92,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     margin: "auto",
     maxWidth: 500,
+    height: 30,
   },
   image: {
     width: 128,

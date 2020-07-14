@@ -1,20 +1,50 @@
-import React, { useEffect, useState, useRef, useCallback } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
 import CardMedia from "@material-ui/core/CardMedia"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
+import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import Link from "@material-ui/core/Link"
 import gql from "../../../graphql/query"
 import { useLazyQuery } from "@apollo/react-hooks"
 import ProgressModelComponent from "../../../common/ProgressModelComponent"
 import { IMovie } from "../../../interface/IMovie"
-import { useStyles } from "./style"
-import Fab from "@material-ui/core/Fab"
-import AddIcon from "@material-ui/icons/Add"
-import MymovieDialog from "./components/MymovieDialog"
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 4),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(6),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}))
+
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const totalImage: IMovie[][] = [[], [], [], []]
@@ -24,8 +54,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
   const [imageArr, setImageArr] = useState<IMovie[]>([])
   let [pageCount, setPageCount] = useState(0)
-
-  const [modalFlag, setModalFlag] = useState(false)
 
   let darkness = useRef<HTMLDivElement | null[]>([])
 
@@ -60,6 +88,8 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
     }
   }, [data])
 
+  useEffect(() => {})
+
   const imageClickEvent = (i) => {
     if (darkness.current[i].style.opacity == 0.6) {
       darkness.current[i].style.opacity = 0
@@ -86,9 +116,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
     setPickCount(tempCount)
   }
 
-  const modalCallback = useCallback(() => {
-    setModalFlag(!modalFlag)
-  }, [modalFlag])
   if (called && loading) return <ProgressModelComponent />
 
   return (
@@ -97,11 +124,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
 
       <main>
         {/* Hero unit */}
-        <MymovieDialog open={modalFlag} callback={modalCallback} />
-
-        <Fab className={classes.addButton} color="primary" aria-label="add" onClick={modalCallback}>
-          <AddIcon />
-        </Fab>
 
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
@@ -111,22 +133,80 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
               최종 선택 1개의 영화가 투표권수 1개 입니다.
             </Typography>
-            {/* <div className={classes.heroButtons}>
+            <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
-                <Grid item>원하는 영화가 없으십니까?</Grid>
                 <Grid item>
-                  <div className={"count"}> <span draggable="false">{pickCount}/16</span> </div>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                      if (pageCount > 0) {
+                        setPageCount(pageCount - 1)
+                        setImageArr(totalImage[--pageCount])
+                        for (let i = 0; i < 12; i++) {
+                          const findIndex = totalPickCount[pageCount].findIndex((iter) => {
+                            return iter === i
+                          })
+
+                          if (darkness.current[i]) {
+                            if (findIndex !== -1) {
+                              darkness.current[i].style.opacity = 0.6
+                              btn.current[i].style.opacity = 1
+                              btn.current[i].style.transform = "scale(1)"
+                            } else {
+                              darkness.current[i].style.opacity = 0
+                              btn.current[i].style.opacity = 0
+                              btn.current[i].style.transform = ""
+                            }
+                          }
+                        }
+                      }
+                    }}
+                  >
+                    이전
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    onClick={() => {
+                      if (pageCount < 3) {
+                        setPageCount(pageCount + 1)
+                        setImageArr(totalImage[++pageCount])
+                        for (let i = 0; i < 12; i++) {
+                          const findIndex = totalPickCount[pageCount].findIndex((iter) => {
+                            return iter === i
+                          })
+                          if (darkness.current[i]) {
+                            if (findIndex !== -1) {
+                              darkness.current[i].style.opacity = 0.6
+                              btn.current[i].style.opacity = 1
+                              btn.current[i].style.transform = "scale(1)"
+                            } else {
+                              darkness.current[i].style.opacity = 0
+                              btn.current[i].style.opacity = 0
+                              btn.current[i].style.transform = ""
+                            }
+                          }
+                        }
+                      }
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    다음
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <div className={"count"}>
+                    <span draggable="false">{pickCount}/16</span>
+                  </div>
                 </Grid>
               </Grid>
-            </div> */}
+            </div>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          <div onClick={modalCallback} style={{ textAlign: "center", marginBottom: "20px", color: "blue", cursor: "pointer" }}>
-            원하는 영화가 없으십니까?
-          </div>
-
           <Grid container spacing={3}>
             {imageArr.map((iterImage, i) => (
               <Grid item key={i} sm={2} md={2}>

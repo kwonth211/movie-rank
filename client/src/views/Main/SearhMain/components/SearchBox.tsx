@@ -38,6 +38,8 @@ export const SearchBox: React.FunctionComponent<{
   const [textField, setTextField] = useState("")
   const classes = useStyles()
 
+  console.log(classes)
+  debugger
   let autoCompleteRef = React.useRef<any | null>(null)
 
   // console.log(hashTagList)
@@ -71,7 +73,8 @@ export const SearchBox: React.FunctionComponent<{
       renderOption={(option, { selected }) => {
         return <React.Fragment>{option.name}</React.Fragment>
       }}
-      style={{ width: "650px", marginLeft: "30px" }}
+      style={{ marginLeft: "30px" }}
+      // style={{ width: "350px" }}
       renderInput={(params) => {
         return (
           <Paper className={classes.root}>
