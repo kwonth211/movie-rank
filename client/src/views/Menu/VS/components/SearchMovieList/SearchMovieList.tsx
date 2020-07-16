@@ -1,36 +1,38 @@
-import React, { useState } from "react"
-import clsx from "clsx"
-import PropTypes from "prop-types"
-import { Card, CardHeader, CardContent, CardActions, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, IconButton } from "@material-ui/core"
-import ArrowRightIcon from "@material-ui/icons/ArrowRight"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
-import Icon from "@material-ui/core/Icon"
-import { green, red } from "@material-ui/core/colors"
-import { IMovie } from "../../../../../interface/IMovie"
-import { useStyles } from "./style"
-import { useStyles2 } from "./style2"
-import mockData from "./data"
+import React, { useState, useRef } from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Button,
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  IconButton,
+} from "@material-ui/core";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Icon from "@material-ui/core/Icon";
+import { green, red } from "@material-ui/core/colors";
+import { IMovie } from "../../../../../interface/IMovie";
+import { useStyles } from "./style";
+import mockData from "./data";
 
-const SearchMovieList = (props) => {
-  const { className, ...rest } = props
+const MovieList = (props) => {
+  const { className, ...rest } = props;
 
-  const classes = useStyles()
-
-  let [movies, setMovies] = useState(props.totalImage)
-
-  const removeMovie = (e, i) => {
-    e.stopPropagation()
-
-    movies = movies.filter((iter, index) => i !== index)
-    setMovies(movies)
-  }
+  const classes = useStyles();
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
       <Divider />
       <CardContent className={classes.content}>
         <List>
-          {movies.map((movie, i) => (
+          {props.movies.map((movie, i) => (
             <ListItem divider={i < movie.length - 1} key={movie.id}>
               <ListItemAvatar>
                 <img className={classes.image} src={movie.imgUrl} />
@@ -45,7 +47,7 @@ const SearchMovieList = (props) => {
                 edge="end"
                 size="small"
                 onClick={(e) => {
-                  removeMovie(e, i)
+                  props.removeMovie(e, i);
                 }}
               >
                 {/* <div className={classes.icon}> */}
@@ -58,12 +60,13 @@ const SearchMovieList = (props) => {
       </CardContent>
       <Divider />
     </Card>
-  )
-}
+  );
+};
 
-SearchMovieList.propTypes = {
+MovieList.propTypes = {
   className: PropTypes.string,
-  totalImage: PropTypes.array,
-}
+  movies: PropTypes.array,
+  removeMovie: PropTypes.func,
+};
 
-export default SearchMovieList
+export default MovieList;
