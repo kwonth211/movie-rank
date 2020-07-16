@@ -27,6 +27,13 @@ export const useStyles = makeStyles((theme) => ({
     // height: "100%",
     // width: 400,
   },
+  root2: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 350,
+    height: "35px",
+  },
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,

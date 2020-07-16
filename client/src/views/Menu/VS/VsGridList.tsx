@@ -15,72 +15,79 @@ import { useStyles } from "./style"
 import Fab from "@material-ui/core/Fab"
 import AddIcon from "@material-ui/icons/Add"
 import MymovieDialog from "./components/MymovieDialog"
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+import useScroll from "../../../common/scroll/Scroll"
 
-const totalImage: IMovie[][] = [[], [], [], []]
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
-  let [totalPickCount, setTotalPickCount] = useState<Number[][]>([[], [], [], []])
+  let [totalPickCount, setTotalPickCount] = useState<Number[]>([])
   const classes = useStyles()
+  const [totalImage, setTotalImage] = useState<IMovie[]>([])
+
+  const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([])
+
   const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
   const [imageArr, setImageArr] = useState<IMovie[]>([])
-  let [pageCount, setPageCount] = useState(0)
-
   const [modalFlag, setModalFlag] = useState(false)
-
   let darkness = useRef<HTMLDivElement | null[]>([])
-
   let btn = useRef<HTMLDivElement | null[]>([])
-  console.log(">>>>>", btn)
-
   let [pickCount, setPickCount] = useState(0)
+  const { percentage } = useScroll()
 
   useEffect(() => {
     getMovieGenre({ variables: { genre } })
     let imageList = data?.getMovieGenre
-
-    // 이차원 배열로 16개씩 4개 담는다. 64개..
+    // 60개의 배열을 미리 담아둔다
     if (imageList) {
       imageList = imageList.filter((iter) => {
         if (iter.imgUrl) {
           return iter
         }
       })
-
-      for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 12; j++) {
+      let totalImageTemp = []
+      for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 10; j++) {
           const randomInt = Math.floor(Math.random() * (imageList.length - 0 + 1)) + 0
           let spliceData = imageList.splice(randomInt - 1, 1)[0]
           if (spliceData && Object.keys(spliceData).length > 0) {
-            totalImage[i][j] = spliceData
+            totalImageTemp = totalImageTemp.concat(spliceData)
           }
         }
       }
-      // 처음엔 totalImage 중 0번째 .. 그이후에는 [1] [2][3] 식으로..
-      setImageArr(totalImage[pageCount])
+      setTotalImage([...totalImageTemp])
+      setFixtotalImage([...totalImageTemp])
     }
   }, [data])
+
+  useEffect(() => {
+    setImageArr(totalImage.splice(0, 18))
+  }, [totalImage])
+
+  useEffect(() => {
+    if (percentage >= 80) {
+      setImageArr([...imageArr, ...totalImage.splice(0, 6)])
+    }
+  }, [percentage])
 
   const imageClickEvent = (i) => {
     if (darkness.current[i].style.opacity == 0.6) {
       darkness.current[i].style.opacity = 0
       btn.current[i].style.opacity = 0
       btn.current[i].style.transform = ""
-      const findIndex = totalPickCount[pageCount].findIndex((index) => i)
-      totalPickCount[pageCount].splice(findIndex, 1)
+      // const findIndex = totalPickCount[pageCount].findIndex((index) => i)
+      // totalPickCount[pageCount].splice(findIndex, 1)
     } else {
       if (pickCount !== 16) {
         darkness.current[i].style.opacity = 0.6
         btn.current[i].style.opacity = 1
         btn.current[i].style.transform = "scale(1)"
 
-        totalPickCount[pageCount].push(i)
+        // totalPickCount[pageCount].push(i)
         setTotalPickCount(totalPickCount)
       }
     }
 
     let tempCount = 0
     for (let i = 0; i < 4; i++) {
-      tempCount += totalPickCount[i].length
+      // tempCount += totalPickCount[i].length
     }
 
     setPickCount(tempCount)
@@ -91,13 +98,14 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   }, [modalFlag])
   if (called && loading) return <ProgressModelComponent />
 
+  console.log(fixtotalImage)
   return (
     <React.Fragment>
       <CssBaseline />
 
-      <main>
+      <main id={"top"}>
         {/* Hero unit */}
-        <MymovieDialog open={modalFlag} callback={modalCallback} />
+        <MymovieDialog open={modalFlag} callback={modalCallback} totalImage={fixtotalImage} />
 
         <Fab className={classes.addButton} color="primary" aria-label="add" onClick={modalCallback}>
           <AddIcon />

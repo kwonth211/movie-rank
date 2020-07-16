@@ -171,7 +171,7 @@ export const SearchMain: FunctionComponent<{
             <div className={classes.heroButtons}>
               <Grid container spacing={8} justify="flex-start">
                 <Grid item>
-                  <SearchBox callback={setSearchMovieCallback} />
+                  <SearchBox callback={setSearchMovieCallback} text={"#인생영화를 검색또는 태그해주세요"} />
                 </Grid>
               </Grid>
             </div>
