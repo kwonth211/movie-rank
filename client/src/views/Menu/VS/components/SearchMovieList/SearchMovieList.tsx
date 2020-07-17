@@ -1,31 +1,21 @@
-import React, { useState, useRef } from "react";
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  IconButton,
-} from "@material-ui/core";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Icon from "@material-ui/core/Icon";
-import { green, red } from "@material-ui/core/colors";
-import { IMovie } from "../../../../../interface/IMovie";
-import { useStyles } from "./style";
-import mockData from "./data";
+import React, { useState, useRef } from "react"
+import clsx from "clsx"
+import PropTypes from "prop-types"
+import { Card, CardHeader, CardContent, CardActions, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, IconButton } from "@material-ui/core"
+import ArrowRightIcon from "@material-ui/icons/ArrowRight"
+import MoreVertIcon from "@material-ui/icons/MoreVert"
+import Icon from "@material-ui/core/Icon"
+import { green, red } from "@material-ui/core/colors"
+import { IMovie } from "../../../../../interface/IMovie"
+import { useStyles } from "./style"
+import mockData from "./data"
 
 const MovieList = (props) => {
-  const { className, ...rest } = props;
+  const { className, ...rest } = props
 
-  const classes = useStyles();
+  const classes = useStyles()
+
+  console.log(props.movies)
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
@@ -47,7 +37,7 @@ const MovieList = (props) => {
                 edge="end"
                 size="small"
                 onClick={(e) => {
-                  props.removeMovie(e, i);
+                  props.removeMovie(e, i)
                 }}
               >
                 {/* <div className={classes.icon}> */}
@@ -60,13 +50,13 @@ const MovieList = (props) => {
       </CardContent>
       <Divider />
     </Card>
-  );
-};
+  )
+}
 
 MovieList.propTypes = {
   className: PropTypes.string,
   movies: PropTypes.array,
   removeMovie: PropTypes.func,
-};
+}
 
-export default MovieList;
+export default MovieList
