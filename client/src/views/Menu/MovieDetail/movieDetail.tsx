@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useMemo } from "react"
 import { useRecoilValue, useRecoilState } from "recoil"
-import { AllMovieState } from "../../../atoms"
+import { AllMovieAtom } from "../../../atoms"
 import { IMovie } from "../../../interface/IMovie"
 import { Grid } from "@material-ui/core"
 import { Theme, makeStyles } from "@material-ui/core/styles"
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 const MovieDetail = ({ history }) => {
   const classes = useStyles()
-  const allMovie = useRecoilValue<IMovie[] | null>(AllMovieState)
+  const allMovie = useRecoilValue<IMovie[] | null>(AllMovieAtom)
   const [searchMovie, setSearchMovie] = useState<IMovie | null>(null)
 
   if (window.location.search && window.location.search.split("=")[1]) {

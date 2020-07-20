@@ -4,7 +4,7 @@ export const UserState = atom({
   key: "UserState",
   default: null,
 })
-export const AllMovieState = atom({
+export const AllMovieAtom = atom({
   key: "AllMovieState",
   default: [],
 })

@@ -3,12 +3,12 @@ import { useRecoilValue } from "recoil"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import TextField from "@material-ui/core/TextField"
 import { IMovie } from "../../interface/IMovie"
-import { AllMovieState } from "../../atoms"
+import { AllMovieAtom } from "../../atoms"
 import { useStyles } from "./style"
 import useReactRouter from "use-react-router"
 
 export const Search: React.FunctionComponent<{}> = () => {
-  const allMovieList = useRecoilValue<IMovie[]>(AllMovieState)
+  const allMovieList = useRecoilValue<IMovie[]>(AllMovieAtom)
   const [movieList, setMovieList] = useState<IMovie[]>([])
   const { history, location, match } = useReactRouter()
   const classes = useStyles()

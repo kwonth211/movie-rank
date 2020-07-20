@@ -1,75 +1,75 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
-import gql from "../../../graphql/query";
-import { useLazyQuery } from "@apollo/react-hooks";
-import ProgressModelComponent from "../../../common/ProgressModelComponent";
-import { IMovie } from "../../../interface/IMovie";
-import { useStyles } from "./style";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import MymovieDialog from "./components/MymovieDialog";
-import useScroll from "../../../common/scroll/Scroll";
+import React, { useEffect, useState, useRef, useCallback } from "react"
+import Button from "@material-ui/core/Button"
+import Card from "@material-ui/core/Card"
+import CardMedia from "@material-ui/core/CardMedia"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import Container from "@material-ui/core/Container"
+import Link from "@material-ui/core/Link"
+import gql from "../../../graphql/query"
+import { useLazyQuery } from "@apollo/react-hooks"
+import ProgressModelComponent from "../../../common/ProgressModelComponent"
+import { IMovie } from "../../../interface/IMovie"
+import { useStyles } from "./style"
+import Fab from "@material-ui/core/Fab"
+import AddIcon from "@material-ui/icons/Add"
+import MymovieDialog from "./components/dialog/MymovieDialog"
+import useScroll from "../../../common/scroll/Scroll"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { UserState } from "../../../atoms"
+import { IUser } from "./../../../interface/IUser"
 
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
-  let [totalPickCount, setTotalPickCount] = useState<Number[]>([]);
-  const classes = useStyles();
-  const [totalImage, setTotalImage] = useState<IMovie[]>([]);
+  const classes = useStyles()
+  const [totalImage, setTotalImage] = useState<IMovie[]>([])
 
-  const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([]);
+  const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([])
+  const user = useRecoilValue<IUser | null>(UserState)
 
-  const [getMovieGenre, { called, loading, data }] = useLazyQuery(
-    gql.GETMOVIEGENRE
-  );
-  const [imageArr, setImageArr] = useState<IMovie[]>([]);
-  const [modalFlag, setModalFlag] = useState(false);
-  let darkness = useRef<HTMLDivElement | null[]>([]);
-  let btn = useRef<HTMLDivElement | null[]>([]);
-  let [pickCount, setPickCount] = useState(0);
-  const { percentage } = useScroll();
+  const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
+  const [imageArr, setImageArr] = useState<IMovie[]>([])
+  const [modalFlag, setModalFlag] = useState(false)
+  let darkness = useRef<HTMLDivElement | null[]>([])
+  let btn = useRef<HTMLDivElement | null[]>([])
+  let [pickCount, setPickCount] = useState(0)
+  const { percentage } = useScroll()
 
   useEffect(() => {
-    getMovieGenre({ variables: { genre } });
-    let imageList = data?.getMovieGenre;
+    getMovieGenre({ variables: { genre } })
+    let imageList = data?.getMovieGenre
     // 60개의 배열을 미리 담아둔다
     if (imageList) {
       imageList = imageList.filter((iter) => {
         if (iter.imgUrl) {
-          return iter;
+          return iter
         }
-      });
-      let totalImageTemp = [];
+      })
+      let totalImageTemp = []
       for (let i = 0; i < 6; i++) {
         for (let j = 0; j < 10; j++) {
-          const randomInt =
-            Math.floor(Math.random() * (imageList.length - 0 + 1)) + 0;
-          let spliceData = imageList.splice(randomInt - 1, 1)[0];
+          const randomInt = Math.floor(Math.random() * (imageList.length - 0 + 1)) + 0
+          let spliceData = imageList.splice(randomInt - 1, 1)[0]
           if (spliceData && Object.keys(spliceData).length > 0) {
-            totalImageTemp = totalImageTemp.concat(spliceData);
+            totalImageTemp = totalImageTemp.concat(spliceData)
           }
         }
       }
-      setTotalImage([...totalImageTemp]);
-      setFixtotalImage([...totalImageTemp]);
+      setTotalImage([...totalImageTemp])
+      setFixtotalImage([...totalImageTemp])
     }
-  }, [data]);
+  }, [data])
 
   useEffect(() => {
     // debugger;
-    setImageArr(totalImage.splice(0, 18));
-  }, [totalImage]);
+    setImageArr(totalImage.splice(0, 18))
+  }, [totalImage])
 
   useEffect(() => {
     if (percentage >= 80) {
-      setImageArr([...imageArr, ...totalImage.splice(0, 6)]);
+      setImageArr([...imageArr, ...totalImage.splice(0, 6)])
     }
-  }, [percentage]);
+  }, [percentage])
 
   // const modalCallback = useCallback(
   //   (a) => {
@@ -89,39 +89,37 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const modalCallback = (movies) => {
     if (movies && Array.isArray(movies)) {
       // console.log(movies);
-      setTotalImage([...movies]);
-      setFixtotalImage([...movies]);
+      setTotalImage([...movies])
+      setFixtotalImage([...movies])
     } else {
     }
-    setModalFlag(!modalFlag);
-  };
+    setModalFlag(!modalFlag)
+  }
 
   const imageClickEvent = (i) => {
     if (darkness.current[i].style.opacity == 0.6) {
-      darkness.current[i].style.opacity = 0;
-      btn.current[i].style.opacity = 0;
-      btn.current[i].style.transform = "";
-      // const findIndex = totalPickCount[pageCount].findIndex((index) => i)
-      // totalPickCount[pageCount].splice(findIndex, 1)
+      darkness.current[i].style.opacity = 0
+      btn.current[i].style.opacity = 0
+      btn.current[i].style.transform = ""
+      setPickCount(--pickCount)
     } else {
-      if (pickCount !== 16) {
-        darkness.current[i].style.opacity = 0.6;
-        btn.current[i].style.opacity = 1;
-        btn.current[i].style.transform = "scale(1)";
+      setPickCount(++pickCount)
 
-        // totalPickCount[pageCount].push(i)
-        setTotalPickCount(totalPickCount);
+      if (pickCount !== 16) {
+        darkness.current[i].style.opacity = 0.6
+        btn.current[i].style.opacity = 1
+        btn.current[i].style.transform = "scale(1)"
       }
     }
 
-    let tempCount = 0;
-    for (let i = 0; i < 4; i++) {
-      // tempCount += totalPickCount[i].length
-    }
+    // let tempCount = 0
+    // for (let i = 0; i < 4; i++) {
+    //   // tempCount += totalPickCount[i].length
+    // }
 
-    setPickCount(tempCount);
-  };
-  if (called && loading) return <ProgressModelComponent />;
+    // setPickCount(tempCount)
+  }
+  if (called && loading) return <ProgressModelComponent />
 
   return (
     <React.Fragment>
@@ -129,48 +127,29 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
 
       <main id={"top"}>
         {/* Hero unit */}
-        <MymovieDialog
-          open={modalFlag}
-          callback={modalCallback}
-          totalImage={fixtotalImage}
-        />
+        <MymovieDialog open={modalFlag} callback={modalCallback} totalImage={fixtotalImage} />
 
-        <Fab
-          className={classes.addButton}
-          color="primary"
-          aria-label="add"
-          onClick={modalCallback}
-        >
+        <Fab className={classes.addButton} color="primary" aria-label="add" onClick={modalCallback}>
           <AddIcon />
         </Fab>
 
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography
-              component="h5"
-              variant="h5"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              권태훈 님 , 좋아하는 영화 총 16개를 PICK 해주세요
+            <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
+              {user?.name} 님 , 좋아하는 영화 총 16개를 PICK 해주세요
             </Typography>
-            <Typography
-              variant="h6"
-              align="center"
-              color="textSecondary"
-              paragraph
-            >
+            <Typography variant="h6" align="center" color="textSecondary" paragraph>
               최종 선택 1개의 영화가 투표권수 1개 입니다.
             </Typography>
-            {/* <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>원하는 영화가 없으십니까?</Grid>
-                <Grid item>
-                  <div className={"count"}> <span draggable="false">{pickCount}/16</span> </div>
-                </Grid>
-              </Grid>
-            </div> */}
+
+            <Typography style={{ marginBottom: "-10px", marginLeft: "30px" }} variant="h6" align="center" color="textSecondary" paragraph>
+              {pickCount}/{fixtotalImage.length}
+              <div style={{ display: "inline", marginLeft: "15px" }}>
+                <Button variant="contained" color="primary">
+                  시작하기
+                </Button>
+              </div>
+            </Typography>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -190,24 +169,17 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
           <Grid container spacing={3}>
             {imageArr.map((iterImage, i) => (
               <Grid item key={i} sm={2} md={2}>
-                <Card
-                  style={{ height: "175px", width: "125px" }}
-                  className={classes.card}
-                >
+                <Card style={{ height: "175px", width: "125px" }} className={classes.card}>
                   <CardMedia
                     className={"tracking-in-contract-bck"}
                     style={{
                       width: "100%",
                       height: "100%",
                     }}
-                    image={
-                      iterImage?.imgUrl?.indexOf("https://") === -1
-                        ? "https://" + iterImage.imgUrl
-                        : iterImage.imgUrl
-                    }
+                    image={iterImage?.imgUrl?.indexOf("https://") === -1 ? "https://" + iterImage.imgUrl : iterImage.imgUrl}
                     title={iterImage.name}
                     onClick={() => {
-                      if (pickCount <= 16) imageClickEvent(i);
+                      if (pickCount <= 16) imageClickEvent(i)
 
                       // console.log(totalPickCount)
                       // debugger
@@ -215,14 +187,14 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
                   >
                     <div
                       ref={(el) => {
-                        darkness.current[i] = el;
+                        darkness.current[i] = el
                       }}
                       // style={{ opacity: true ? 0.7 : 0.2 }}
                       className="darkness"
                     ></div>
                     <div
                       ref={(el) => {
-                        btn.current[i] = el;
+                        btn.current[i] = el
                       }}
                       className="btn-plus"
                     >
@@ -239,7 +211,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
       <footer className={classes.footer}></footer>
       {/* End footer */}
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default VsGridList;
+export default VsGridList

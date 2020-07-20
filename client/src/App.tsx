@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 // import { gql } from "apollo-boost"
 import gql from "./graphql/query"
 import { RecoilRoot, atom, useRecoilState } from "recoil"
-import { AllMovieState } from "./atoms"
+import { AllMovieAtom } from "./atoms"
 import "./App.css"
 import "./index.css"
 import { useQuery, useLazyQuery } from "@apollo/react-hooks"
@@ -14,7 +14,7 @@ function App() {
   const [getMovieAll, { called, loading, data }] = useLazyQuery(gql.GETMOVIEALL)
 
   // const { data } = useQuery(gql.ME)
-  const [AllMovie, setAllMovie] = useRecoilState(AllMovieState)
+  const [AllMovie, setAllMovie] = useRecoilState(AllMovieAtom)
 
   // console.log("data>>>>", data)
 
