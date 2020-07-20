@@ -6,7 +6,7 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 import Icon from "@material-ui/core/Icon"
 import { green, red } from "@material-ui/core/colors"
-import { IMovie } from "../../../../../interface/IMovie"
+import { IMovie } from "../../../../../../interface/IMovie"
 import { useStyles } from "./style"
 import mockData from "./data"
 

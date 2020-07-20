@@ -11,18 +11,18 @@ import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
 import Typography from "@material-ui/core/Typography"
 import ButtonBase from "@material-ui/core/ButtonBase"
-import { IMovie } from "../../../../interface/IMovie"
+import { IMovie } from "../../../../../../interface/IMovie"
 import MoreIcon from "@material-ui/icons/MoreVert"
 import { IconButton } from "@material-ui/core"
 // import "./vote.css"
-import { AllMovieAtom } from "../../../../atoms"
+import { AllMovieAtom } from "../../../../../../atoms"
 import { useRecoilValue, useRecoilValueLoadable } from "recoil"
 import useReactRouter from "use-react-router"
 
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
 import SearchIcon from "@material-ui/icons/Search"
-import { useStyles } from "../style"
+import { useStyles } from "./style"
 import { UseAutocompleteProps } from "@material-ui/lab/useAutocomplete"
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
@@ -31,7 +31,7 @@ interface ISearchProps {
   callback: Function
   styleFlag?: string
   text: string
-  movies?: IMovie[]
+  movies?: IMovie[] | []
 }
 
 // type Props<T> = {
@@ -40,7 +40,8 @@ interface ISearchProps {
 //   UseAutocompleteProps<T>
 
 export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, styleFlag, text, movies }) => {
-  let allMovieState = useRecoilValue<IMovie[]>(AllMovieAtom) // 우선은 recoil로...
+  // const allMovieList =
+  let [allMovieState, setAllMovieState] = useState<IMovie[]>(useRecoilValue<IMovie[]>(AllMovieAtom))
 
   const [hashTagList, setHashTagList] = useState<IMovie[]>([])
 
@@ -51,17 +52,53 @@ export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, sty
 
   let autoCompleteRef = React.useRef<any | null>(null)
 
+  useEffect(() => {
+    console.log(allMovieState)
+    console.log(movies)
+
+    if (movies) {
+      let a = allMovieState.reduce((prev, iter) => {
+        movies.forEach((movieIter) => {
+          if (movieIter.code === iter.code) {
+          } else {
+            prev = prev.concat(iter)
+          }
+        })
+        return prev
+      }, [] as IMovie[])
+      // movies.forEach((iterMovie, i) => {
+      //   const findIndex = allMovieState.findIndex((allMovie) => {
+      //     return iterMovie.code !== allMovie.code
+      //   })
+      //   let a = allMovieState.slice(findIndex, 1)
+      //   debugger
+      //   // debugger
+      // })
+      // debugger
+    }
+  }, [allMovieState])
+
+  // dialog freesolo
   return (
     <Autocomplete
-      multiple
       ref={(e: RefObject<any>) => {
         autoCompleteRef.current = e
       }}
       id="checkboxes-tags-demo"
       options={hashTagList}
       onClose={(e) => {}}
-      onChange={(_, v) => {
-        callback(v)
+      onChange={(e, v) => {
+        if (v) {
+          callback(v)
+          setTextField(v.name)
+          console.log(allMovieState)
+          debugger
+          // setHashTagList([])
+          setTimeout(() => {
+            setTextField("")
+          }, 150)
+        }
+        // debugger
       }}
       filterSelectedOptions
       filterOptions={(r) => {
@@ -73,25 +110,25 @@ export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, sty
       renderOption={(option, { selected }) => {
         return <React.Fragment>{option.name}</React.Fragment>
       }}
-      style={{ marginLeft: "30px" }}
-      // style={{ width: "350px" }}
       renderInput={(params) => {
         return (
-          <Paper className={classes.root}>
+          <Paper className={classes.root2}>
             <TextField
               {...params}
+              inputProps={{ ...params.inputProps, value: textField }}
               InputProps={{ ...params.InputProps, disableUnderline: true }}
               style={{ textDecoration: "none" }}
               className={classes.input}
               placeholder={autoCompleteRef?.current?.innerText ? "" : text}
               onKeyDown={(e) => {
-                if (e.keyCode == 13) {
-                  if (autoCompleteRef?.current?.ariaExpanded == "false") {
-                    //검색 도움창이 닫혀있을때
-                  } else {
-                    setSelectList([hashTagList[0]])
-                  }
-                }
+                // if (e.keyCode == 13) {
+                //   if (autoCompleteRef?.current?.ariaExpanded == "false") {
+                //     //검색 도움창이 닫혀있을때
+                //   } else {
+                //     console.log(">>>>>>", hashTagList[0])
+                //     setSelectList([hashTagList[0]])
+                //   }
+                // }
               }}
               onChange={(e) => {
                 setTextField(e.target.value)
@@ -101,20 +138,24 @@ export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, sty
                       return iter
                     }
                   })
+                  console.log(":::::", filterData)
+                  console.log(movies)
 
-                  setHashTagList(filterData)
+                  setHashTagList([...filterData])
+                } else {
+                  setHashTagList([])
                 }
               }}
             />
 
-            <Divider className={classes.divider} orientation="vertical" />
-            <IconButton type="submit" className={classes.iconButton} aria-label="search">
-              <SearchIcon
-                onClick={(e) => {
-                  callback(selectList)
-                }}
-              />
-            </IconButton>
+            {/* <Divider className={classes.divider} orientation="vertical" />
+              <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                <SearchIcon
+                  onClick={(e) => {
+                    callback(selectList)
+                  }}
+                />
+              </IconButton> */}
           </Paper>
         )
       }}
