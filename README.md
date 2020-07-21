@@ -8,7 +8,6 @@
 기술 스택
 - 퍼블리싱: materialUI , animista
 - 언어: Typescript , nodeJs ,react hooks, 
-- 개발환경 : cra
 - 데이터 질의  : graphql
 - 서버환경 : express , AWS amplifyframework => 예정
 - 상태관리 : contextAPI -> recoil 마이그레이션
@@ -16,8 +15,9 @@
 - 라이브러리 : puppeteer , apollo React hooks , inko , nodemon , mongoose 
 - 배포환경 : 정해야함 
 
-해보고 싶은것 : jtest, styledComponent 
-리펙토링 및 성능개선 : 랜더링 최적화 , localStorage 보안이슈 및 refreshToken 
+해보고 싶은것 : jtest, styledComponent , nextJS ssr
+리펙토링 및 성능개선 : 랜더링 최적화 , localStorage 보안이슈 및 refreshToken , ssr
+
 
 처음 사용해보는 신기술이 많아서 구현이 미숙한 부분이 많습니다. 코드리뷰나 방향성을 제시해주시면 적극 반영하겠습니다.
 메일 : kwonth211@naver.com 
