@@ -19,16 +19,18 @@ import useScroll from "../../../common/scroll/Scroll"
 import { useRecoilValue, useRecoilState } from "recoil"
 import { UserState } from "../../../atoms"
 import { IUser } from "./../../../interface/IUser"
+import { AllMovieAtom } from "../../../atoms"
+import MovieDetail from "../MovieDetail/movieDetail"
 
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const classes = useStyles()
-  const [totalImage, setTotalImage] = useState<IMovie[]>([])
-
-  const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([])
+  const [totalImage, setTotalImage] = useState<IMovie[]>([]) // 총 랜덤리스트 에서  0으로 수렴
+  const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([]) //고정적 랜덤리스트
+  let [searchMovieList, setSearchMovieList] = useState<IMovie[]>([]) //검색 리스트
+  const [imageArr, setImageArr] = useState<IMovie[]>([]) //보여지는 영화리스트
   const user = useRecoilValue<IUser | null>(UserState)
 
   const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
-  const [imageArr, setImageArr] = useState<IMovie[]>([])
   const [modalFlag, setModalFlag] = useState(false)
   let darkness = useRef<HTMLDivElement | null[]>([])
   let btn = useRef<HTMLDivElement | null[]>([])
@@ -38,13 +40,15 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   useEffect(() => {
     getMovieGenre({ variables: { genre } })
     let imageList = data?.getMovieGenre
-    // 60개의 배열을 미리 담아둔다
+    // 60개의 배열을 미리 담는다 / 동시에 전체 영화리스트에서 제외시킨다
     if (imageList) {
       imageList = imageList.filter((iter) => {
         if (iter.imgUrl) {
           return iter
         }
       })
+      // searchMovieList = imageList
+
       let totalImageTemp = []
       for (let i = 0; i < 6; i++) {
         for (let j = 0; j < 10; j++) {
@@ -55,6 +59,8 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
           }
         }
       }
+      console.log(imageList)
+      setSearchMovieList([...imageList])
       setTotalImage([...totalImageTemp])
       setFixtotalImage([...totalImageTemp])
     }
@@ -127,7 +133,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
 
       <main id={"top"}>
         {/* Hero unit */}
-        <MymovieDialog open={modalFlag} callback={modalCallback} totalImage={fixtotalImage} />
+        <MymovieDialog open={modalFlag} callback={modalCallback} searchList={searchMovieList} totalImage={fixtotalImage} />
 
         <Fab className={classes.addButton} color="primary" aria-label="add" onClick={modalCallback}>
           <AddIcon />

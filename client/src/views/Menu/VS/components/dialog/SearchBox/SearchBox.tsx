@@ -32,17 +32,10 @@ interface ISearchProps {
   styleFlag?: string
   text: string
   movies?: IMovie[] | []
+  searchList: IMovie[]
 }
 
-// type Props<T> = {
-//   customProp?: string
-// } & Omit<AutocompleteProps<T>, "renderInput"> &
-//   UseAutocompleteProps<T>
-
-export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, styleFlag, text, movies }) => {
-  // const allMovieList =
-  let [allMovieState, setAllMovieState] = useState<IMovie[]>(useRecoilValue<IMovie[]>(AllMovieAtom))
-
+export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, styleFlag, text, movies, searchList }) => {
   const [hashTagList, setHashTagList] = useState<IMovie[]>([])
 
   let [selectList, setSelectList] = useState<IMovie[] | []>([])
@@ -52,31 +45,11 @@ export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, sty
 
   let autoCompleteRef = React.useRef<any | null>(null)
 
+  console.log(searchList)
   useEffect(() => {
-    console.log(allMovieState)
-    console.log(movies)
-
     if (movies) {
-      let a = allMovieState.reduce((prev, iter) => {
-        movies.forEach((movieIter) => {
-          if (movieIter.code === iter.code) {
-          } else {
-            prev = prev.concat(iter)
-          }
-        })
-        return prev
-      }, [] as IMovie[])
-      // movies.forEach((iterMovie, i) => {
-      //   const findIndex = allMovieState.findIndex((allMovie) => {
-      //     return iterMovie.code !== allMovie.code
-      //   })
-      //   let a = allMovieState.slice(findIndex, 1)
-      //   debugger
-      //   // debugger
-      // })
-      // debugger
     }
-  }, [allMovieState])
+  }, [])
 
   // dialog freesolo
   return (
@@ -91,8 +64,7 @@ export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, sty
         if (v) {
           callback(v)
           setTextField(v.name)
-          console.log(allMovieState)
-          debugger
+
           // setHashTagList([])
           setTimeout(() => {
             setTextField("")
@@ -133,7 +105,7 @@ export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, sty
               onChange={(e) => {
                 setTextField(e.target.value)
                 if (e.target.value) {
-                  const filterData = allMovieState.filter((iter) => {
+                  const filterData = searchList.filter((iter) => {
                     if (iter.name.indexOf(e.target.value.replace(/\s/gi, "")) !== -1 || iter.name.replace(/\s/gi, "").indexOf(e.target.value) !== -1 || iter.name.indexOf(e.target.value) !== -1 || iter.name.replace(/\s/gi, "").indexOf(e.target.value.replace(/\s/gi, "")) !== -1) {
                       return iter
                     }
@@ -147,15 +119,6 @@ export const SearchBox: React.FunctionComponent<ISearchProps> = ({ callback, sty
                 }
               }}
             />
-
-            {/* <Divider className={classes.divider} orientation="vertical" />
-              <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                <SearchIcon
-                  onClick={(e) => {
-                    callback(selectList)
-                  }}
-                />
-              </IconButton> */}
           </Paper>
         )
       }}

@@ -19,22 +19,23 @@ interface props {
   open: boolean
   callback: Function
   totalImage: IMovie[]
+  searchList: IMovie[]
 }
-export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callback, totalImage }) => {
+export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callback, totalImage, searchList }) => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
-  let [movies, setMovies] = useState<IMovie[]>([])
+  // let [movies, setMovies] = useState<IMovie[]>([])
 
   useEffect(() => {
-    setMovies(totalImage)
+    // setMovies(totalImage)
   }, [totalImage])
 
   const classes = useStyles()
 
   const clickOk = () => {
     // setOpen(true)
-    callback(movies)
+    // callback(movies)
   }
 
   const handleClose = () => {
@@ -47,13 +48,18 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
   const removeMovie = (e, i) => {
     e.stopPropagation()
 
-    movies = movies.filter((iter, index) => i !== index)
-    setMovies(movies)
+    // movies = movies.filter((iter, index) => i !== index)
+    // setMovies(movies)
   }
 
   const setSearchMovieCallback = (param) => {
     // movies = movies.unshift(param);
-    if (Object.keys(param).length > 0) setMovies([param, ...movies])
+    if (Object.keys(param).length > 0) {
+      // console.log(searchList)
+      // searchList = searchList.filter((movie) => param.code !== movie.code)
+      // setSearchList(searchList)
+      // setMovies([param, ...movies])
+    }
   }
   // const setSearchMovieCallback = useCallback((param) => {
   //   console.log(movies);
@@ -71,13 +77,9 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
         <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
 
         <DialogContent>
-          <SearchBox movies={movies} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"원하는 영화를 검색해주세요2"} />
+          <SearchBox movies={totalImage} searchList={searchList} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"원하는 영화를 검색해주세요2"} />
 
-          {/* <DialogContentText> */}
-
-          {/* </DialogContentText> */}
-
-          <MovieList movies={movies} removeMovie={removeMovie} />
+          <MovieList movies={totalImage} removeMovie={removeMovie} />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
