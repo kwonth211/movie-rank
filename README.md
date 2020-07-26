@@ -18,7 +18,7 @@ cd server yarn start(server) db 정보는 process.env 들어있기때문에 보�
 - 상태관리 : contextAPI -> recoil 마이그레이션
 - 데이터베이스 : mongoDB
 - 라이브러리 : puppeteer , apollo React hooks , inko , nodemon , mongoose 
-- 배포환경 : 정해야함 
+- 배포환경 : docker + 정해야함 
 
 해보고 싶은것 : jtest, styledComponent , nextJS ssr
 
