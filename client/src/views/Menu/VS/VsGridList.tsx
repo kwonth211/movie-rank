@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useCallback } from "react"
-import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
 import CardMedia from "@material-ui/core/CardMedia"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -16,11 +15,12 @@ import Fab from "@material-ui/core/Fab"
 import AddIcon from "@material-ui/icons/Add"
 import MymovieDialog from "./components/MymovieDialog"
 import useScroll from "../../../common/scroll/Scroll"
-import { useRecoilValue, useRecoilState } from "recoil"
+import { useRecoilValue } from "recoil"
 import { UserState } from "../../../atoms"
 import { IUser } from "./../../../interface/IUser"
 import { AllMovieAtom } from "../../../atoms"
 import MovieDetail from "../MovieDetail/movieDetail"
+import { VsTournament } from "./VsTournament"
 
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const classes = useStyles()
@@ -63,7 +63,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
           }
         }
       }
-      console.log(imageList)
       setSearchMovieList([...imageList])
       setTotalImage([...totalImageTemp])
       setFixtotalImage([...totalImageTemp])
@@ -71,7 +70,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   }, [data])
 
   useEffect(() => {
-    // debugger;
     setImageArr(totalImage.splice(0, 18))
   }, [totalImage])
 
@@ -98,7 +96,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
 
   const modalCallback = (movies) => {
     if (movies && Array.isArray(movies)) {
-      // console.log(movies);
       setTotalImage([...movies])
       setFixtotalImage([...movies])
     } else {
@@ -107,28 +104,47 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   }
 
   const imageClickEvent = (i) => {
-    if (darkness.current[i].style.opacity == 0.6) {
+    if (btn.current[i].style.flag) {
+      // 해제
       darkness.current[i].style.opacity = 0
       btn.current[i].style.opacity = 0
       btn.current[i].style.transform = ""
+      btn.current[i].style.flag = false
       setPickCount(--pickCount)
     } else {
+      //추가
+      if (pickCount === 15) {
+        tournamentStart()
+      } else if (pickCount >= 16) {
+        return
+      }
       setPickCount(++pickCount)
 
-      if (pickCount !== 16) {
-        darkness.current[i].style.opacity = 0.6
-        btn.current[i].style.opacity = 1
-        btn.current[i].style.transform = "scale(1)"
-      }
+      darkness.current[i].style.opacity = 0.7
+      btn.current[i].style.opacity = 1
+      btn.current[i].style.transform = "scale(1)"
+      btn.current[i].style.flag = true
     }
-
-    // let tempCount = 0
-    // for (let i = 0; i < 4; i++) {
-    //   // tempCount += totalPickCount[i].length
-    // }
-
-    // setPickCount(tempCount)
   }
+  const tournamentStart = () => {
+    console.log("tournameterStart")
+  }
+  const hoverCancel = (index) => {
+    if (!btn.current[index].style.flag) {
+      //true 가 아닐때는 hover cancel
+      darkness.current[index].style.opacity = 0
+      btn.current[index].style.opacity = 0
+      btn.current[index].style.transform = ""
+    }
+  }
+  const hoverEvent = (index) => {
+    if (!btn.current[index].style.flag) {
+      darkness.current[index].style.opacity = 0.4
+      btn.current[index].style.opacity = 1
+      btn.current[index].style.transform = "scale(1)"
+    }
+  }
+
   if (called && loading) return <ProgressModelComponent />
 
   return (
@@ -152,13 +168,13 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
               최종 선택 1개의 영화가 투표권수 1개 입니다.
             </Typography>
 
-            <Typography style={{ marginBottom: "-10px", marginLeft: "30px" }} variant="h6" align="center" color="textSecondary" paragraph>
-              {pickCount}/{fixtotalImage.length}
-              <div style={{ display: "inline", marginLeft: "15px" }}>
+            <Typography style={{ marginBottom: "-10px" }} variant="h6" align="center" color="textSecondary" paragraph>
+              {pickCount}/16
+              {/* <div style={{ display: "inline", marginLeft: "15px" }}>
                 <Button variant="contained" color="primary">
                   시작하기
                 </Button>
-              </div>
+              </div> */}
             </Typography>
           </Container>
         </div>
@@ -181,6 +197,12 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
               <Grid item key={i} sm={2} md={2}>
                 <Card style={{ height: "175px", width: "125px" }} className={classes.card}>
                   <CardMedia
+                    onMouseOver={(e) => {
+                      hoverEvent(i)
+                    }}
+                    onMouseLeave={(e) => {
+                      hoverCancel(i)
+                    }}
                     className={"tracking-in-contract-bck"}
                     style={{
                       width: "100%",
@@ -189,17 +211,13 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
                     image={iterImage?.imgUrl?.indexOf("https://") === -1 ? "https://" + iterImage.imgUrl : iterImage.imgUrl}
                     title={iterImage.name}
                     onClick={() => {
-                      if (pickCount <= 16) imageClickEvent(i)
-
-                      // console.log(totalPickCount)
-                      // debugger
+                      imageClickEvent(i)
                     }}
                   >
                     <div
                       ref={(el) => {
                         darkness.current[i] = el
                       }}
-                      // style={{ opacity: true ? 0.7 : 0.2 }}
                       className="darkness"
                     ></div>
                     <div

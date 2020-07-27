@@ -1,19 +1,14 @@
-import React, { useCallback, useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
-import { makeStyles, createStyles, useTheme, Theme } from "@material-ui/core/styles"
+import { useTheme } from "@material-ui/core/styles"
 import { SearchBox } from "./dialog/SearchBox/SearchBox"
-import { green, red } from "@material-ui/core/colors"
-import Icon from "@material-ui/core/Icon"
-import { useStyles } from "./styles"
 import MovieList from "./dialog/SearchMovieList/SearchMovieList"
 import { IMovie } from "../../../../interface/IMovie"
-import { cpuUsage } from "process"
 
 interface props {
   open: boolean
@@ -31,36 +26,38 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
   useEffect(() => {
     setMovies(totalImage)
   }, [totalImage])
+
   useEffect(() => {
     setSearchList(searchList)
   }, [searchList])
 
-  const classes = useStyles()
+  // const classes = useStyles()
 
   const clickOk = () => {
-    // setOpen(true)
-    // callback(movies)
+    callback(movies)
   }
 
   const handleClose = () => {
     callback()
-    // setTimeout(() => {
-    //   setMovies(totalImage);
-    // }, 200);
+    setTimeout(() => {
+      setSearchList(searchList)
+      setMovies(totalImage)
+    }, 200)
   }
 
   const removeMovie = (e, i) => {
     e.stopPropagation()
 
+    searchListDialog = searchListDialog.concat(movies[i])
+    setSearchList(searchListDialog)
     movies = movies.filter((iter, index) => i !== index)
     setMovies(movies)
   }
 
   const setSearchMovieCallback = (param) => {
     if (Object.keys(param).length > 0) {
-      searchList = searchList.filter((movie) => param.code !== movie.code)
-      console.log(searchList.length)
-      setSearchList([...searchList])
+      searchListDialog = searchListDialog.filter((movie) => param.code !== movie.code)
+      setSearchList([...searchListDialog])
       setMovies([param, ...movies])
     }
   }
@@ -77,19 +74,19 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
   return (
     <div>
       <Dialog style={{ top: "20%", maxHeight: "500px" }} fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
-        <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">원하는 영화를 등록하세요!</DialogTitle>
 
         <DialogContent>
-          <SearchBox movies={movies} searchList={searchListDialog} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"원하는 영화를 검색해주세요2"} />
+          <SearchBox movies={movies} searchList={searchListDialog} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"#원하는 영화를 검색해주세요"} />
 
           <MovieList movies={movies} removeMovie={removeMovie} />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
-            Disagree
+            취소
           </Button>
           <Button onClick={clickOk} color="primary" autoFocus>
-            Agree
+            확인
           </Button>
         </DialogActions>
       </Dialog>

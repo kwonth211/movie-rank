@@ -8,11 +8,11 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import { useStyles } from "./style"
 import Container from "@material-ui/core/Container"
-import React, { useState, useEffect, useContext, InputHTMLAttributes } from "react"
+import React, { useState, useEffect } from "react"
 import { useMutation } from "@apollo/react-hooks"
 import gql from "../../graphql/query"
 import InKo from "inko"
-import { useRecoilValue, useRecoilState } from "recoil"
+import { useRecoilState } from "recoil"
 import { UserState } from "../../atoms"
 
 const inko = new InKo()

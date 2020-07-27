@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import React, { useContext, FunctionComponent, useEffect } from "react"
+import { BrowserRouter as Route } from "react-router-dom"
+import React, { FunctionComponent, useEffect } from "react"
 import useReactRouter from "use-react-router"
-import { useRecoilValue, useRecoilState } from "recoil"
+import { useRecoilValue } from "recoil"
 import { UserState } from "../atoms"
 
 const AuthRouter: React.FunctionComponent<{

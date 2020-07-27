@@ -243,12 +243,12 @@
 }
 
 /* 추가된 부분 */
-.tracking-in-contract-bck:hover .darkness {
+/* .tracking-in-contract-bck:hover .darkness {
   opacity: 0.6;
-}
+} */
 
 /* 추가된 부분 */
-.tracking-in-contract-bck:hover .btn-plus {
+/* .tracking-in-contract-bck:hover .btn-plus {
   opacity: 1;
   transform: scale(1);
-}
+} */

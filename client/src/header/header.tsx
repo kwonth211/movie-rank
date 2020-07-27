@@ -1,6 +1,6 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect } from "react"
 import clsx from "clsx"
-import { createMuiTheme, MuiThemeProvider, fade } from "@material-ui/core/styles"
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles"
 import { Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText, Badge, Button, IconButton } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
@@ -10,21 +10,19 @@ import MailIcon from "@material-ui/icons/Mail"
 import NotificationsIcon from "@material-ui/icons/Notifications"
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import MoreIcon from "@material-ui/icons/MoreVert"
-import { Route, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import SearchIcon from "@material-ui/icons/Search"
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
-import InputBase from "@material-ui/core/InputBase"
 import useReactRouter from "use-react-router"
 import { useMutation } from "@apollo/react-hooks"
 import Box from "@material-ui/core/Box"
 import Popover from "@material-ui/core/Popover"
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
 import gql from "./../graphql/query"
-import { useRecoilValue, useRecoilState } from "recoil"
+import { useRecoilState } from "recoil"
 import { UserState } from "../atoms"
 import { useQuery } from "@apollo/react-hooks"
 import { useStyles } from "./style"
-import { IMovie } from "../interface/IMovie"
 import { Search } from "./components/Search"
 import "./../App.css"
 import "./../index.css"
@@ -44,12 +42,6 @@ export default function Header() {
   const [logout, { data }] = useMutation(gql.LOGOUT)
   const { data: userData } = useQuery(gql.ME)
   // const { user, setUser } = useContext(UserContext)
-
-  const callbackFunction = {
-    searchMovie: (selectList) => {
-      // setMovieList(selectList)
-    },
-  }
 
   useEffect(() => {
     if (data?.logout) {

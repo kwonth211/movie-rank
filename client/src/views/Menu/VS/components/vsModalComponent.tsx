@@ -78,7 +78,7 @@ export default function VsModalComponent(props) {
 }
 
 // const options = ["SF", "스릴러", "로맨스", "모험", "판타지", "재난", "코미디", "드라마", "로맨틱코미디", "키즈", "전쟁"]
-const options = ["드라마", "슈퍼히어로", "스포츠", "범죄", "코미디", "로멘스/멜로", "스릴러", "로맨틱코미디", "전쟁", "판타지", "SF", "액션", "애니메이션", "다큐멘터리", "공포"]
+const options = ["슈퍼히어로", "드라마", "스포츠", "범죄", "코미디", "로멘스/멜로", "스릴러", "로맨틱코미디", "전쟁", "판타지", "SF", "액션", "애니메이션", "다큐멘터리", "공포"]
 
 export function ComboBox(props) {
   const [value, setValue] = React.useState<string | null>(options[0])
