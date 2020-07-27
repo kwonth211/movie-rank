@@ -1,21 +1,32 @@
+import Checkbox from "@material-ui/core/Checkbox"
 import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
+import Autocomplete, { AutocompleteProps } from "@material-ui/lab/Autocomplete"
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
-import React, { useState, RefObject } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useCallback } from "react"
+import Container from "@material-ui/core/Container"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Grid from "@material-ui/core/Grid"
+import Link from "@material-ui/core/Link"
+import Typography from "@material-ui/core/Typography"
+import ButtonBase from "@material-ui/core/ButtonBase"
 import { IMovie } from "../../../../interface/IMovie"
+import MoreIcon from "@material-ui/icons/MoreVert"
 import { IconButton } from "@material-ui/core"
 // import "./vote.css"
 import { AllMovieAtom } from "../../../../atoms"
-import { useRecoilValue } from "recoil"
+import { useRecoilValue, useRecoilValueLoadable } from "recoil"
+import useReactRouter from "use-react-router"
 
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
 import SearchIcon from "@material-ui/icons/Search"
 import { useStyles } from "../style"
+import { UseAutocompleteProps } from "@material-ui/lab/useAutocomplete"
 
-// const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
-// const checkedIcon = <CheckBoxIcon fontSize="small" />
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
+const checkedIcon = <CheckBoxIcon fontSize="small" />
 interface ISearchProps {
   callback: Function
   styleFlag?: string

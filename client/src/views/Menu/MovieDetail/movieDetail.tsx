@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { useRecoilValue } from "recoil"
+import React, { useState, useEffect, useContext, useRef, MutableRefObject, RefObject, useMemo } from "react"
+import { useRecoilValue, useRecoilState } from "recoil"
 import { AllMovieAtom } from "../../../atoms"
 import { IMovie } from "../../../interface/IMovie"
 import { Grid } from "@material-ui/core"
 import { Theme, makeStyles } from "@material-ui/core/styles"
-import { MovieInfo, GenreGraph, Review, RealtimeVoting } from "./components"
+import { MovieInfo, TotalUsers, TasksProgress, TotalProfit, LatestSales, GenreGraph, Review, RealtimeVoting } from "./components"
 let movieString = ""
 
 const useStyles = makeStyles((theme: Theme) => ({

@@ -1,10 +1,15 @@
-import React, { FunctionComponent } from "react"
+import React, { useEffect, KeyboardEvent, FunctionComponent } from "react"
 import ReactDOM from "react-dom"
 import Modal from "@material-ui/core/Modal"
 import Backdrop from "@material-ui/core/Backdrop"
 import Fade from "@material-ui/core/Fade"
+import TextField from "@material-ui/core/TextField"
+import Autocomplete from "@material-ui/lab/Autocomplete"
 import Button from "@material-ui/core/Button"
+import { Link } from "react-router-dom"
+import useReactRouter from "use-react-router"
 import { modalStyles } from "./style"
+import useModal from "./useModal"
 type modalFlag = {
   modalFlag: boolean
   toggle: Function

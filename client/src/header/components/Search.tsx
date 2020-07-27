@@ -1,4 +1,4 @@
-import React, { useState, RefObject } from "react"
+import React, { useEffect, useContext, useState, RefObject } from "react"
 import { useRecoilValue } from "recoil"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import TextField from "@material-ui/core/TextField"
@@ -10,7 +10,7 @@ import useReactRouter from "use-react-router"
 export const Search: React.FunctionComponent<{}> = () => {
   const allMovieList = useRecoilValue<IMovie[]>(AllMovieAtom)
   const [movieList, setMovieList] = useState<IMovie[]>([])
-  const { history } = useReactRouter()
+  const { history, location, match } = useReactRouter()
   const classes = useStyles()
   const [textField, setTextField] = useState("")
   let autoCompleteRef = React.useRef<any | null>(null)

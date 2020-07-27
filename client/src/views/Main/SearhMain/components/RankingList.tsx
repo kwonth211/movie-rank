@@ -75,9 +75,17 @@ export const RankingList: FunctionComponent<{ rankMovie: IMovie[]; rankMovieCall
                   <TableCell className={classes.trRank}>{i + 1}</TableCell>
                   <TableCell className={classes.trName}>{movie.name}</TableCell>
                   <TableCell className={classes.trVotes}>{movie.votes}</TableCell>
+                  {/* <TableCell>{moment(order.createdAt).format("DD/MM/YYYY")}</TableCell> */}
+                  {/* <TableCell>
+                    <div className={classes.statusContainer}>
+                      <StatusBullet className={classes.status} color={statusColors[order.status]} size="sm" />
+                      {order.status}
+                    </div>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </Table>
+            {/* <MainPagination /> */}
           </div>
         </PerfectScrollbar>
       </CardContent>
