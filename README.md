@@ -23,9 +23,9 @@ cd server yarn start(server) db 정보는 process.env 들어있기때문에 보�
 
 해보고 싶은것 : jtest, styledComponent , nextJS ssr
 
- : 랜더링 최적화 , localStorage 보안이슈 및 refreshToken , ssr
+예정 : 랜더링 최적화 , localStorage 보안이슈 및 refreshToken , ssr
 
 
-
+ 
 메일 : kwonth211@naver.com 
 
