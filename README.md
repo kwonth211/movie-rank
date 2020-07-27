@@ -2,6 +2,7 @@
 
 실행방법 : 
 cd client yarn start(client)
+
 cd server yarn start(server) db 정보는 process.env 들어있기때문에 보안상 구동 불가능
 
 
@@ -22,7 +23,7 @@ cd server yarn start(server) db 정보는 process.env 들어있기때문에 보�
 
 해보고 싶은것 : jtest, styledComponent , nextJS ssr
 
-리펙토링 및 성능개선 : 랜더링 최적화 , localStorage 보안이슈 및 refreshToken , ssr
+ : 랜더링 최적화 , localStorage 보안이슈 및 refreshToken , ssr
 
 
 
