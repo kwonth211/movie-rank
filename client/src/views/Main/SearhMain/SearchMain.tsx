@@ -69,7 +69,6 @@ export const SearchMain: FunctionComponent<{
         return false
       })
     }
-    console.log(defaultArray)
     setStarImage(defaultArray)
   }, [searchMovie, user])
 

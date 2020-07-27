@@ -21,6 +21,9 @@ import { IUser } from "./../../../interface/IUser"
 import { AllMovieAtom } from "../../../atoms"
 import MovieDetail from "../MovieDetail/movieDetail"
 import { VsTournament } from "./VsTournament"
+import ModalComponent from "../../../common/Modal"
+import useModal from "./../../../common/useModal"
+import Modal from "./../../../common/Modal"
 
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const classes = useStyles()
@@ -37,6 +40,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   let btn = useRef<HTMLDivElement | null[]>([])
   let [pickCount, setPickCount] = useState(0)
   const { percentage } = useScroll()
+  const { modalFlag: commonModal, toggle, modalTitle } = useModal()
 
   /* Todo 
   
@@ -127,7 +131,11 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
     }
   }
   const tournamentStart = () => {
-    console.log("tournameterStart")
+    toggle("토너먼트를 시작하시겠습니까?", {
+      callback: () => {
+        console.log("확인눌렀다!!!!!!!!!!!!!!")
+      },
+    })
   }
   const hoverCancel = (index) => {
     if (!btn.current[index].style.flag) {
@@ -149,6 +157,8 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
 
   return (
     <React.Fragment>
+      <Modal modalFlag={commonModal} toggle={toggle} title={modalTitle} />
+
       <CssBaseline />
 
       <main id={"top"}>

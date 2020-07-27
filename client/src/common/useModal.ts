@@ -1,27 +1,27 @@
-import { useState } from "react";
+import { useState } from "react"
 
-let tempCallback;
+let tempCallback
 const useModal = () => {
-  const [modalFlag, setModalFlag] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
+  const [modalFlag, setModalFlag] = useState(false)
+  const [modalTitle, setModalTitle] = useState("") // useModal markup 태그 state로 설정해야함
 
   const toggle = (title = "", callback = {}) => {
-    setModalFlag(!modalFlag);
-    setModalTitle(title);
+    setModalFlag(!modalFlag)
+    setModalTitle(title)
 
-    if (Object.keys(callback).length > 0) tempCallback = callback;
+    if (Object.keys(callback).length > 0) tempCallback = callback
 
-    return tempCallback;
+    return tempCallback
     // if (callbackOk) {
     //   console.log(callbackOk)
     // }
-  };
+  }
 
   return {
     modalFlag,
     toggle,
     modalTitle,
-  };
-};
+  }
+}
 
-export default useModal;
+export default useModal
