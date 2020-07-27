@@ -25,11 +25,15 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
-  // let [movies, setMovies] = useState<IMovie[]>([])
+  let [movies, setMovies] = useState<IMovie[]>([])
+  let [searchListDialog, setSearchList] = useState<IMovie[]>([])
 
   useEffect(() => {
-    // setMovies(totalImage)
+    setMovies(totalImage)
   }, [totalImage])
+  useEffect(() => {
+    setSearchList(searchList)
+  }, [searchList])
 
   const classes = useStyles()
 
@@ -48,17 +52,16 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
   const removeMovie = (e, i) => {
     e.stopPropagation()
 
-    // movies = movies.filter((iter, index) => i !== index)
-    // setMovies(movies)
+    movies = movies.filter((iter, index) => i !== index)
+    setMovies(movies)
   }
 
   const setSearchMovieCallback = (param) => {
-    // movies = movies.unshift(param);
     if (Object.keys(param).length > 0) {
-      // console.log(searchList)
-      // searchList = searchList.filter((movie) => param.code !== movie.code)
-      // setSearchList(searchList)
-      // setMovies([param, ...movies])
+      searchList = searchList.filter((movie) => param.code !== movie.code)
+      console.log(searchList.length)
+      setSearchList([...searchList])
+      setMovies([param, ...movies])
     }
   }
   // const setSearchMovieCallback = useCallback((param) => {
@@ -77,9 +80,9 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
         <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
 
         <DialogContent>
-          <SearchBox movies={totalImage} searchList={searchList} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"원하는 영화를 검색해주세요2"} />
+          <SearchBox movies={movies} searchList={searchListDialog} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"원하는 영화를 검색해주세요2"} />
 
-          <MovieList movies={totalImage} removeMovie={removeMovie} />
+          <MovieList movies={movies} removeMovie={removeMovie} />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">

@@ -38,7 +38,6 @@ export const RankingList: FunctionComponent<{ rankMovie: IMovie[]; rankMovieCall
       rankMovieCallback(10)
     } else {
       // setFilterList(rankMovie.slice(0, 5))
-
       cardRef.current.style.top = "37%"
       setSplitNumber(10)
       rankMovieCallback(5)

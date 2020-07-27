@@ -29,6 +29,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   let [searchMovieList, setSearchMovieList] = useState<IMovie[]>([]) //검색 리스트
   const [imageArr, setImageArr] = useState<IMovie[]>([]) //보여지는 영화리스트
   const user = useRecoilValue<IUser | null>(UserState)
+  const allMovieList = useRecoilValue<IMovie[]>(AllMovieAtom)
 
   const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
   const [modalFlag, setModalFlag] = useState(false)
@@ -37,6 +38,9 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   let [pickCount, setPickCount] = useState(0)
   const { percentage } = useScroll()
 
+  /* Todo 
+  
+  장르 속도개선 해야함..*/
   useEffect(() => {
     getMovieGenre({ variables: { genre } })
     let imageList = data?.getMovieGenre
