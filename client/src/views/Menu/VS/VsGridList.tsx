@@ -25,7 +25,7 @@ import ModalComponent from "../../../common/Modal"
 import useModal from "./../../../common/useModal"
 import Modal from "./../../../common/Modal"
 
-const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
+const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, children }) => {
   const classes = useStyles()
   const [totalImage, setTotalImage] = useState<IMovie[]>([]) // 총 랜덤리스트 에서  0으로 수렴
   const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([]) //고정적 랜덤리스트
@@ -38,9 +38,12 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
   const [modalFlag, setModalFlag] = useState(false)
   let darkness = useRef<HTMLDivElement | null[]>([])
   let btn = useRef<HTMLDivElement | null[]>([])
-  let [pickCount, setPickCount] = useState(0)
+  let [pickMovie, setPickMovie] = useState<IMovie[]>([])
   const { percentage } = useScroll()
   const { modalFlag: commonModal, toggle, modalTitle } = useModal()
+  let [tournamentFlag, setTournamentFlag] = useState(false)
+
+  const pickCount = pickMovie.length
 
   /* Todo 
   
@@ -114,26 +117,28 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
       btn.current[i].style.opacity = 0
       btn.current[i].style.transform = ""
       btn.current[i].style.flag = false
-      setPickCount(--pickCount)
+      // setPickCount(--pickCount)
+      pickMovie = pickMovie.filter((e, idx) => fixtotalImage[i].name !== e.name)
     } else {
       //추가
-      if (pickCount === 15) {
+      if (pickCount === 3) {
         tournamentStart()
       } else if (pickCount >= 16) {
         return
       }
-      setPickCount(++pickCount)
+      pickMovie = pickMovie.concat(fixtotalImage[i])
 
       darkness.current[i].style.opacity = 0.7
       btn.current[i].style.opacity = 1
       btn.current[i].style.transform = "scale(1)"
       btn.current[i].style.flag = true
     }
+    setPickMovie(pickMovie)
   }
   const tournamentStart = () => {
     toggle("토너먼트를 시작하시겠습니까?", {
       callback: () => {
-        console.log("확인눌렀다!!!!!!!!!!!!!!")
+        setTournamentFlag(true)
       },
     })
   }
@@ -155,101 +160,105 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre }) => {
 
   if (called && loading) return <ProgressModelComponent />
 
-  return (
-    <React.Fragment>
-      <Modal modalFlag={commonModal} toggle={toggle} title={modalTitle} />
+  if (tournamentFlag) {
+    return <VsTournament pickMovie={pickMovie} />
+  } else {
+    return (
+      <React.Fragment>
+        <Modal modalFlag={commonModal} toggle={toggle} title={modalTitle} />
 
-      <CssBaseline />
+        <CssBaseline />
 
-      <main id={"top"}>
-        {/* Hero unit */}
-        <MymovieDialog open={modalFlag} callback={modalCallback} searchList={searchMovieList} totalImage={fixtotalImage} />
+        <main id={"top"}>
+          {/* Hero unit */}
+          <MymovieDialog open={modalFlag} callback={modalCallback} searchList={searchMovieList} totalImage={fixtotalImage} />
 
-        <Fab className={classes.addButton} color="primary" aria-label="add" onClick={modalCallback}>
-          <AddIcon />
-        </Fab>
+          <Fab className={classes.addButton} color="primary" aria-label="add" onClick={modalCallback}>
+            <AddIcon />
+          </Fab>
 
-        <div className={classes.heroContent}>
-          <Container maxWidth="sm">
-            <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
-              {user?.name} 님 , 좋아하는 영화 총 16개를 PICK 해주세요
-            </Typography>
-            <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              최종 선택 1개의 영화가 투표권수 1개 입니다.
-            </Typography>
+          <div className={classes.heroContent}>
+            <Container maxWidth="sm">
+              <Typography component="h5" variant="h5" align="center" color="textPrimary" gutterBottom>
+                {user?.name} 님 , 좋아하는 영화 총 16개를 PICK 해주세요
+              </Typography>
+              <Typography variant="h6" align="center" color="textSecondary" paragraph>
+                최종 선택 1개의 영화가 투표권수 1개 입니다.
+              </Typography>
 
-            <Typography style={{ marginBottom: "-10px" }} variant="h6" align="center" color="textSecondary" paragraph>
-              {pickCount}/16
-              {/* <div style={{ display: "inline", marginLeft: "15px" }}>
-                <Button variant="contained" color="primary">
-                  시작하기
-                </Button>
-              </div> */}
-            </Typography>
-          </Container>
-        </div>
-        <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <div
-            onClick={modalCallback}
-            style={{
-              textAlign: "center",
-              marginBottom: "20px",
-              color: "blue",
-              cursor: "pointer",
-            }}
-          >
-            원하는 영화가 없으십니까?
+              <Typography style={{ marginBottom: "-10px" }} variant="h6" align="center" color="textSecondary" paragraph>
+                {pickCount}/16
+                {/* <div style={{ display: "inline", marginLeft: "15px" }}>
+                  <Button variant="contained" color="primary">
+                    시작하기
+                  </Button>
+                </div> */}
+              </Typography>
+            </Container>
           </div>
+          <Container className={classes.cardGrid} maxWidth="md">
+            {/* End hero unit */}
+            <div
+              onClick={modalCallback}
+              style={{
+                textAlign: "center",
+                marginBottom: "20px",
+                color: "blue",
+                cursor: "pointer",
+              }}
+            >
+              원하는 영화가 없으십니까?
+            </div>
 
-          <Grid container spacing={3}>
-            {imageArr.map((iterImage, i) => (
-              <Grid item key={i} sm={2} md={2}>
-                <Card style={{ height: "175px", width: "125px" }} className={classes.card}>
-                  <CardMedia
-                    onMouseOver={(e) => {
-                      hoverEvent(i)
-                    }}
-                    onMouseLeave={(e) => {
-                      hoverCancel(i)
-                    }}
-                    className={"tracking-in-contract-bck"}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                    }}
-                    image={iterImage?.imgUrl?.indexOf("https://") === -1 ? "https://" + iterImage.imgUrl : iterImage.imgUrl}
-                    title={iterImage.name}
-                    onClick={() => {
-                      imageClickEvent(i)
-                    }}
-                  >
-                    <div
-                      ref={(el) => {
-                        darkness.current[i] = el
+            <Grid container spacing={3}>
+              {imageArr.map((iterImage, i) => (
+                <Grid item key={i} sm={2} md={2}>
+                  <Card style={{ height: "175px", width: "125px" }} className={classes.card}>
+                    <CardMedia
+                      onMouseOver={(e) => {
+                        hoverEvent(i)
                       }}
-                      className="darkness"
-                    ></div>
-                    <div
-                      ref={(el) => {
-                        btn.current[i] = el
+                      onMouseLeave={(e) => {
+                        hoverCancel(i)
                       }}
-                      className="btn-plus"
+                      className={"tracking-in-contract-bck"}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      image={iterImage?.imgUrl?.indexOf("https://") === -1 ? "https://" + iterImage.imgUrl : iterImage.imgUrl}
+                      title={iterImage.name}
+                      onClick={() => {
+                        imageClickEvent(i)
+                      }}
                     >
-                      <span draggable="false">♡</span>
-                    </div>
-                  </CardMedia>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
-      {/* Footer */}
-      <footer className={classes.footer}></footer>
-      {/* End footer */}
-    </React.Fragment>
-  )
+                      <div
+                        ref={(el) => {
+                          darkness.current[i] = el
+                        }}
+                        className="darkness"
+                      ></div>
+                      <div
+                        ref={(el) => {
+                          btn.current[i] = el
+                        }}
+                        className="btn-plus"
+                      >
+                        <span draggable="false">♡</span>
+                      </div>
+                    </CardMedia>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </main>
+        {/* Footer */}
+        <footer className={classes.footer}></footer>
+        {/* End footer */}
+      </React.Fragment>
+    )
+  }
 }
 
 export default VsGridList
