@@ -58,8 +58,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
           return iter
         }
       })
-      // searchMovieList = imageList
-
       let totalImageTemp = []
       for (let i = 0; i < 6; i++) {
         for (let j = 0; j < 10; j++) {
