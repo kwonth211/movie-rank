@@ -75,17 +75,9 @@ export const RankingList: FunctionComponent<{ rankMovie: IMovie[]; rankMovieCall
                   <TableCell className={classes.trRank}>{i + 1}</TableCell>
                   <TableCell className={classes.trName}>{movie.name}</TableCell>
                   <TableCell className={classes.trVotes}>{movie.votes}</TableCell>
-                  {/* <TableCell>{moment(order.createdAt).format("DD/MM/YYYY")}</TableCell> */}
-                  {/* <TableCell>
-                    <div className={classes.statusContainer}>
-                      <StatusBullet className={classes.status} color={statusColors[order.status]} size="sm" />
-                      {order.status}
-                    </div>
-                  </TableCell> */}
                 </TableRow>
               ))}
             </Table>
-            {/* <MainPagination /> */}
           </div>
         </PerfectScrollbar>
       </CardContent>
@@ -104,66 +96,3 @@ export const RankingList: FunctionComponent<{ rankMovie: IMovie[]; rankMovieCall
 // }
 
 export default RankingList
-
-const orders = [
-  {
-    id: "12",
-    ref: "CDD1049",
-    amount: 30.5,
-    customer: {
-      name: "Ekaterina Tankova",
-    },
-    createdAt: 1555016400000,
-    status: "pending",
-  },
-  {
-    id: "3",
-    ref: "CDD1048",
-    amount: 25.1,
-    customer: {
-      name: "Cao Yu",
-    },
-    createdAt: 1555016400000,
-    status: "delivered",
-  },
-  {
-    id: "44",
-    ref: "CDD1047",
-    amount: 10.99,
-    customer: {
-      name: "Alexa Richardson",
-    },
-    createdAt: 1554930000000,
-    status: "refunded",
-  },
-  {
-    id: "55",
-    ref: "CDD1046",
-    amount: 96.43,
-    customer: {
-      name: "Anje Keizer",
-    },
-    createdAt: 1554757200000,
-    status: "pending",
-  },
-  {
-    id: "66",
-    ref: "CDD1045",
-    amount: 32.54,
-    customer: {
-      name: "Clarke Gillebert",
-    },
-    createdAt: 1554670800000,
-    status: "delivered",
-  },
-  // {
-  //   id: "77",
-  //   ref: "CDD1044",
-  //   amount: 16.76,
-  //   customer: {
-  //     name: "Adam Denisov",
-  //   },
-  //   createdAt: 1554670800000,
-  //   status: "delivered",
-  // },
-]

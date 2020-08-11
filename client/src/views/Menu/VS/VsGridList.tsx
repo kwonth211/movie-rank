@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react"
+import React, { useEffect, useState, useRef, useCallback, useReducer } from "react"
 import Card from "@material-ui/core/Card"
 import CardMedia from "@material-ui/core/CardMedia"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -25,23 +25,73 @@ import ModalComponent from "../../../common/Modal"
 import useModal from "./../../../common/useModal"
 import Modal from "./../../../common/Modal"
 
+interface initialType {
+  movieDialog: false
+  totalImage: IMovie[]
+  imageArr: IMovie[]
+  tournamentFlag: boolean
+  pickMovie: IMovie[]
+  fixtotalImage: IMovie[]
+}
+
+const initialState: initialType = {
+  movieDialog: false,
+  totalImage: [],
+  imageArr: [],
+  tournamentFlag: false,
+  pickMovie: [],
+  fixtotalImage: [],
+}
+
+const reducer = (state, { type, value }) => {
+  switch (type) {
+    case "SET_TOTAL":
+      state = {
+        ...state,
+        totalImage: [...value],
+        fixtotalImage: [...value],
+      }
+      break
+    case "SET_MOVIELIST":
+      if (value.length > 0) {
+        state = {
+          ...state,
+          imageArr: [...value, ...state.totalImage.splice(0, 6)],
+        }
+      } else {
+        state = {
+          ...state,
+          imageArr: [...state.totalImage.splice(0, 18)],
+        }
+      }
+      // ...state,
+      // totalImage: [...value],
+      // fixtotalImage: [...value],
+      break
+  }
+  return state
+}
+
 const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, children }) => {
   const classes = useStyles()
-  const [totalImage, setTotalImage] = useState<IMovie[]>([]) // 총 랜덤리스트 에서  0으로 수렴
-  const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([]) //고정적 랜덤리스트
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  let { movieDialog, totalImage, imageArr, tournamentFlag, pickMovie, fixtotalImage } = state
+  // const [totalImage, setTotalImage] = useState<IMovie[]>([]) // 총 랜덤리스트 에서  0으로 수렴
+  // const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([]) //고정적 랜덤리스트
+  // const [imageArr, setImageArr] = useState<IMovie[]>([]) //보여지는 영화리스트
   let [searchMovieList, setSearchMovieList] = useState<IMovie[]>([]) //검색 리스트
-  const [imageArr, setImageArr] = useState<IMovie[]>([]) //보여지는 영화리스트
   const user = useRecoilValue<IUser | null>(UserState)
-  const allMovieList = useRecoilValue<IMovie[]>(AllMovieAtom)
 
   const [getMovieGenre, { called, loading, data }] = useLazyQuery(gql.GETMOVIEGENRE)
-  const [modalFlag, setModalFlag] = useState(false)
+  // const [modalFlag, setModalFlag] = useState(false)
+  // let [tournamentFlag, setTournamentFlag] = useState(false)
   let darkness = useRef<HTMLDivElement | null[]>([])
   let btn = useRef<HTMLDivElement | null[]>([])
-  let [pickMovie, setPickMovie] = useState<IMovie[]>([])
+  // let [pickMovie, setPickMovie] = useState<IMovie[]>([])
   const { percentage } = useScroll()
   const { modalFlag: commonModal, toggle, modalTitle } = useModal()
-  let [tournamentFlag, setTournamentFlag] = useState(false)
 
   const pickCount = pickMovie.length
 
@@ -53,11 +103,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
     let imageList = data?.getMovieGenre
     // 60개의 배열을 미리 담는다 / 동시에 전체 영화리스트에서 제외시킨다
     if (imageList) {
-      imageList = imageList.filter((iter) => {
-        if (iter.imgUrl) {
-          return iter
-        }
-      })
+      imageList = imageList.filter((iter) => iter.imgUrl)
       let totalImageTemp = []
       for (let i = 0; i < 6; i++) {
         for (let j = 0; j < 10; j++) {
@@ -69,43 +115,38 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
         }
       }
       setSearchMovieList([...imageList])
-      setTotalImage([...totalImageTemp])
-      setFixtotalImage([...totalImageTemp])
+      dispatch({
+        type: "SET_TOTAL",
+        value: totalImageTemp,
+      })
     }
   }, [data])
 
   useEffect(() => {
-    setImageArr(totalImage.splice(0, 18))
+    dispatch({
+      type: "SET_MOVIELIST",
+      value: [],
+    })
+    // setImageArr(totalImage.splice(0, 18))
   }, [totalImage])
 
   useEffect(() => {
     if (percentage >= 80) {
-      setImageArr([...imageArr, ...totalImage.splice(0, 6)])
+      dispatch({
+        type: "SET_MOVIELIST",
+        value: imageArr,
+      })
+      // setImageArr([...imageArr, ...totalImage.splice(0, 6)])
     }
   }, [percentage])
 
-  // const modalCallback = useCallback(
-  //   (a) => {
-  //     if (a && Array.isArray(a)) {
-  //       setTotalImage(a)
-  //       setFixtotalImage(a)
-  //     } else {
-  //       console.log(fixtotalImage)
-  //       setTotalImage(fixtotalImage)
-  //       // setFixtotalImage(fixtotalImage)
-  //     }
-  //     setModalFlag(!modalFlag)
-  //   },
-  //   [modalFlag, fixtotalImage]
-  // )
-
   const modalCallback = (movies) => {
     if (movies && Array.isArray(movies)) {
-      setTotalImage([...movies])
-      setFixtotalImage([...movies])
+      // setTotalImage([...movies])
+      // setFixtotalImage([...movies])
     } else {
     }
-    setModalFlag(!modalFlag)
+    // setModalFlag(!modalFlag)
   }
 
   const imageClickEvent = (i) => {
@@ -131,12 +172,12 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
       btn.current[i].style.transform = "scale(1)"
       btn.current[i].style.flag = true
     }
-    setPickMovie(pickMovie)
+    // setPickMovie(pickMovie)
   }
   const tournamentStart = () => {
     toggle("토너먼트를 시작하시겠습니까?", {
       callback: () => {
-        setTournamentFlag(true)
+        // setTournamentFlag(true)
       },
     })
   }
@@ -169,7 +210,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
 
         <main id={"top"}>
           {/* Hero unit */}
-          <MymovieDialog open={modalFlag} callback={modalCallback} searchList={searchMovieList} totalImage={fixtotalImage} />
+          <MymovieDialog open={false} callback={modalCallback} searchList={searchMovieList} totalImage={fixtotalImage} />
 
           <Fab className={classes.addButton} color="primary" aria-label="add" onClick={modalCallback}>
             <AddIcon />

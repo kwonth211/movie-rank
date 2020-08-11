@@ -1,31 +1,48 @@
-import React, { useState } from "react"
+import React, { useState, useReducer } from "react"
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import { useNavStyles } from "./style"
 import { Button, Typography } from "@material-ui/core"
 
 // const options = ["종합랭킹", "좋아요 순", "장르별 랭킹", "국가별 랭킹", "해쉬태그 추천"]
 
+const reducer = (state, { type }) => {
+  return {
+    ...initialState,
+    [type.split("_")[1].toLowerCase()]: true,
+  }
+
+  // return state
+}
+
+const initialState = {
+  hashtag: false,
+  genre: false,
+  userinfo: false,
+}
+
 export const Navigation = () => {
   const classes = useNavStyles()
 
-  const [hashTagFlag, setHashTagFlag] = useState(false)
-  const [genreFlag, setGenreFlag] = useState(false)
-  const [userInfoFlag, setUserInfoFlag] = useState(false)
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const { hashtag, genre, userinfo } = state
+
+  console.log(state)
 
   const genreClick = () => {
-    setHashTagFlag(false)
-    setUserInfoFlag(false)
-    setGenreFlag(true)
+    dispatch({
+      type: "CHANGE_GENRE",
+    })
   }
   const hashTagClick = () => {
-    setGenreFlag(false)
-    setUserInfoFlag(false)
-    setHashTagFlag(true)
+    dispatch({
+      type: "CHANGE_HASHTAG",
+    })
   }
   const userInfoClick = () => {
-    setGenreFlag(false)
-    setHashTagFlag(false)
-    setUserInfoFlag(true)
+    dispatch({
+      type: "CHANGE_USERINFO",
+    })
   }
   return (
     <div className={classes.root}>
@@ -34,9 +51,9 @@ export const Navigation = () => {
       <Button onClick={genreClick}>장르별 랭킹</Button>
       <Button onClick={userInfoClick}>유저별 랭킹</Button>
       <Button onClick={hashTagClick}>해쉬태그 추천</Button>
-      {hashTagFlag ? <HashTagComponent /> : null}
-      {genreFlag ? <GenreComponent /> : null}
-      {userInfoFlag ? <UserInfoComponent /> : null}
+      {hashtag ? <HashTagComponent /> : null}
+      {genre ? <GenreComponent /> : null}
+      {userinfo ? <UserInfoComponent /> : null}
     </div>
   )
 }
