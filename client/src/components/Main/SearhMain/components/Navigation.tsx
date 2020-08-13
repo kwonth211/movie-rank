@@ -10,8 +10,6 @@ const reducer = (state, { type }) => {
     ...initialState,
     [type.split("_")[1].toLowerCase()]: true,
   }
-
-  // return state
 }
 
 const initialState = {
@@ -27,7 +25,6 @@ export const Navigation = () => {
 
   const { hashtag, genre, userinfo } = state
 
-  console.log(state)
 
   const genreClick = () => {
     dispatch({

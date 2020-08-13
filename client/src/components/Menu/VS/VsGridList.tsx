@@ -17,13 +17,13 @@ import MymovieDialog from "./components/MymovieDialog"
 import useScroll from "../../../common/scroll/Scroll"
 import { useRecoilValue } from "recoil"
 import { UserState } from "../../../atoms"
-import { IUser } from "./../../../interface/IUser"
+import { IUser } from "../../../interface/IUser"
 import { AllMovieAtom } from "../../../atoms"
 import MovieDetail from "../MovieDetail/movieDetail"
 import { VsTournament } from "./VsTournament"
 import ModalComponent from "../../../common/Modal"
-import useModal from "./../../../common/useModal"
-import Modal from "./../../../common/Modal"
+import useModal from "../../../common/useModal"
+import Modal from "../../../common/Modal"
 
 interface initialType {
   movieDialog: false
@@ -36,11 +36,11 @@ interface initialType {
 
 const initialState: initialType = {
   movieDialog: false,
-  totalImage: [],
-  imageArr: [],
+  totalImage: [], // 총 랜덤리스트 에서  0으로 수렴
+  imageArr: [], //보여지는 영화리스트
   tournamentFlag: false,
   pickMovie: [],
-  fixtotalImage: [],
+  fixtotalImage: [], //고정적 랜덤리스트
 }
 
 const reducer = (state, { type, value }) => {
@@ -64,9 +64,6 @@ const reducer = (state, { type, value }) => {
           imageArr: [...state.totalImage.splice(0, 18)],
         }
       }
-      // ...state,
-      // totalImage: [...value],
-      // fixtotalImage: [...value],
       break
   }
   return state
@@ -78,9 +75,6 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
   const [state, dispatch] = useReducer(reducer, initialState)
 
   let { movieDialog, totalImage, imageArr, tournamentFlag, pickMovie, fixtotalImage } = state
-  // const [totalImage, setTotalImage] = useState<IMovie[]>([]) // 총 랜덤리스트 에서  0으로 수렴
-  // const [fixtotalImage, setFixtotalImage] = useState<IMovie[]>([]) //고정적 랜덤리스트
-  // const [imageArr, setImageArr] = useState<IMovie[]>([]) //보여지는 영화리스트
   let [searchMovieList, setSearchMovieList] = useState<IMovie[]>([]) //검색 리스트
   const user = useRecoilValue<IUser | null>(UserState)
 

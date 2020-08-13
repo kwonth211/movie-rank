@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import { Card, CardActions, CardHeader, CardContent, Button, Divider, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, TableSortLabel } from "@material-ui/core"
 import ArrowRightIcon from "@material-ui/icons/ArrowRight"
 import MainPagination from "../../ranking/mainPagination"
-import { IMovie } from "./../../../../interface/IMovie"
+import { IMovie } from "../../../../interface/IMovie"
 import { StatusBullet } from "components"
 import { useStyles } from "./style"
 

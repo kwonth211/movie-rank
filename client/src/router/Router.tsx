@@ -1,15 +1,15 @@
 import React from "react"
 // import Greetings from "../views/Main/Main";
-import Greetings from "../views/Main/Main"
+import Greetings from "../components/Main/Main"
 import Header from "../header/header"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import LoginForm from "../views/Login/Login"
-import SignUp from "../views/Login/SignUp"
-import vs from "../views/Menu/VS/vs"
-import Vote from "../views/Main/SearhMain/SearchMain"
+import LoginForm from "../components/Login/Login"
+import SignUp from "../components/Login/SignUp"
+import vs from "../components/Menu/VS/vs"
+import Vote from "../components/Main/SearhMain/SearchMain"
 import AuthRouter from "./AuthRouter"
-import MovieDetail from "../views/Menu/MovieDetail/movieDetail"
-import analysis from "../views/Menu/analysis/analysis"
+import MovieDetail from "../components/Menu/MovieDetail/movieDetail"
+import analysis from "../components/Menu/analysis/analysis"
 import ScrollToTop from "./ScrollToTop"
 
 export default function RouterComponent() {
