@@ -16,3 +16,5 @@ export interface IMovie {
   code: number
   englishName: string
 }
+
+export default IMovie
