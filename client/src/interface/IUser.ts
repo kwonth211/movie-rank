@@ -7,3 +7,4 @@ export interface IUser {
   token: String
   favoriteMovie: [String]
 }
+// expor IUser
