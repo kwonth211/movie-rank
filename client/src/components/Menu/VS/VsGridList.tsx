@@ -72,6 +72,7 @@ const reducer = (state, { type, value }) => {
         ...state,
         tournamentFlag: value,
       }
+      break
   }
   // debugger
   return state
@@ -103,6 +104,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
     // 60개의 배열을 미리 담는다 / 동시에 전체 영화리스트에서 제외시킨다
     if (imageList) {
       imageList = imageList.filter((iter) => iter.imgUrl)
+      let copyImageList = imageList.map((e) => e)
       let totalImageTemp = []
       for (let i = 0; i < 6; i++) {
         for (let j = 0; j < 10; j++) {
@@ -113,7 +115,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
           }
         }
       }
-      setSearchMovieList([...imageList])
+      setSearchMovieList([...copyImageList])
       dispatch({
         type: "SET_TOTAL",
         value: totalImageTemp,
@@ -137,18 +139,22 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
     }
   }, [percentage])
 
-  const modalCallback = useCallback((movies) => {
-    if (movies && Array.isArray(movies)) {
-      // setTotalImage([...movies])
-      // setFixtotalImage([...movies])
-    } else {
-    }
+  const modalCallback = useCallback(
+    (movies) => {
+      if (movies && Array.isArray(movies)) {
+        dispatch({ type: "SET_TOTAL", value: movies })
+        // setTotalImage([...movies])
+        // setFixtotalImage([...movies])
+      } else {
+      }
 
-    dispatch({
-      type: "SET_MODAL",
-      value: !movieDialog,
-    })
-  }, [])
+      dispatch({
+        type: "SET_MODAL",
+        value: !movieDialog,
+      })
+    },
+    [movieDialog]
+  )
 
   const tournamentStart = () => {
     toggle("토너먼트를 시작하시겠습니까?", {

@@ -39,7 +39,7 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
 
   const clickOk = () => {
     // setOpen(true)
-    // callback(movies)
+    callback(movies)
   }
 
   const handleClose = () => {
@@ -77,19 +77,19 @@ export const ResponsiveDialog: React.FunctionComponent<props> = ({ open, callbac
   return (
     <div>
       <Dialog style={{ top: "20%", maxHeight: "500px" }} fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
-        <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">{"취향에 맞는 영화를 고를 수 있습니다."}</DialogTitle>
 
         <DialogContent>
-          <SearchBox movies={movies} searchList={searchListDialog} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"원하는 영화를 검색해주세요2"} />
+          <SearchBox movies={movies} searchList={searchListDialog} styleFlag={"dialog"} callback={setSearchMovieCallback} text={"원하는 영화를 검색해주세요"} />
 
           <MovieList movies={movies} removeMovie={removeMovie} />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
-            Disagree
+            취소
           </Button>
           <Button onClick={clickOk} color="primary" autoFocus>
-            Agree
+            확인
           </Button>
         </DialogActions>
       </Dialog>

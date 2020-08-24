@@ -24,7 +24,7 @@ const GridContainer: FC<{ modalCallback: any; dispatch: any; imageArr: IMovie[];
       pickMovie = pickMovie.filter((e, idx) => fixtotalImage[i].name !== e.name)
     } else {
       //추가
-      if (pickCount === 3) {
+      if (pickCount === 15) {
         tournamentStart()
       } else if (pickCount >= 16) {
         return
