@@ -4,12 +4,10 @@ import gql from "../../../graphql/query"
 import { useLazyQuery } from "@apollo/react-hooks"
 import ProgressModelComponent from "../../../common/ProgressModelComponent"
 import { useStyles } from "./style"
-
 import MymovieDialog from "./components/MymovieDialog"
 import { useRecoilValue } from "recoil"
 import { UserState } from "../../../atoms"
 import { IUser, IMovie } from "./../../../interface"
-
 import MovieDetail from "../MovieDetail/movieDetail"
 import { VsTournament } from "./VsTournament"
 import { ModalComponent as Modal, useModal, useScroll } from "../../../common"
@@ -95,6 +93,10 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
 
   const pickCount = pickMovie.length
 
+
+  useEffect(() => {
+
+  },[genre])
   /* Todo 
   
   장르 속도개선 해야함..*/
@@ -121,7 +123,7 @@ const VsGridList: React.FunctionComponent<{ genre: String }> = ({ genre, childre
         value: totalImageTemp,
       })
     }
-  }, [data])
+  }, [])
 
   useEffect(() => {
     dispatch({
