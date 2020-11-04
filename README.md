@@ -1,10 +1,6 @@
 주제 : 랭킹을 위주로한 취향저격 웹페이지 구축 (투표시스템)
 
-실행방법 : 
-cd client yarn start(client)
-
-cd server yarn start(server) db 정보는 process.env 들어있기때문에 보안상 구동 불가능
-
+실행방법 :
 
 핵심 철학 : 사람들의 취향을 한눈에 알아보기 쉽고 좀더 객관적이고 다양한 영화를 추천받기.
 영화 데이터 출처  : 나무위키 , 네이버 
